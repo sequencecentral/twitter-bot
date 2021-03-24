@@ -89,8 +89,6 @@ def retweet_top_tweet():
 
 def main():
     init()
-    # interval=5
-    secs=1
     mins=60
     while(True):
         print("tweeting")
@@ -99,6 +97,6 @@ def main():
 
 ########################################## MAIN ##########################################
 if __name__ == "__main__":
-    init()
+    # init()
     main()
     # tweet_random_quote()
