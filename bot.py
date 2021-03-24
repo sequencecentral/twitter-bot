@@ -1,63 +1,98 @@
-#!/usr/bin/python
+#!/usr/bin/python3
 # import init
-# import os
+import os
 from os import environ
 import tweepy
 import json
 import random
-from scanner import Scanner
-QUERY_STRING = os.getenv("QUERY_STRING")
-TWITTER_CONSUMER_KEY = os.getenv("TWITTER_CONSUMER_KEY")
-TWITTER_CONSUMER_SECRET = os.getenv("TWITTER_CONSUMER_SECRET")
-TWITTER_ACCESS_TOKEN = os.getenv("TWITTER_ACCESS_TOKEN")
-TWITTER_ACCESS_TOKEN_SECRET = os.getenv("TWITTER_ACCESS_TOKEN_SECRET")
-TWITTER_USERNAME = os.getenv("TWITTER_USERNAME")
+import env
+import quotes
 
+try:
+    consumer_key = environ['API_KEY']
+    consumer_secret_key = environ['API_SECRET_KEY']
+    access_token = environ['ACCESS_TOKEN']
+    access_token_secret = environ['ACCESS_TOKEN_SECRET']
+    query_string=environ['QUERY_STRING']
+    hashtags=environ['HASHTAGS']
+
+except:
+    consumer_key = env.API_KEY
+    consumer_secret_key = env.API_SECRET_KEY
+    access_token = env.ACCESS_TOKEN
+    access_token_secret = env.ACCESS_TOKEN_SECRET
+    query_string=env.QUERY_STRING
+    hashtags=env.HASHTAGS
+
+
+#initialize api
 def init():
     #setup twitter from env
-    print(QUERY_STRING)
-    api = ""
-    auth = tweepy.OAuthHandler(TWITTER_CONSUMER_KEY, TWITTER_CONSUMER_SECRET)
-    auth.set_access_token(TWITTER_ACCESS_TOKEN, TWITTER_ACCESS_TOKEN_SECRET)
+    global api
+    auth = tweepy.OAuthHandler(consumer_key, consumer_secret_key)
+    auth.set_access_token(access_token, access_token_secret)
     api = tweepy.API(auth)
+    load_intros()
 
-def get_quotes():
-    with open('data.json') as f:
-        quotes_json = json.load(f)
-    return quotes_json['quotes']
+def load_intros():
+    global intros
+    global emojis
+    with open('intro.json') as f:
+        intros = json.load(f)['intro']
+    with open('intro.json') as f:
+        emojis = json.load(f)['emojis']
 
-def create_random_tweet():
-    quote = get_random_quote()
-    tweet = """
-            {}
-            ~{}
-            """.format(quote['quote'], quote['character'])
-    return tweet
+def get_random_intro():
+    # intros = get_intros()
+    random_intro = random.choice(intros)
+    return random_intro
 
-def get_random_quote():
-    quotes = get_quotes()
-    random_quote = random.choice(quotes)
-    return random_quote
+def get_random_emoji():
+    random_emoji = random.choice(emojis)
+    return random_emoji
 
-def tweet_random_quote():
-    test_tweet = create_random_tweet()
-    api.update_status(test_tweet)
-
+################################# CORE TWITTER FNs #################################
 #Tweet with a comment
 def tweet_comment(tweet,message):
-    print(tweet)
-    pass
+    # print(tweet)
+    new_text = """{} {} {}""".format(message,tweet.text,hashtags)
+    api.update_status(new_text)
+
+def get_top_tweet():
+    tweets = api.search(q=query_string,rpp=100,count=100,lang='en',RESULT_TYPE='popular')
+    # print(tweets)
+    pop = [t for t in tweets if int(t.user.followers_count)>1000]
+    # for tweet in pop:
+        # print("""{} {}""".format(tweet.id,  tweet.user.followers_count))
+    rand_pop = random.choice(pop)
+    # print("popular tweet:")
+    # print("""{} {}""".format(rand_pop.user.followers_count, rand_pop.text))
+    return rand_pop
+
+def follow_back_all():
+    for follower in tweepy.Cursor(api.followers).items():
+        follower.follow()
+
+################################# ADDDON TWITTER FNs #################################
+def tweet_random_quote():
+    test_tweet = quotes.create_random_tweet()
+    api.update_status(test_tweet)
+
+def retweet_top_tweet():
+    new_tweet = get_top_tweet()
+    intro = """{}{} {} """.format(get_random_emoji(),get_random_emoji(),get_random_intro())
+    tweet_comment(new_tweet,intro)
+    # print(intro)
 
 def main():
+    init()
+    retweet_top_tweet()
+    # print(get_random_intro())
+    # print(get_top_tweets())
+    # follow_back_all()
+    # print(get_random_quote())
     # tweet_random_quote()
-    status = 'original status'
-    print(status)
-
-    new_status = """Check this out: {original}
-    """.format(original=status)
-    print(new_status)
-    # myScanner=Scanner(api)
-    # myScanner.onTweet(lambda x: print(x))
+    # api.update_status('#ROBOTS!!! #BITCOIN')
 
 ########################################## MAIN ##########################################
 if __name__ == "__main__":
