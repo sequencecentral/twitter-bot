@@ -87,9 +87,9 @@ def retweet_top_tweet():
     # print(intro)
 
 def main():
-    init()
     mins=60
     while(True):
+        init()
         print("tweeting")
         retweet_top_tweet()
         sleep(int(interval)*mins)
