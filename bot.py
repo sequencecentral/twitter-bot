@@ -8,7 +8,7 @@ import json
 import random
 import env
 import quotes
-
+interval=10
 try:
     consumer_key = environ['API_KEY']
     consumer_secret_key = environ['API_SECRET_KEY']
