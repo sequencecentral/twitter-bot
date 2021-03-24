@@ -88,7 +88,7 @@ def retweet_top_tweet():
     # print(intro)
 
 def main():
-    # init()
+    init()
     interval=5
     secs=1
     mins=60
