@@ -3,6 +3,7 @@
 import os
 from os import environ
 import tweepy
+from time import sleep
 import json
 import random
 import env
@@ -15,6 +16,7 @@ try:
     access_token_secret = environ['ACCESS_TOKEN_SECRET']
     query_string=environ['QUERY_STRING']
     hashtags=environ['HASHTAGS']
+    interval=environ['INTERVAL']
 
 except:
     consumer_key = env.API_KEY
@@ -23,6 +25,7 @@ except:
     access_token_secret = env.ACCESS_TOKEN_SECRET
     query_string=env.QUERY_STRING
     hashtags=env.HASHTAGS
+    interval=env.INTERVAL
 
 
 #initialize api
@@ -85,14 +88,14 @@ def retweet_top_tweet():
     # print(intro)
 
 def main():
-    init()
-    retweet_top_tweet()
-    # print(get_random_intro())
-    # print(get_top_tweets())
-    # follow_back_all()
-    # print(get_random_quote())
-    # tweet_random_quote()
-    # api.update_status('#ROBOTS!!! #BITCOIN')
+    # init()
+    interval=5
+    secs=1
+    mins=60
+    while(True):
+        print("tweeting")
+        retweet_top_tweet()
+        sleep(interval*mins)
 
 ########################################## MAIN ##########################################
 if __name__ == "__main__":
