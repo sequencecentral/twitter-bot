@@ -6,9 +6,7 @@ import tweepy
 from time import sleep
 import json
 import random
-import env
 import quotes
-interval=10
 try:
     consumer_key = environ['API_KEY']
     consumer_secret_key = environ['API_SECRET_KEY']
@@ -19,6 +17,7 @@ try:
     interval=environ['INTERVAL']
 
 except:
+    import env
     consumer_key = env.API_KEY
     consumer_secret_key = env.API_SECRET_KEY
     access_token = env.ACCESS_TOKEN
