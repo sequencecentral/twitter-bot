@@ -140,7 +140,10 @@ def main():
                 pass
         else:
             print('tweeting')
-            retweet_top_tweet()
+            try:
+                retweet_top_tweet()
+            except:
+                pass
         next_intvl=getTimeInterval(min_interval,randmzn)
         print("""Sleeping for {} minutes""".format(next_intvl))
         sleep(minToSec(next_intvl))
