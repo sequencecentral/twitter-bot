@@ -3,7 +3,6 @@ import os
 from os import environ
 import tweepy
 from time import sleep
-import pytz
 from datetime import datetime
 import json
 import random
