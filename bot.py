@@ -1,12 +1,10 @@
 #!/usr/bin/python3
-# import init
 import os
 from os import environ
 import tweepy
 from time import sleep
 import pytz
 from datetime import datetime
-# datetime.utcnow().replace(tzinfo=pytz.utc)
 import json
 import random
 import quotes
@@ -17,7 +15,7 @@ try:
     access_token_secret = environ['ACCESS_TOKEN_SECRET']
     query_string=environ['QUERY_STRING']
     hashtags=environ['HASHTAGS']
-    interval=int(environ['INTERVAL'])
+    min_interval=int(environ['INTERVAL'])
     randmzn=int(environ['RANDOMIZATION'])
     waketime=int(environ['WAKETIME'])
     bedtime=int(environ['BEDTIME'])
@@ -31,7 +29,7 @@ except:
     access_token_secret = env.ACCESS_TOKEN_SECRET
     query_string=env.QUERY_STRING
     hashtags=env.HASHTAGS
-    interval=int(env.INTERVAL)
+    min_interval=int(env.INTERVAL)
     randmzn=int(env.RANDOMIZATION)
     waketime=int(env.WAKETIME)
     bedtime=int(env.BEDTIME)
@@ -81,10 +79,6 @@ def get_top_tweet():
     # print("""{} {}""".format(rand_pop.user.followers_count, rand_pop.text))
     return rand_pop
 
-def follow_back_all():
-    for follower in tweepy.Cursor(api.followers).items():
-        follower.follow()
-
 ################################# ADDDON TWITTER FNs #################################
 def tweet_random_quote():
     test_tweet = quotes.create_random_tweet()
@@ -100,11 +94,15 @@ def retweet_top_tweet():
 def minToSec(mins=1):
     return mins*60
 
+def hoursToMins(hrs=1):
+    return hrs*60
+
 def hoursToSec(hrs=1):
     return hrs * 60 * 60
 
-def randomizeInterval(t=10,spread=1):
-    t = round(random.uniform(t-(t*spread),t+(t*spread)))
+def randomizeInterval(t=10,randomization=100):
+    spread = t*randomization/100
+    t = round(random.uniform(t-spread,t+spread))
     return t
 
 def getHour():
@@ -117,15 +115,15 @@ def amAwake():
     else:
         return False
 
-def getTimeInterval(i=10,spread=1):
+def getTimeInterval(mins=10,spread=1):
     if(amAwake()):
-        return randomizeInterval(i,spread)
+        return randomizeInterval(mins,spread)
     else: #return sleep interval to next waketime
         curr_hour = getHour()
         if(curr_hour < waketime):  #if before waketime, subtract current hour i.e., 5AM - 3AM = 2 hrs & also randomize wake time by 10%
-            return hoursToSec(waketime - getHour() -1+randomizeInterval(1,.1))
+            return hoursToMins(waketime - getHour() -1+randomizeInterval(1,spread))
         else: #if after waketime, 24 - 6AM(curr) = 18hrs + 5hrs(waketime tomorrow)
-            return hoursToSec((24 - curr_hour) + waketime -1+randomizeInterval(1,.1))
+            return hoursToMins((24 - curr_hour) + waketime -1+randomizeInterval(1,spread))
 
 ########################################## MAIN ##########################################
 def main():
@@ -133,16 +131,17 @@ def main():
         init()
         #randomize behaviors by percentages
         r = random.randrange(100)
-        if(r < q_pct + 0): #adding zero to help remind me to add the previous value later
+        lower=0
+        if(r < q_pct + lower):
+            lower += q_pct
             print('tweet quote')
             tweet_random_quote()
         else:
             print('tweeting')
             retweet_top_tweet()
-        secs=minToSec(interval)
-        # print(amAwake())
-        print(getTimeInterval(secs,randmzn))
-        sleep(getTimeInterval(minToSec(interval)))
+        next_intvl=getTimeInterval(min_interval,randmzn)
+        print("""Sleeping for {} minutes""".format(next_intvl))
+        sleep(minToSec(next_intvl))
 
 if __name__ == "__main__":
     main()
