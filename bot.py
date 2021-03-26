@@ -203,10 +203,10 @@ def main():
                 print("Error tweeting random quote")
         else:
             print('tweeting')
-            try:
-                retweet_top_tweet()
-            except:
-                print("Error retweeting top tweet")
+            retweet_top_tweet()
+            # try:
+            # except:
+            #     print("Error retweeting top tweet")
         next_intvl=getTimeInterval(min_interval,randmzn)
         print("""Sleeping for {} minutes""".format(next_intvl))
         sleep(minToSec(next_intvl))
