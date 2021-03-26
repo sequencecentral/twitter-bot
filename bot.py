@@ -8,6 +8,7 @@ import json
 import random
 import quotes
 import sentiment
+import pytz
 
 def auth():
     global api
@@ -165,7 +166,8 @@ def randomizeInterval(t=10,randomization=100):
     return t
 
 def getHour():
-    return int(datetime.now().hour)
+    tzwc=pytz.timezone('America/Los_Angeles')
+    return int(datetime.now(tzwc).hour)
 
 def amAwake():
     hour = getHour()
