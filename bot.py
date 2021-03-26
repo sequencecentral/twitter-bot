@@ -112,13 +112,15 @@ def get_neg_emoji():
 #Tweet with a comment
 def tweet_comment(tweet,message):
     # print(tweet)
-    new_text = """{} {} {}""".format(message,tweet.text,hashtags)
+    turl = """https://twitter.com/{}/status/{}""".format(tweet.user.id_str,tweet.id)
+    new_text = """{} {} {} {}""".format(message,tweet.text,turl,hashtags)
     api.update_status(new_text)
 
 def get_top_tweet():
     tweets = api.search(q=query_string,rpp=100,count=100,lang='en',RESULT_TYPE='popular')
     # print(tweets)
     pop = [t for t in tweets if int(t.user.followers_count)>min_pop]
+    # pop = [t for t in tweets if int(t.retweet_count)>min_pop]
     # for tweet in pop:
         # print("""{} {}""".format(tweet.id,  tweet.user.followers_count))
     rand_pop = random.choice(pop)
