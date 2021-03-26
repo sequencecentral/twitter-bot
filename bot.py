@@ -161,7 +161,7 @@ def hoursToSec(hrs=1):
 
 def randomizeInterval(t=10,randomization=100):
     spread = t*randomization/100
-    t = round(random.uniform(t-spread,t+spread))
+    t = abs(round(random.uniform(t-spread,t+spread)))
     return t
 
 def getHour():
