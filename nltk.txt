@@ -1,3 +1,4 @@
 wordnet
 pros_cons
 punkt
+averaged_perceptron_tagger
