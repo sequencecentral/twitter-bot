@@ -119,7 +119,7 @@ def tweet_comment(tweet,message):
 def get_top_tweet():
     tweets = api.search(q=query_string,rpp=100,count=100,lang='en',RESULT_TYPE='popular')
     # print(tweets)
-    pop = [t for t in tweets if int(t.user.followers_count)>min_pop]
+    pop = [t for t in tweets if int(t.user.followers_count)>min_pop and t.in_reply_to_status_id_str is None]
     # pop = [t for t in tweets if int(t.retweet_count)>min_pop]
     # for tweet in pop:
         # print("""{} {}""".format(tweet.id,  tweet.user.followers_count))
