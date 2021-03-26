@@ -201,8 +201,9 @@ def main():
                 print("Error tweeting random quote")
         else:
             print('tweeting')
+            retweet_top_tweet()
             try:
-                retweet_top_tweet()
+                pass
             except:
                 print("Error retweeting top tweet")
         next_intvl=getTimeInterval(min_interval,randmzn)
