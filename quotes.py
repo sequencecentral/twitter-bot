@@ -10,7 +10,7 @@ def create_random_tweet():
     return tweet
 
 def get_quotes():
-    with open('data.json') as f:
+    with open('quotes.json') as f:
         quotes_json = json.load(f)
     return quotes_json['quotes']
 
