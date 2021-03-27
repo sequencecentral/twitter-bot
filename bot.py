@@ -184,7 +184,8 @@ def getTimeInterval(mins=10,spread=1):
         if(curr_hour < waketime):  #if before waketime, subtract current hour i.e., 5AM - 3AM = 2 hrs & also randomize wake time by 10%
             return hoursToMins(waketime - getHour() -1+randomizeInterval(1,spread))
         else: #if after waketime, 24 - 6AM(curr) = 18hrs + 5hrs(waketime tomorrow)
-            return hoursToMins((24 - curr_hour) + waketime -1+randomizeInterval(1,spread))
+            rand_60m=randomizeInterval(60,spread)
+            return hoursToMins(24 - curr_hour) + hoursToMins(waketime-1)+rand_60m
 
 ########################################## MAIN ##########################################
 def main():
