@@ -266,8 +266,8 @@ def main():
         # elif(r < q_pct+50):
         else:
             print('tweeting')
-            # retweet_top_tweet()
-            retweet_respond_top_tweet()
+            retweet_top_tweet()
+            # retweet_respond_top_tweet()
             # try:
             # except:
             #     print("Error retweeting top tweet")
