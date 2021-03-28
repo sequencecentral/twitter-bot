@@ -2,7 +2,7 @@ QUERY_STRING="#genomics OR #genetics OR #science OR #python OR cybersecurity OR 
 HASHTAGS="#cybersecurity #infosec #science #crypto"
 
 INTERVAL=10
-RANDOMIZATION=1
+RANDOMIZATION=50
 QUOTES_PERCENT=10
 WAKETIME=5
 BEDTIME=20

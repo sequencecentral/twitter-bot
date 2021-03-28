@@ -223,9 +223,10 @@ def hoursToSec(hrs=1):
 
 def randomizeInterval(ti=10,randomization=1):
     spread = ti*randomization/100
-    t = abs(round(random.uniform(ti-spread,ti+spread)))
+    # t = abs(round(random.uniform(ti-spread,ti+spread)))
     # return t
-    rand_unit = t #use randomized increment as unit
+    n = np.random.normal(ti,spread,100)
+    rand_unit = abs(round(random.choice(n))) #use randomized increment as unit
     rng = np.random.default_rng(); 
     p = rng.poisson(1, 100) #poisson dist with lambda 1 -- select random value & multiply it
     multiplier = random.choice(p)+1
@@ -265,7 +266,6 @@ def main():
         #randomize behaviors by percentages
         r = random.randrange(100)
         if(r < q_pct ):
-            lower += q_pct
             print('tweet quote')
             tweet_random_quote()
             # try:
