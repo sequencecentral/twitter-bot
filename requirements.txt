@@ -7,6 +7,7 @@ filelock==3.0.12
 idna==2.10
 joblib==1.0.1
 nltk==3.5
+numpy==1.20.2
 oauthlib==3.1.0
 PySocks==1.7.1
 python-dotenv==0.15.0
@@ -19,4 +20,3 @@ tqdm==4.59.0
 tweepy==3.10.0
 urllib3==1.26.2
 virtualenv==20.2.1
-

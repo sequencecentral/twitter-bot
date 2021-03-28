@@ -1,8 +1,8 @@
 QUERY_STRING="#genomics OR #genetics OR #science OR #python OR cybersecurity OR infosec OR bitcoin OR crypto OR cryptocurrency OR monero OR  #retweet OR #like OR #follow OR #love  OR #twitter OR #repost OR #instagram OR #followme OR #share OR #tweet OR #likeforlikes OR #followback OR #k OR #likes OR #viral OR #tweets OR #likeforfollow"
 HASHTAGS="#cybersecurity #infosec #science #crypto"
 
-INTERVAL=60
-RANDOMIZATION=10
+INTERVAL=10
+RANDOMIZATION=1
 QUOTES_PERCENT=10
 WAKETIME=5
 BEDTIME=20

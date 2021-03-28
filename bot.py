@@ -9,6 +9,7 @@ import random
 import quotes
 import sentiment
 import pytz
+import numpy as np
 
 def auth():
     global api
@@ -220,10 +221,16 @@ def hoursToMins(hrs=1):
 def hoursToSec(hrs=1):
     return hrs * 60 * 60
 
-def randomizeInterval(t=10,randomization=100):
-    spread = t*randomization/100
-    t = abs(round(random.uniform(t-spread,t+spread)))
-    return t
+def randomizeInterval(ti=10,randomization=1):
+    spread = ti*randomization/100
+    t = abs(round(random.uniform(ti-spread,ti+spread)))
+    # return t
+    rand_unit = t #use randomized increment as unit
+    rng = np.random.default_rng(); 
+    p = rng.poisson(1, 100) #poisson dist with lambda 1 -- select random value & multiply it
+    multiplier = random.choice(p)+1
+    ri = multiplier*rand_unit
+    return ri
 
 def getHour():
     tzwc=pytz.timezone('America/Los_Angeles')
