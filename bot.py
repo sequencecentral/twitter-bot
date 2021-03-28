@@ -234,6 +234,7 @@ def amAwake():
     if hour > waketime and hour < bedtime:
         return True
     else:
+        print("Am asleep. Zzzz...")
         return False
 
 def getTimeInterval(mins=10,spread=1):
