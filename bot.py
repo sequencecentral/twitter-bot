@@ -42,6 +42,7 @@ def config():
     global bedtime
     global q_pct
     global min_pop
+    global character
     try:
         query_string=environ['QUERY_STRING']
         hashtags=environ['HASHTAGS']
@@ -51,6 +52,7 @@ def config():
         bedtime=int(environ['BEDTIME'])
         q_pct=int(environ['QUOTES_PERCENT'])
         min_pop=int(environ['MIN_POP'])
+        character=environ['CHARACTER']
     except:
         print("Env not found. Attempting to load CONFIG from file")
         try:
@@ -63,6 +65,7 @@ def config():
             bedtime=int(config.BEDTIME)
             q_pct=int(config.QUOTES_PERCENT)
             min_pop=int(config.MIN_POP)
+            character=config.CHARACTER
         except:
             print("Failed to load config")
             exit(1)
@@ -76,8 +79,8 @@ def init():
 
 def load_intros():
     global intros
-    with open('intro.json') as f:
-        intros = json.load(f)
+    with open("""characters/{}.json""".format(character)) as f:
+        intros = json.load(f)["retweet"]
 
 def load_emojis():
     global emojis
@@ -139,9 +142,9 @@ def retweet_top_tweet():
     top_tweet = get_top_tweet()
     sent = sentiment.get_sentiment(top_tweet.text)
     if 'Positive' in sent:
-        intro = """{} {} {} """.format(get_pos_emoji(),get_pos_intro(),get_random_emoji())
+        intro = """{} {} {} """.format(get_pos_emoji(),get_pos_emoji(),get_pos_intro())
     elif 'Negative' in sent:
-        intro = """{} {} {} """.format(get_neg_emoji(),get_neg_intro(),get_random_emoji())
+        intro = """{} {} {} """.format(get_neg_emoji(),get_neg_emoji(),get_neg_intro())
     else:
         intro = """{} {} {} """.format(get_random_emoji(),get_random_emoji(),get_random_intro())
     print("Tweet Text is: %s"%(top_tweet.text))
