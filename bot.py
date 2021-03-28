@@ -203,7 +203,7 @@ def reply_to_tweet(top_tweet):
     if 'Positive' in sent:
         r = """{} {} {} """.format(get_pos_emoji(),get_pos_reply()["content"],get_pos_emoji())
     elif 'Negative' in sent:
-        r = """{} {} {} """.format(get_neg_emoji(),get_neg_reply()["content"],get_neg_emoji())
+        r = """{} {} """.format(get_neg_emoji(),get_neg_reply()["content"]
     else:
         r = """{} {} {} """.format(get_random_emoji(),get_random_reply()["content"],get_random_emoji())
     print("Tweet Text is: %s"%(top_tweet.text))

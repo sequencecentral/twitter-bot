@@ -55,11 +55,20 @@
         "neutral":[],
         "positive":[
             {"content":"Awesome!!!"},
+            {"content":"HAHA!!!"},
+            {"content":"HA!"},
+            {"content":"OH YEAH!"},
+            {"content":"SO CRAZY!"},
+            {"content":"Totally!"},
             {"content":"Beautiful!"}
         ],
         "negative":[
             {"content":"Terrible!!!"},
-            {"content":"SAD!"}
+            {"content":"SAD!"},
+            {"content":"This needs to stop!"},
+            {"content":"Who even does this?"},
+            {"content":"Messed Up!"}
+
         ]
     }
 
