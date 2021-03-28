@@ -237,15 +237,15 @@ def amAwake():
         return False
 
 def getTimeInterval(mins=10,spread=1):
+    curr_hour = getHour()
+    rand_60m=randomizeInterval(60,spread)
     if(amAwake()):
         return randomizeInterval(mins,spread)
     else: #return sleep interval to next waketime
-        curr_hour = getHour()
         if(curr_hour < waketime):  #if before waketime, subtract current hour i.e., 5AM - 3AM = 2 hrs & also randomize wake time by 10%
-            return hoursToMins(waketime - getHour() -1+randomizeInterval(1,spread))
-        else: #if after waketime, 24 - 6AM(curr) = 18hrs + 5hrs(waketime tomorrow)
-            rand_60m=randomizeInterval(60,spread)
-            return hoursToMins(24 - curr_hour) + hoursToMins(waketime-1)+rand_60m
+            return hoursToMins(waketime - curr_hour-1)+rand_60m
+        else: #if after waketime then must be evening
+            return hoursToMins(24 - curr_hour -1)+rand_60m
 
 ########################################## MAIN ##########################################
 def main():
@@ -256,14 +256,14 @@ def main():
         init()
         #randomize behaviors by percentages
         r = random.randrange(100)
-        lower=0
-        if(r < q_pct + lower):
+        if(r < q_pct ):
             lower += q_pct
             print('tweet quote')
             tweet_random_quote()
             # try:
             # except:
             #     print("Error tweeting random quote")
+        # elif(r < q_pct+50):
         else:
             print('tweeting')
             # retweet_top_tweet()
@@ -272,7 +272,7 @@ def main():
             # except:
             #     print("Error retweeting top tweet")
         next_intvl=getTimeInterval(min_interval,randmzn)
-        print("""Sleeping for {} minutes""".format(next_intvl))
+        print("""Time is: {}. Sleeping for {} minutes""".format(getHour(),next_intvl))
         sleep(minToSec(next_intvl))
 
 if __name__ == "__main__":
