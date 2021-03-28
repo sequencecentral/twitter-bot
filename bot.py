@@ -260,10 +260,10 @@ def main():
         if(r < q_pct + lower):
             lower += q_pct
             print('tweet quote')
-            try:
-                tweet_random_quote()
-            except:
-                print("Error tweeting random quote")
+            tweet_random_quote()
+            # try:
+            # except:
+            #     print("Error tweeting random quote")
         else:
             print('tweeting')
             # retweet_top_tweet()
