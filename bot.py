@@ -75,6 +75,7 @@ def init():
     auth()
     config()
     load_intros()
+    load_replies()
     load_emojis()
 
 def load_intros():
@@ -82,10 +83,17 @@ def load_intros():
     with open("""characters/{}.json""".format(character)) as f:
         intros = json.load(f)["retweet"]
 
+def load_replies():
+    global replies
+    with open("""characters/{}.json""".format(character)) as f:
+        replies = json.load(f)["reply"]
+
 def load_emojis():
     global emojis
     with open('emojis.json') as f:
         emojis = json.load(f)
+
+################################# Intros #################################
 
 def get_random_intro():
     # intros = get_intros()
@@ -99,6 +107,23 @@ def get_pos_intro():
 def get_neg_intro():
     random_intro = random.choice(intros["negative"])
     return random_intro
+
+################################# Replies #################################
+
+def get_random_reply():
+    # replys = get_replys()
+    random_reply = random.choice(replies["neutral"])
+    return random_reply
+
+def get_pos_reply():
+    random_reply = random.choice(replies["positive"])
+    return random_reply
+
+def get_neg_reply():
+    random_reply = random.choice(replies["negative"])
+    return random_reply
+
+################################# Emojis #################################
 
 def get_random_emoji():
     random_emoji = random.choice(emojis["neutral"])
@@ -120,6 +145,9 @@ def tweet_comment(tweet,message):
     new_text = """{} {} {} {}""".format(message,tweet.text,turl,hashtags)
     api.update_status(new_text)
 
+def tweet_reply(tweet,message):
+    api.update_status(status = message, in_reply_to_status_id = tweet.id , auto_populate_reply_metadata=True)
+
 def get_top_tweet():
     tweets = api.search(q=query_string,rpp=100,count=100,lang='en',RESULT_TYPE='popular')
     # print(tweets)
@@ -140,19 +168,48 @@ def tweet_random_quote():
 def retweet_top_tweet():
     print("Retweet top tweet")
     top_tweet = get_top_tweet()
+    intro = respond_to_tweet(top_tweet)
+    tweet_comment(top_tweet,intro)
+
+def reply_top_tweet():
+    print("Reply to top tweet")
+    top_tweet = get_top_tweet()
+    intro = reply_to_tweet(top_tweet)
+    tweet_reply(top_tweet,intro)
+
+def retweet_respond_top_tweet():
+    print("Retweet & reply to top tweet")
+    top_tweet = get_top_tweet()
+    intro = respond_to_tweet(top_tweet)
+    r = reply_to_tweet(top_tweet)
+    tweet_comment(top_tweet,intro)
+    tweet_reply(top_tweet,r)
+
+def respond_to_tweet(top_tweet):
     sent = sentiment.get_sentiment(top_tweet.text)
     if 'Positive' in sent:
-        intro = """{} {} {} """.format(get_pos_emoji(),get_pos_emoji(),get_pos_intro())
+        intro = """{} {} {} """.format(get_pos_emoji(),get_pos_emoji(),get_pos_intro()["content"])
     elif 'Negative' in sent:
-        intro = """{} {} {} """.format(get_neg_emoji(),get_neg_emoji(),get_neg_intro())
+        intro = """{} {} {} """.format(get_neg_emoji(),get_neg_emoji(),get_neg_intro()["content"])
     else:
-        intro = """{} {} {} """.format(get_random_emoji(),get_random_emoji(),get_random_intro())
+        intro = """{} {} {} """.format(get_random_emoji(),get_random_emoji(),get_random_intro()["content"])
     print("Tweet Text is: %s"%(top_tweet.text))
     print("Sentiment is %s"%(sent))
     print("Intro: %s"%(intro))
-    tweet_comment(top_tweet,intro)
-    # print(intro)
+    return intro
 
+def reply_to_tweet(top_tweet):
+    sent = sentiment.get_sentiment(top_tweet.text)
+    if 'Positive' in sent:
+        r = """{} {} {} """.format(get_pos_emoji(),get_pos_reply()["content"],get_pos_emoji())
+    elif 'Negative' in sent:
+        r = """{} {} {} """.format(get_neg_emoji(),get_neg_reply()["content"],get_neg_emoji())
+    else:
+        r = """{} {} {} """.format(get_random_emoji(),get_random_reply()["content"],get_random_emoji())
+    print("Tweet Text is: %s"%(top_tweet.text))
+    print("Sentiment is %s"%(sent))
+    print("Reply: %s"%(r))
+    return r
 ################################# TIME #################################
 def minToSec(mins=1):
     return mins*60
@@ -209,7 +266,8 @@ def main():
                 print("Error tweeting random quote")
         else:
             print('tweeting')
-            retweet_top_tweet()
+            # retweet_top_tweet()
+            retweet_respond_top_tweet()
             # try:
             # except:
             #     print("Error retweeting top tweet")

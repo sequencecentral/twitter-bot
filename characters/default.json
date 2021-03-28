@@ -1,56 +1,66 @@
 {
     "retweet":{
-    "neutral":[
-        "Interesting..."
-    ],
-    "positive":[
-        "Check this out!",
-        "WOW!",
-        "Interesting: ",
-        "READ THIS:",
-        "OMG!",
-        "Interesting perspective...",
-        "What to say...",
-        "This is pretty interesting:",
-        "I would not have thought of this:",
-        "Very unusual!",
-        "This is worth discussing:", 
-        "This viewpoint:",
-        "What to say...", 
-        "Everyone needs to see this!",
-        "Unusual!",
-        "Worth mentioning...",
-        "Unique perspective!",
-        "AWESOME!!!",
-        "THIS IS SO COOL!",
-        "I love this!",
-        "This!",
-        "I could use more of this:",
-        "Let's GO!",
-        "Gotta love this!",
-        "All the way up!",
-        "Love It",
-        "Love this!",
-        "HA",
-        "YEAH!"
-    ],
-    "negative":[
-        "The world is changing",
-        "We live in interesting times",
-        "This is so bad!",
-        "Ugghh!",
-        "What kind of world are we living in?",
-        "How bad is this?",
-        "We need this to stop",
-        "AWFUL!",
-        "Terrible!",
-        "SO BAD!",
-        "SAD!",
-        "This makes no sense!",
-        "NOPE!",
-        "Who even thinks like this???",
-        "WRONG!",
-        "This is SO sad!"
-    ]}
+        "neutral":[
+            {"content":"Interesting..."}
+            ],
+        "positive":[
+            {"content":"Check this out!"},
+            {"content":"WOW!"},
+            {"content":"This is really interesting!"},
+            {"content":"READ THIS:"},
+            {"content":"OMG!"},
+            {"content":"Interesting perspective..."},
+            {"content":"What to say..."},
+            {"content":"This is pretty interesting:"},
+            {"content":"I would not have thought of this:"},
+            {"content":"Very unusual!"},
+            {"content":"This is worth discussing:"}, 
+            {"content":"This viewpoint:"},
+            {"content":"Everyone needs to see this!"},
+            {"content":"Unusual!"},
+            {"content":"Worth mentioning..."},
+            {"content":"Unique perspective!"},
+            {"content":"AWESOME!!!"},
+            {"content":"THIS IS SO COOL!"},
+            {"content":"I love this!"},
+            {"content":"This!"},
+            {"content":"I could use more of this:"},
+            {"content":"Let's GO!"},
+            {"content":"Gotta love this!"},
+            {"content":"All the way up!"},
+            {"content":"Love It"},
+            {"content":"Love this!"},
+            {"content":"HA"},
+            {"content":"YEAH!"}
+        ],
+        "negative":[
+            {"content":"What to say..."},
+            {"content":"The world is changing"},
+            {"content":"This is so bad!"},
+            {"content":"Ugghh!"},
+            {"content":"What kind of world are we living in?"},
+            {"content":"How bad is this?"},
+            {"content":"We need this to stop"},
+            {"content":"AWFUL!"},
+            {"content":"Terrible!"},
+            {"content":"SO BAD!"},
+            {"content":"SAD!"},
+            {"content":"This makes no sense!"},
+            {"content":"NOPE!"},
+            {"content":"Who even thinks like this???"},
+            {"content":"WRONG!"},
+            {"content":"This is SO sad!"}
+        ]},
+    "reply":{
+        "neutral":[],
+        "positive":[
+            {"content":"Awesome!!!"},
+            {"content":"Beautiful!"}
+        ],
+        "negative":[
+            {"content":"Terrible!!!"},
+            {"content":"SAD!"}
+        ]
+    }
 
 }
