@@ -225,13 +225,14 @@ def randomizeInterval(ti=10,randomization=1):
     spread = ti*randomization/100
     # t = abs(round(random.uniform(ti-spread,ti+spread)))
     # return t
-    n = np.random.normal(ti,spread,100)
-    rand_unit = abs(round(random.choice(n))) #use randomized increment as unit
     rng = np.random.default_rng(); 
-    p = rng.poisson(1, 100) #poisson dist with lambda 1 -- select random value & multiply it
-    multiplier = random.choice(p)+1
-    ri = multiplier*rand_unit
-    return ri
+    n = rng.normal(ti,spread,1000)
+    rand_unit = abs(round(random.choice(n))) #use randomized increment as unit
+    #For Poisson distribution
+    # p = rng.poisson(1, 100) #poisson dist with lambda 1 -- select random value & multiply it
+    # multiplier = random.choice(p)+1
+    # ri = multiplier*rand_unit
+    return rand_unit
 
 def getHour():
     tzwc=pytz.timezone('America/Los_Angeles')
