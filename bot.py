@@ -14,6 +14,7 @@ import numpy as np
 import nltk
 import steve
 import seqbot
+from BotStreamListener import BotStreamListener
 dm={}
 prod=True
 awake = True
@@ -65,6 +66,8 @@ def config():
     # min_interval = 1
     global daily_min_interval
     # daily_min_interval = 1
+    global username
+    global userid
     try:
         query_string=environ['QUERY_STRING']
         hashtags=environ['HASHTAGS'].lower()
@@ -75,8 +78,9 @@ def config():
         q_pct=int(environ['QUOTES_PERCENT'])
         min_pop=int(environ['MIN_POP'])
         character=environ['CHARACTER'].lower()
-        username=environ['USERNAME'].lower()
         mode=environ['MODE'].lower()
+        username=environ['USERNAME'].lower()
+        userid=environ['USERID'].lower()
     except:
         print("Env not found. Attempting to load CONFIG from file")
         try:
@@ -90,8 +94,9 @@ def config():
             q_pct=int(config.QUOTES_PERCENT)
             min_pop=int(config.MIN_POP)
             character=config.CHARACTER.lower()
-            username=config.USERNAME.lower()
             mode=config.MODE.lower()
+            username=config.USERNAME.lower()
+            userid=config.USERID.lower()
         except:
             print("Failed to load config")
             exit(1)
@@ -245,7 +250,6 @@ def reply_to_tweet(top_tweet):
     return r
 
 ################################# DIRECT MESSAGES #################################
-
 def check_messages(re=False):
     global dm
     messages = api.list_direct_messages()
@@ -260,6 +264,20 @@ def respond(m):
     r = chat.respond(t)
     print('[Message]: {} [Response:] {}'.format(t,r))
     if(prod): api.send_direct_message(sender, r)
+
+def listen_messages(re=False):
+    print('listening to messages')
+    botStream = BotStreamListener(on_status_update)
+    bs = tweepy.Stream(auth = api.auth, listener=botStream)
+    bs.filter(follow=[userid])
+    # bs.filter(track='#teamsapnap')
+    # bs.on_status(on_status_update)
+
+def on_status_update(status):
+    print("status update: ",status.text, status.id_str)
+    exit(0)
+    # respond(status)
+
 
 ################################# TIME #################################
 def minToSec(mins=1):
@@ -350,10 +368,11 @@ def main():
             print("""Time is: {}. Sleeping for {} minutes""".format(getHour(),next_intvl))
             sleep(minToSec(next_intvl))
         #continuous mode: perform behaviors continuously
-    elif('continuous' in mode):
-        pass
+    elif('stream' in mode):
+        print('Continuous Mode')
+        while(True):
+            listen_messages(True)
+
 
 if __name__ == "__main__":
     main()
-    # init()
-    # print(query_string)
