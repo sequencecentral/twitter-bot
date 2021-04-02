@@ -10,6 +10,11 @@ import quotes
 import sentiment
 import pytz
 import numpy as np
+import nltk
+import iesha
+import steve
+dm={}
+prod=False
 
 def auth():
     global api
@@ -78,6 +83,7 @@ def init():
     load_intros()
     load_replies()
     load_emojis()
+    load_chat()
 
 def load_intros():
     global intros
@@ -93,6 +99,12 @@ def load_emojis():
     global emojis
     with open('emojis.json') as f:
         emojis = json.load(f)
+
+def load_chat():
+    global chat
+    # with open("""characters/{}.json""".format(character)) as f:
+    #     pairs = json.load(f)["chat"]
+    chat = nltk.chat.util.Chat(steve.pairs, nltk.chat.util.reflections)
 
 ################################# Intros #################################
 
@@ -211,6 +223,26 @@ def reply_to_tweet(top_tweet):
     print("Sentiment is %s"%(sent))
     print("Reply: %s"%(r))
     return r
+
+################################# DIRECT MESSAGES #################################
+
+def check_messages(re=False):
+    messages = api.list_direct_messages()
+    for m in messages:
+        # print(m.id)
+        #find any new messages
+        if m.id not in dm:
+            dm[m.id]=m
+            if(re): respond(m)
+
+def respond(m):
+    t = str(m.message_create['message_data']['text'])
+    sender = str(m.message_create['sender_id'])
+    r = chat.respond(t)
+    print('[Message]: {} [Response:] {}'.format(t,r))
+    if(prod): api.send_direct_message(sender, r)
+
+
 ################################# TIME #################################
 def minToSec(mins=1):
     return mins*60
@@ -257,27 +289,34 @@ def getTimeInterval(mins=10,spread=1):
         if(curr_hour < waketime):  #if before waketime, subtract current hour i.e., 5AM - 3AM = 2 hrs & also randomize wake time by 10%
             return hoursToMins(waketime - curr_hour-1)+rand_60m
         else: #if after waketime then must be evening
-            return hoursToMins(24 - bedtime + waketime - curr_hour-1)+rand_60m
+            return hoursToMins(24 - bedtime + waketime - curr_hour)+rand_60m
 
 ########################################## MAIN ##########################################
-def main():
-    # init()
+def main(p=False):
+    prod=p
+    init()
+    print('Loading any existing messages for this account.')
+    check_messages(False)
     # retweet_top_tweet()
     while(True):
         # print(get_random_emoji())
         init()
+        # respond_to_messages()
+        check_messages(True)
         #randomize behaviors by percentages
         r = random.randrange(100)
         if(r < q_pct ):
             print('tweet quote')
-            tweet_random_quote()
+            if(prod):
+                tweet_random_quote()
             # try:
             # except:
             #     print("Error tweeting random quote")
         # elif(r < q_pct+50):
         else:
             print('tweeting')
-            retweet_top_tweet()
+            if(prod):
+                retweet_top_tweet()
             # retweet_respond_top_tweet()
             # try:
             # except:
@@ -287,4 +326,7 @@ def main():
         sleep(minToSec(next_intvl))
 
 if __name__ == "__main__":
-    main()
+    main(True)
+    # init()
+    # r  = chat.respond("Thanks!")
+    # print(r)
