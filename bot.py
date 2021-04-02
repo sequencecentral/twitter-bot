@@ -19,7 +19,6 @@ prod=True
 awake = True
 was_wake = True
 
-
 try:
     if('t' in sys.argv[1].lower()):
         prod=False
