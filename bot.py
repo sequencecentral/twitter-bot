@@ -13,14 +13,20 @@ import pytz
 import numpy as np
 import nltk
 import steve
+import seqbot
 dm={}
 prod=True
+awake = True
+was_wake = True
+
+
 try:
     if('t' in sys.argv[1].lower()):
         prod=False
         print('Running in TEST mode')
         print(sys.argv)
 except:
+    prod=True
     print('Running in PROD mode')
 
 def auth():
@@ -44,44 +50,53 @@ def auth():
     t = tweepy.OAuthHandler(consumer_key, consumer_secret_key)
     t.set_access_token(access_token, access_token_secret)
     api = tweepy.API(t)
+    print("Loaded Twitter API")
 
 def config():
-    global api
     global query_string
     global hashtags
-    global min_interval
     global randmzn
     global waketime
     global bedtime
     global q_pct
     global min_pop
+    global mode
     global character
+    global min_interval
+    # min_interval = 1
+    global daily_min_interval
+    # daily_min_interval = 1
     try:
         query_string=environ['QUERY_STRING']
-        hashtags=environ['HASHTAGS']
+        hashtags=environ['HASHTAGS'].lower()
         min_interval=int(environ['INTERVAL'])
         randmzn=int(environ['RANDOMIZATION'])
         waketime=int(environ['WAKETIME'])
         bedtime=int(environ['BEDTIME'])
         q_pct=int(environ['QUOTES_PERCENT'])
         min_pop=int(environ['MIN_POP'])
-        character=environ['CHARACTER']
+        character=environ['CHARACTER'].lower()
+        username=environ['USERNAME'].lower()
+        mode=environ['MODE'].lower()
     except:
         print("Env not found. Attempting to load CONFIG from file")
         try:
             import config
             query_string=config.QUERY_STRING
-            hashtags=config.HASHTAGS
+            hashtags=config.HASHTAGS.lower()
             min_interval=int(config.INTERVAL)
             randmzn=int(config.RANDOMIZATION)
             waketime=int(config.WAKETIME)
             bedtime=int(config.BEDTIME)
             q_pct=int(config.QUOTES_PERCENT)
             min_pop=int(config.MIN_POP)
-            character=config.CHARACTER
+            character=config.CHARACTER.lower()
+            username=config.USERNAME.lower()
+            mode=config.MODE.lower()
         except:
             print("Failed to load config")
             exit(1)
+
 
 #initialize api
 def init():
@@ -109,14 +124,11 @@ def load_emojis():
 
 def load_chat():
     global chat
-    # with open("""characters/{}.json""".format(character)) as f:
-    #     pairs = json.load(f)["chat"]
-    chat = nltk.chat.util.Chat(steve.pairs, nltk.chat.util.reflections)
+    chat=seqbot.get_chat()
 
 ################################# Intros #################################
 
 def get_random_intro():
-    # intros = get_intros()
     random_intro = random.choice(intros["neutral"])
     return random_intro
 
@@ -131,7 +143,6 @@ def get_neg_intro():
 ################################# Replies #################################
 
 def get_random_reply():
-    # replys = get_replys()
     random_reply = random.choice(replies["neutral"])
     return random_reply
 
@@ -160,15 +171,15 @@ def get_neg_emoji():
 ################################# CORE TWITTER FNs #################################
 #Tweet with a comment
 def tweet_comment(tweet,message):
-    # print(tweet)
     turl = """https://twitter.com/{}/status/{}""".format(tweet.user.id_str,tweet.id)
     new_text = """{} {} {} {}""".format(message,tweet.text,turl,hashtags)
-    api.update_status(new_text)
+    if(prod): api.update_status(new_text)
 
 def tweet_reply(tweet,message):
-    api.update_status(status = message, in_reply_to_status_id = tweet.id , auto_populate_reply_metadata=True)
+    if(prod): api.update_status(status = message, in_reply_to_status_id = tweet.id , auto_populate_reply_metadata=True)
 
 def get_top_tweet():
+    print(query_string)
     tweets = api.search(q=query_string,rpp=100,count=100,lang='en',RESULT_TYPE='popular')
     # print(tweets)
     pop = [t for t in tweets if int(t.user.followers_count)>min_pop and t.in_reply_to_status_id_str is None]
@@ -182,28 +193,28 @@ def get_top_tweet():
 
 ################################# ADDDON TWITTER FNs #################################
 def tweet_random_quote():
-    test_tweet = quotes.create_random_tweet()
-    api.update_status(test_tweet)
+    q = quotes.create_random_tweet()
+    if(prod): api.update_status(q)
 
 def retweet_top_tweet():
     print("Retweet top tweet")
     top_tweet = get_top_tweet()
     intro = respond_to_tweet(top_tweet)
-    tweet_comment(top_tweet,intro)
+    if(prod): tweet_comment(top_tweet,intro)
 
 def reply_top_tweet():
     print("Reply to top tweet")
     top_tweet = get_top_tweet()
     intro = reply_to_tweet(top_tweet)
-    tweet_reply(top_tweet,intro)
+    if(prod): tweet_reply(top_tweet,intro)
 
 def retweet_respond_top_tweet():
     print("Retweet & reply to top tweet")
     top_tweet = get_top_tweet()
     intro = respond_to_tweet(top_tweet)
     r = reply_to_tweet(top_tweet)
-    tweet_comment(top_tweet,intro)
-    tweet_reply(top_tweet,r)
+    if(prod): tweet_comment(top_tweet,intro)
+    if(prod): tweet_reply(top_tweet,r)
 
 def respond_to_tweet(top_tweet):
     sent = sentiment.get_sentiment(top_tweet.text)
@@ -234,11 +245,12 @@ def reply_to_tweet(top_tweet):
 ################################# DIRECT MESSAGES #################################
 
 def check_messages(re=False):
+    global dm
     messages = api.list_direct_messages()
     for m in messages:
         if m.id not in dm:
             dm[m.id]=m
-            if(re): respond(m)
+            if(re & prod): respond(m)
 
 def respond(m):
     t = str(m.message_create['message_data']['text'])
@@ -257,6 +269,31 @@ def hoursToMins(hrs=1):
 def hoursToSec(hrs=1):
     return hrs * 60 * 60
 
+def amAwake():
+    global wake
+    global was_wake
+    hour = getHour()
+    if hour > waketime and hour < bedtime:
+        awake = True
+        if(was_wake == False): 
+            print('Bot has just woken up.')
+            randomize_daily_interval()
+        was_wake=awake
+        return True
+    else:
+        print("Am asleep. Zzzz...")
+        awake = False
+        was_wake=awake
+        return False
+
+def randomize_daily_interval():
+    global daily_min_interval
+    spread = min_interval*10/100
+    rng = np.random.default_rng(); 
+    n = rng.normal(min_interval,spread,1000)
+    daily_min_interval = abs(round(random.choice(n)))
+    print("Daily time interval %s has been randomized to: %s minutes"%(min_interval, daily_min_interval))
+
 def randomizeInterval(ti=10,randomization=1):
     spread = ti*randomization/100
     # t = abs(round(random.uniform(ti-spread,ti+spread)))
@@ -274,21 +311,11 @@ def getHour():
     tzwc=pytz.timezone('America/Los_Angeles')
     return int(datetime.now(tzwc).hour)
 
-def amAwake():
-    hour = getHour()
-    if hour > waketime and hour < bedtime:
-        return True
-    else:
-        print("Am asleep. Zzzz...")
-        return False
-
 def getTimeInterval(mins=10,spread=1):
     curr_hour = getHour()
     rand_60m=randomizeInterval(60,spread)
     if(amAwake()):
         return randomizeInterval(mins,spread)
-    # else:
-        # return 2
     else: #return sleep interval to next waketime
         if(curr_hour < waketime):  #if before waketime, subtract current hour i.e., 5AM - 3AM = 2 hrs & also randomize wake time by 10%
             return hoursToMins(waketime - curr_hour-1)+rand_60m
@@ -298,35 +325,33 @@ def getTimeInterval(mins=10,spread=1):
 ########################################## MAIN ##########################################
 def main():
     init()
+    print('Loaded bot at:',getHour())
+    randomize_daily_interval()
     print('Loading any existing messages for this account.')
     check_messages(False)
-    # retweet_top_tweet()
-    while(True):
-        # print(get_random_emoji())
-        init()
-        # respond_to_messages()
-        check_messages(True)
-        #randomize behaviors by percentages
-        r = random.randrange(100)
-        if(r < q_pct ):
-            print('tweet quote')
-            if(prod):
+    #interval mode: perform behaviors in between sleep intervals
+    if('interval' in mode):
+        while(True):
+            init()
+            # respond_to_messages()
+            print('Checking for any new messages')
+            check_messages(prod)
+            #randomize behaviors by percentages
+            r = random.randrange(100)
+            if(r < q_pct ):
+                print('tweet quote')
                 tweet_random_quote()
-            # try:
-            # except:
-            #     print("Error tweeting random quote")
-        # elif(r < q_pct+50):
-        else:
-            print('tweeting')
-            if(prod):
+            else:
+                print('tweeting')
                 retweet_top_tweet()
-            # retweet_respond_top_tweet()
-            # try:
-            # except:
-            #     print("Error retweeting top tweet")
-        next_intvl=getTimeInterval(min_interval,randmzn)
-        print("""Time is: {}. Sleeping for {} minutes""".format(getHour(),next_intvl))
-        sleep(minToSec(next_intvl))
+            next_intvl=getTimeInterval(daily_min_interval,randmzn)
+            print("""Time is: {}. Sleeping for {} minutes""".format(getHour(),next_intvl))
+            sleep(minToSec(next_intvl))
+        #continuous mode: perform behaviors continuously
+    elif('continuous' in mode):
+        pass
 
 if __name__ == "__main__":
     main()
+    # init()
+    # print(query_string)

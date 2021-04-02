@@ -2,7 +2,7 @@ import json
 import random
 
 def create_random_tweet():
-    quote = quotes.get_random_quote()
+    quote = get_random_quote()
     tweet = """
             {}
             ~{}
