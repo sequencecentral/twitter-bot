@@ -278,7 +278,6 @@ def on_status_update(status):
     exit(0)
     # respond(status)
 
-
 ################################# TIME #################################
 def minToSec(mins=1):
     return mins*60
