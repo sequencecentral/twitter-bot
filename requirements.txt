@@ -1,7 +1,6 @@
 appdirs==1.4.4
 certifi==2020.11.8
 chardet==3.0.4
-Chatbot==0.1
 click==7.1.2
 distlib==0.3.1
 filelock==3.0.12
