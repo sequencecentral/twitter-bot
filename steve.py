@@ -110,14 +110,6 @@ pairs = (
         ),
     ),
     (
-        r"Hello(.*)",
-        (
-            "Hello... I'm glad you could drop by today.",
-            "Hi there... how are you today?",
-            "Hello, how are you feeling today?",
-        ),
-    ),
-    (
         r"I think (.*)",
         ("Do you doubt %1?", "Do you really think so?", "But you're not sure %1?"),
     ),
@@ -241,7 +233,13 @@ pairs = (
             "Why do you care whether I %1?",
         ),
     ),
-    (r"Why (.*)", ("Why don't you tell me the reason why %1?", "Why do you think %1?")),
+    (
+        r"Why (.*)", 
+        (
+            "Why don't you tell me the reason why %1?", 
+            "Why do you think %1?"
+        )
+    ),
     (
         r"I want (.*)",
         (
@@ -273,6 +271,16 @@ pairs = (
     ),
     (
         r"(.*) child(.*)",
+        (
+            "Did you have close friends as a child?",
+            "What is your favorite childhood memory?",
+            "Do you remember any dreams or nightmares from childhood?",
+            "Did the other children sometimes tease you?",
+            "How do you think your childhood experiences relate to your feelings today?",
+        ),
+    ),
+    (
+        r"(.*)(fuck|f?ck|shit|sh?t|asshole|pussy|cunt)(.*)",
         (
             "Did you have close friends as a child?",
             "What is your favorite childhood memory?",
@@ -318,3 +326,10 @@ pairs = (
 def get_response(r='hi'):
     c = nltk.chat.util.Chat(pairs, nltk.chat.util.reflections)
     return c.respond(r)
+
+def main():
+    c = nltk.chat.util.Chat(pairs, nltk.chat.util.reflections)
+    c.converse()
+
+if __name__ == "__main__":
+    main()

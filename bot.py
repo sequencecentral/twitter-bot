@@ -1,6 +1,7 @@
 #!/usr/bin/python3
 import os
 from os import environ
+import sys
 import tweepy
 from time import sleep
 from datetime import datetime
@@ -11,10 +12,17 @@ import sentiment
 import pytz
 import numpy as np
 import nltk
-import iesha
+# import iesha
 import steve
 dm={}
-prod=False
+prod=True
+try:
+    if('t' in sys.argv[1].lower()):
+        prod=False
+        print('Running in TEST mode')
+        print(sys.argv)
+except:
+    print('Running in PROD mode')
 
 def auth():
     global api
@@ -229,8 +237,6 @@ def reply_to_tweet(top_tweet):
 def check_messages(re=False):
     messages = api.list_direct_messages()
     for m in messages:
-        # print(m.id)
-        #find any new messages
         if m.id not in dm:
             dm[m.id]=m
             if(re): respond(m)
@@ -241,7 +247,6 @@ def respond(m):
     r = chat.respond(t)
     print('[Message]: {} [Response:] {}'.format(t,r))
     if(prod): api.send_direct_message(sender, r)
-
 
 ################################# TIME #################################
 def minToSec(mins=1):
@@ -292,8 +297,7 @@ def getTimeInterval(mins=10,spread=1):
             return hoursToMins(24 - bedtime + waketime - curr_hour)+rand_60m
 
 ########################################## MAIN ##########################################
-def main(p=False):
-    prod=p
+def main():
     init()
     print('Loading any existing messages for this account.')
     check_messages(False)
@@ -326,7 +330,4 @@ def main(p=False):
         sleep(minToSec(next_intvl))
 
 if __name__ == "__main__":
-    main(True)
-    # init()
-    # r  = chat.respond("Thanks!")
-    # print(r)
+    main()
