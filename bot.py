@@ -172,7 +172,10 @@ def get_neg_emoji():
 def tweet_comment(tweet,message):
     turl = """https://twitter.com/{}/status/{}""".format(tweet.user.id_str,tweet.id)
     new_text = """{} {} {} {}""".format(message,tweet.text,turl,hashtags)
-    if(prod): api.update_status(new_text)
+    try:
+        if(prod): api.update_status(new_text)
+    except:
+        print('[Tweet failed]: ',new_text)
 
 def tweet_reply(tweet,message):
     if(prod): api.update_status(status = message, in_reply_to_status_id = tweet.id , auto_populate_reply_metadata=True)
