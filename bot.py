@@ -12,7 +12,6 @@ import sentiment
 import pytz
 import numpy as np
 import nltk
-# import iesha
 import steve
 dm={}
 prod=True
