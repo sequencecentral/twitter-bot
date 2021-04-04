@@ -13,7 +13,7 @@ import pytz
 import numpy as np
 import nltk
 import steve
-import seqbot
+import BasicBot
 from BotStreamListener import BotStreamListener
 dm={}
 prod=True
