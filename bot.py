@@ -13,7 +13,7 @@ import pytz
 import numpy as np
 import nltk
 import steve
-import BasicBot
+import basicbot
 from BotStreamListener import BotStreamListener
 
 def auth():
@@ -115,7 +115,7 @@ def load_emojis():
 
 def load_chat():
     global chat
-    chat=seqbot.get_chat()
+    chat=basicbot.get_chat()
 
 ################################# Intros #################################
 
