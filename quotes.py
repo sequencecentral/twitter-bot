@@ -3,14 +3,12 @@ import random
 
 def create_random_tweet():
     quote = get_random_quote()
-    tweet = """
-            {}
-            ~{}
-            """.format(quote['quote'], quote['character'])
+    tweet = """{} 
+            - {}""".format(quote['quoteText'], quote['quoteAuthor'])
     return tweet
 
 def get_quotes():
-    with open('quotes.json') as f:
+    with open('quotes-list.json') as f:
         quotes_json = json.load(f)
     return quotes_json['quotes']
 
