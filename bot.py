@@ -15,19 +15,6 @@ import nltk
 import steve
 import BasicBot
 from BotStreamListener import BotStreamListener
-dm={}
-prod=True
-awake = True
-was_wake = True
-
-try:
-    if('t' in sys.argv[1].lower()):
-        prod=False
-        print('Running in TEST mode')
-        print(sys.argv)
-except:
-    prod=True
-    print('Running in PROD mode')
 
 def auth():
     global api
@@ -372,6 +359,19 @@ def main():
         while(True):
             listen_messages(True)
 
+dm={}
+prod=True
+awake = True
+was_wake = True
+
+try:
+    if('t' in sys.argv[1].lower()):
+        prod=False
+        print('Running in TEST mode')
+        print(sys.argv)
+except:
+    prod=True
+    print('Running in PROD mode')
 
 if __name__ == "__main__":
     main()
