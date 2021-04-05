@@ -23,4 +23,5 @@ virtualenv==20.2.1
 
 #git sources:
 git+https://github.com/sequencecentral/BasicBot.git@main#egg=basicbot
-git+https://github.com/sequencecentral/QuoteWidget.git@main#egg=QuoteWidget
+git+https://github.com/sequencecentral/QuoteWidget.git@main#egg=quotewidget
+git+https://github.com/sequencecentral/Joe-Sixpack.git@main#egg=joesixpack

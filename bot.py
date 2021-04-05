@@ -16,6 +16,7 @@ import steve
 from BotStreamListener import BotStreamListener
 import basicbot
 import quotewidget as qw
+import joesixpack as jsp
 
 def auth():
     global api
@@ -46,6 +47,7 @@ def config():
     global randmzn
     global waketime
     global bedtime
+    global timezone
     global q_pct
     global min_pop
     global mode
@@ -63,6 +65,7 @@ def config():
         randmzn=int(environ['RANDOMIZATION'])
         waketime=int(environ['WAKETIME'])
         bedtime=int(environ['BEDTIME'])
+        timezone=environ['TIMEZONE'].lower()
         q_pct=int(environ['QUOTES_PERCENT'])
         min_pop=int(environ['MIN_POP'])
         character=environ['CHARACTER'].lower()
@@ -79,6 +82,7 @@ def config():
             randmzn=int(config.RANDOMIZATION)
             waketime=int(config.WAKETIME)
             bedtime=int(config.BEDTIME)
+            timezone=(config.TIMEZONE).lower()
             q_pct=int(config.QUOTES_PERCENT)
             min_pop=int(config.MIN_POP)
             character=config.CHARACTER.lower()
@@ -89,7 +93,6 @@ def config():
             print("Failed to load config")
             exit(1)
 
-
 #initialize api
 def init():
     auth()
@@ -98,6 +101,8 @@ def init():
     load_replies()
     load_emojis()
     load_chat()
+    global joe
+    joe = jsp.Joe(timezone, waketime,bedtime, min_interval,randmzn)
 
 def load_intros():
     global intros
@@ -119,7 +124,6 @@ def load_chat():
     chat=basicbot.get_chat()
 
 ################################# Intros #################################
-
 def get_random_intro():
     random_intro = random.choice(intros["neutral"])
     return random_intro
@@ -133,7 +137,6 @@ def get_neg_intro():
     return random_intro
 
 ################################# Replies #################################
-
 def get_random_reply():
     random_reply = random.choice(replies["neutral"])
     return random_reply
@@ -147,7 +150,6 @@ def get_neg_reply():
     return random_reply
 
 ################################# Emojis #################################
-
 def get_random_emoji():
     random_emoji = random.choice(emojis["neutral"])
     return random_emoji
@@ -270,70 +272,19 @@ def on_status_update(status):
 def minToSec(mins=1):
     return mins*60
 
-def hoursToMins(hrs=1):
-    return hrs*60
-
-def hoursToSec(hrs=1):
-    return hrs * 60 * 60
-
-def amAwake():
-    global wake
-    global was_wake
-    hour = getHour()
-    if hour > waketime and hour < bedtime:
-        awake = True
-        if(was_wake == False): 
-            print('Bot has just woken up.')
-            randomize_daily_interval()
-        was_wake=awake
-        return True
-    else:
-        print("Am asleep. Zzzz...")
-        awake = False
-        was_wake=awake
-        return False
-
-def randomize_daily_interval():
-    global daily_min_interval
-    spread = min_interval*10/100
-    rng = np.random.default_rng(); 
-    n = rng.normal(min_interval,spread,1000)
-    daily_min_interval = abs(round(random.choice(n)))
-    print("Daily time interval %s has been randomized to: %s minutes"%(min_interval, daily_min_interval))
-
-def randomizeInterval(ti=10,randomization=1):
-    spread = ti*randomization/100
-    # t = abs(round(random.uniform(ti-spread,ti+spread)))
-    # return t
-    rng = np.random.default_rng(); 
-    n = rng.normal(ti,spread,1000)
-    rand_unit = abs(round(random.choice(n))) #use randomized increment as unit
-    #For Poisson distribution
-    # p = rng.poisson(1, 100) #poisson dist with lambda 1 -- select random value & multiply it
-    # multiplier = random.choice(p)+1
-    # ri = multiplier*rand_unit
-    return rand_unit
-
 def getHour():
-    tzwc=pytz.timezone('America/Los_Angeles')
+    tzwc=pytz.timezone(timezone)
     return int(datetime.now(tzwc).hour)
-
-def getTimeInterval(mins=10,spread=1):
-    curr_hour = getHour()
-    rand_60m=randomizeInterval(60,spread)
-    if(amAwake()):
-        return randomizeInterval(mins,spread)
-    else: #return sleep interval to next waketime
-        if(curr_hour < waketime):  #if before waketime, subtract current hour i.e., 5AM - 3AM = 2 hrs & also randomize wake time by 10%
-            return hoursToMins(waketime - curr_hour-1)+rand_60m
-        else: #if after waketime then must be evening
-            return hoursToMins(24 - bedtime + waketime - curr_hour)+rand_60m
-
+ 
 ########################################## MAIN ##########################################
 def main():
+    global dm
+    dm={}
+    global prod
+    prod=True
     init()
     print('Loaded bot at:',getHour())
-    randomize_daily_interval()
+    # randomize_daily_interval()
     print('Loading any existing messages for this account.')
     check_messages(False)
     #interval mode: perform behaviors in between sleep intervals
@@ -352,7 +303,8 @@ def main():
             else:
                 print('tweeting')
                 retweet_top_tweet()
-            next_intvl=getTimeInterval(daily_min_interval,randmzn)
+            # next_intvl=getTimeInterval(daily_min_interval,randmzn)
+            next_intvl=joe.get_next_interval()
             print("""Time is: {}. Sleeping for {} minutes""".format(getHour(),next_intvl))
             sleep(minToSec(next_intvl))
         #continuous mode: perform behaviors continuously
@@ -360,11 +312,6 @@ def main():
         print('Continuous Mode')
         while(True):
             listen_messages(True)
-
-dm={}
-prod=True
-awake = True
-was_wake = True
 
 try:
     if('t' in sys.argv[1].lower()):
@@ -377,5 +324,71 @@ except:
 
 if __name__ == "__main__":
     main()
+    # init()
+    # print(joe.get_next_interval())
     # print(qw.get_update())
     # pass
+
+
+# dm={}
+# prod=True
+# awake = True
+# was_wake = True
+
+   
+# def hoursToMins(hrs=1):
+#     return hrs*60
+
+# def hoursToSec(hrs=1):
+#     return hrs * 60 * 60
+
+# def amAwake():
+#     global wake
+#     global was_wake
+#     hour = getHour()
+#     if hour > waketime and hour < bedtime:
+#         awake = True
+#         if(was_wake == False): 
+#             print('Bot has just woken up.')
+#             randomize_daily_interval()
+#         was_wake=awake
+#         return True
+#     else:
+#         print("Am asleep. Zzzz...")
+#         awake = False
+#         was_wake=awake
+#         return False
+
+# def randomize_daily_interval():
+#     global daily_min_interval
+#     spread = min_interval*10/100
+#     rng = np.random.default_rng(); 
+#     n = rng.normal(min_interval,spread,1000)
+#     daily_min_interval = abs(round(random.choice(n)))
+#     print("Daily time interval %s has been randomized to: %s minutes"%(min_interval, daily_min_interval))
+
+# def randomizeInterval(ti=10,randomization=1):
+#     spread = ti*randomization/100
+#     # t = abs(round(random.uniform(ti-spread,ti+spread)))
+#     # return t
+#     rng = np.random.default_rng(); 
+#     n = rng.normal(ti,spread,1000)
+#     rand_unit = abs(round(random.choice(n))) #use randomized increment as unit
+#     #For Poisson distribution
+#     # p = rng.poisson(1, 100) #poisson dist with lambda 1 -- select random value & multiply it
+#     # multiplier = random.choice(p)+1
+#     # ri = multiplier*rand_unit
+#     return rand_unit
+
+
+
+# def getTimeInterval(mins=10,spread=1):
+#     curr_hour = getHour()
+#     rand_60m=randomizeInterval(60,spread)
+#     if(amAwake()):
+#         return randomizeInterval(mins,spread)
+#     else: #return sleep interval to next waketime
+#         if(curr_hour < waketime):  #if before waketime, subtract current hour i.e., 5AM - 3AM = 2 hrs & also randomize wake time by 10%
+#             return hoursToMins(waketime - curr_hour-1)+rand_60m
+#         else: #if after waketime then must be evening
+#             return hoursToMins(24 - bedtime + waketime - curr_hour)+rand_60m
