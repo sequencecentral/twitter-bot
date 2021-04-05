@@ -13,8 +13,9 @@ import pytz
 import numpy as np
 import nltk
 import steve
-import basicbot
 from BotStreamListener import BotStreamListener
+import basicbot
+import quotewidget as qw
 
 def auth():
     global api
@@ -187,7 +188,7 @@ def get_top_tweet():
 
 ################################# ADDDON TWITTER FNs #################################
 def tweet_random_quote():
-    q = quotes.create_random_tweet()
+    q = qw.get_update()
     if(prod): api.update_status(q)
 
 def retweet_top_tweet():
@@ -337,6 +338,7 @@ def main():
     check_messages(False)
     #interval mode: perform behaviors in between sleep intervals
     if('interval' in mode):
+        # tweet_random_quote()
         while(True):
             init()
             # respond_to_messages()
@@ -375,3 +377,5 @@ except:
 
 if __name__ == "__main__":
     main()
+    # print(qw.get_update())
+    # pass

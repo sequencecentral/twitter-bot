@@ -1,6 +1,12 @@
 import json
 import random
 
+def get_text():
+    quote = get_random_quote()
+    tweet = """{} 
+            - {}""".format(quote['quoteText'], quote['quoteAuthor'])
+    return tweet    
+    
 def create_random_tweet():
     quote = get_random_quote()
     tweet = """{} 
