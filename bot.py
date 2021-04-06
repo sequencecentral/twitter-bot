@@ -12,8 +12,9 @@ import numpy as np
 import nltk
 
 from BotStreamListener import BotStreamListener
-import basicbot
+# import basicbot
 # from basicbot import responder
+import seqbot
 import quotewidget as qw
 import joesixpack as jsp
 import twitterwidget
@@ -91,7 +92,7 @@ def main():
     #initialize twitterr widget
     tw = twitterwidget.TwitterWidget(auth['consumer_key'], auth['consumer_secret_key'], auth['access_token'], auth['access_token_secret'],c['query_string'],c['hashtags'])
     #load responder
-    re = basicbot.responder.Responder()
+    re = seqbot.responder.Responder()
     #first message check -- get all current messages
     if(prod): tw.check_messages(False)
     if('interval' in c['mode']):
