@@ -341,20 +341,21 @@ def main():
     joe = jsp.Joe(timezone,waketime,bedtime,min_interval,randmzn)
     mode='interval'
     if('interval' in mode):
-        pass
         while True:
             if(joe.is_awake()):
-                tw.check_messages(False)
+                print("Cataloging DMs")
+                # tw.check_messages(False)
                 r = random.randrange(100)
                 if(r < q_pct):
-                    tw.tweet(qw.get_update())
-                    pass
+                    print("Tweeting quote")
+                    # tw.tweet(qw.get_update())
                 else:
+                    print("Tweeting top tweet")
                     tt = tw.get_top_tweet()
                     resp = re.get_intro(tt.text)
-                    # print(resp)      
-                    tw.tweet(resp)     
-                    pass
+                    print("text: ",tt.text)
+                    print("Response: ",resp)      
+                    # tw.tweet(resp)     
             next_intvl=joe.get_next_interval()
             print("""Time is: {}. Sleeping for {} minutes""".format(getHour(),next_intvl))
             sleep(minToSec(next_intvl))     
