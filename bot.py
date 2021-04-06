@@ -94,9 +94,9 @@ def main():
     re = basicbot.responder.Responder()
     #first message check -- get all current messages
     if(prod): tw.check_messages(False)
-    #starrt timer
-    joe = jsp.Joe(c['timezone'],c['waketime'],c['bedtime'],c['min_interval'],c['randmzn'])
     if('interval' in c['mode']):
+        #start timer
+        joe = jsp.Joe(c['timezone'],c['waketime'],c['bedtime'],c['min_interval'],c['randmzn'])
         while True:
             if(joe.is_awake()):
                 print("Responding to DMs")
