@@ -26,8 +26,8 @@ def load_twitter_creds():
         cred['access_token'] = environ['ACCESS_TOKEN']
         cred['access_token_secret'] = environ['ACCESS_TOKEN_SECRET']
     except:
+        print("Env not found. Attempting to load AUTH from local file.")
         try:
-            print("Env not found. Attempting to load AUTH from local file.")
             import env
             creds['consumer_key'] = env.API_KEY
             creds['consumer_secret_key'] = env.API_SECRET_KEY
