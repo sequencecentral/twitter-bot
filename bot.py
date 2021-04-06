@@ -116,13 +116,13 @@ def main():
                     news = newswidget.get_update(c['topic'])
                     resp = re.get_intro(news)
                     print("Response: ",resp)
-                    if(prod): tw.tweet(resp)
+                    if(prod): tw.tweet(resp+c['hashtags'])
                 else:
                     print("Responding to top tweet")
                     tt = tw.get_top_tweet()
                     resp = re.get_intro(tt.text)
                     print("Tweet Response: ",resp)
-                    if(prod): tw.tweet(resp)
+                    if(prod): tw.tweet(resp+c['hashtags'])
             next_intvl=joe.get_next_interval()
             print("""Time is: {}. Sleeping for {} minutes""".format(getHour(c['timezone']),next_intvl))
             #convert interval to seconds for sleep
