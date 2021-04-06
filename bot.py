@@ -131,4 +131,5 @@ if __name__ == "__main__":
         else:
             prod=True
             print('Running in PROD mode')
+    print('Error chasing #1')
     main()
