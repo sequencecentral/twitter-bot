@@ -14,12 +14,15 @@ import numpy as np
 import nltk
 import steve
 from BotStreamListener import BotStreamListener
+
 import basicbot
+from basicbot import responder
 import quotewidget as qw
 import joesixpack as jsp
+import twitterwidget
 
-def auth():
-    global api
+def get_twitter_auth():
+    # global api
     try:
         consumer_key = environ['API_KEY']
         consumer_secret_key = environ['API_SECRET_KEY']
@@ -36,10 +39,16 @@ def auth():
         except:
             print("Unable to authenticate")
             exit(1)
-    t = tweepy.OAuthHandler(consumer_key, consumer_secret_key)
-    t.set_access_token(access_token, access_token_secret)
-    api = tweepy.API(t)
-    print("Loaded Twitter API")
+    # t = tweepy.OAuthHandler(consumer_key, consumer_secret_key)
+    # t.set_access_token(access_token, access_token_secret)
+    # api = tweepy.API(t)
+    # print("Loaded Twitter API")
+    return {
+        'consumer_key':consumer_key,
+        'consumer_secret_key':consumer_secret_key,
+        'access_token':access_token,
+        'access_token_secret':access_token_secret
+    }
 
 def config():
     global query_string
@@ -277,7 +286,7 @@ def getHour():
     return int(datetime.now(tzwc).hour)
  
 ########################################## MAIN ##########################################
-def main():
+def old_main():
     global dm
     dm={}
     global prod
@@ -322,73 +331,51 @@ except:
     prod=True
     print('Running in PROD mode')
 
+def main():
+    config()
+    auth = get_twitter_auth()
+    tw = twitterwidget.TwitterWidget(auth['consumer_key'], auth['consumer_secret_key'], auth['access_token'], auth['access_token_secret'],'#bitcoin','#bitcoin')
+    #first message check -- get all current messages
+    # tw.check_messages(False)
+    re = basicbot.Responder()
+    joe = jsp.Joe(timezone,waketime,bedtime,min_interval,randmzn)
+    mode='interval'
+    if('interval' in mode):
+        pass
+        while True:
+            if(joe.is_awake()):
+                tw.check_messages(False)
+                r = random.randrange(100)
+                if(r < q_pct):
+                    tw.tweet(qw.get_update())
+                    pass
+                else:
+                    tt = tw.get_top_tweet()
+                    resp = re.get_intro(tt.text)
+                    # print(resp)      
+                    tw.tweet(resp)     
+                    pass
+            next_intvl=joe.get_next_interval()
+            print("""Time is: {}. Sleeping for {} minutes""".format(getHour(),next_intvl))
+            sleep(minToSec(next_intvl))     
+    else:
+        pass
+
 if __name__ == "__main__":
     main()
     # init()
     # print(joe.get_next_interval())
     # print(qw.get_update())
     # pass
+    # import env
+    # consumer_key = env.API_KEY
+    # consumer_secret_key = env.API_SECRET_KEY
+    # access_token = env.ACCESS_TOKEN
+    # access_token_secret = env.ACCESS_TOKEN_SECRET
+    # t = tw.TwitterWidget(consumer_key,consumer_secret_key,access_token,access_token_secret)
+    # t.config("#bitcoin","#bitcoin")
+    # print("Configured")
+    # print("Get top tweet:")
+    # tt=t.get_top_tweet()
+    # print(tt.text)
 
-
-# dm={}
-# prod=True
-# awake = True
-# was_wake = True
-
-   
-# def hoursToMins(hrs=1):
-#     return hrs*60
-
-# def hoursToSec(hrs=1):
-#     return hrs * 60 * 60
-
-# def amAwake():
-#     global wake
-#     global was_wake
-#     hour = getHour()
-#     if hour > waketime and hour < bedtime:
-#         awake = True
-#         if(was_wake == False): 
-#             print('Bot has just woken up.')
-#             randomize_daily_interval()
-#         was_wake=awake
-#         return True
-#     else:
-#         print("Am asleep. Zzzz...")
-#         awake = False
-#         was_wake=awake
-#         return False
-
-# def randomize_daily_interval():
-#     global daily_min_interval
-#     spread = min_interval*10/100
-#     rng = np.random.default_rng(); 
-#     n = rng.normal(min_interval,spread,1000)
-#     daily_min_interval = abs(round(random.choice(n)))
-#     print("Daily time interval %s has been randomized to: %s minutes"%(min_interval, daily_min_interval))
-
-# def randomizeInterval(ti=10,randomization=1):
-#     spread = ti*randomization/100
-#     # t = abs(round(random.uniform(ti-spread,ti+spread)))
-#     # return t
-#     rng = np.random.default_rng(); 
-#     n = rng.normal(ti,spread,1000)
-#     rand_unit = abs(round(random.choice(n))) #use randomized increment as unit
-#     #For Poisson distribution
-#     # p = rng.poisson(1, 100) #poisson dist with lambda 1 -- select random value & multiply it
-#     # multiplier = random.choice(p)+1
-#     # ri = multiplier*rand_unit
-#     return rand_unit
-
-
-
-# def getTimeInterval(mins=10,spread=1):
-#     curr_hour = getHour()
-#     rand_60m=randomizeInterval(60,spread)
-#     if(amAwake()):
-#         return randomizeInterval(mins,spread)
-#     else: #return sleep interval to next waketime
-#         if(curr_hour < waketime):  #if before waketime, subtract current hour i.e., 5AM - 3AM = 2 hrs & also randomize wake time by 10%
-#             return hoursToMins(waketime - curr_hour-1)+rand_60m
-#         else: #if after waketime then must be evening
-#             return hoursToMins(24 - bedtime + waketime - curr_hour)+rand_60m
