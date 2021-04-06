@@ -12,8 +12,6 @@ import numpy as np
 import nltk
 
 from BotStreamListener import BotStreamListener
-# import basicbot
-# from basicbot import responder
 import seqbot
 import quotewidget as qw
 import joesixpack as jsp
@@ -89,7 +87,7 @@ def getHour(timezone):
 def main():
     c=load_config()
     auth = load_twitter_creds()
-    #initialize twitterr widget
+    #initialize twitter widget
     tw = twitterwidget.TwitterWidget(auth['consumer_key'], auth['consumer_secret_key'], auth['access_token'], auth['access_token_secret'],c['query_string'],c['hashtags'])
     #load responder
     re = seqbot.responder.Responder()
@@ -130,5 +128,4 @@ if __name__ == "__main__":
             prod=False
         else:
             prod=True
-    print('Error chasing #3')
     main()
