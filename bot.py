@@ -20,22 +20,22 @@ import twitterwidget
 
 def load_twitter_creds():
     creds = {}
-    # try:
-    cred['consumer_key'] = environ['API_KEY']
-    cred['consumer_secret_key'] = environ['API_SECRET_KEY']
-    cred['access_token'] = environ['ACCESS_TOKEN']
-    cred['access_token_secret'] = environ['ACCESS_TOKEN_SECRET']
-    # except:
-    #     print("Env not found. Attempting to load AUTH from local file.")
-    #     try:
-    #         import env
-    #         creds['consumer_key'] = env.API_KEY
-    #         creds['consumer_secret_key'] = env.API_SECRET_KEY
-    #         creds['access_token'] = env.ACCESS_TOKEN
-    #         creds['access_token_secret'] = env.ACCESS_TOKEN_SECRET
-    #     except:
-    #         print("Unable to authenticate")
-    #         exit(1)
+    try:
+        creds['consumer_key'] = environ['API_KEY']
+        creds['consumer_secret_key'] = environ['API_SECRET_KEY']
+        creds['access_token'] = environ['ACCESS_TOKEN']
+        creds['access_token_secret'] = environ['ACCESS_TOKEN_SECRET']
+    except:
+        print("Env not found. Attempting to load AUTH from local file.")
+        try:
+            import env
+            creds['consumer_key'] = env.API_KEY
+            creds['consumer_secret_key'] = env.API_SECRET_KEY
+            creds['access_token'] = env.ACCESS_TOKEN
+            creds['access_token_secret'] = env.ACCESS_TOKEN_SECRET
+        except:
+            print("Unable to authenticate")
+            exit(1)
     return creds
 
 def load_config():
