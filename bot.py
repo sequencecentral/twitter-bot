@@ -16,6 +16,7 @@ import seqbot
 import quotewidget as qw
 import joesixpack as jsp
 import twitterwidget
+import newswidget
 
 def load_twitter_creds():
     creds = {}
@@ -48,6 +49,8 @@ def load_config():
         c['bedtime']=int(environ['BEDTIME'])
         c['timezone']=environ['TIMEZONE'].lower()
         c['q_pct']=int(environ['QUOTES_PERCENT'])
+        c['n_pct']=20
+        c['topic']='cybersecurity'
         c['min_pop']=int(environ['MIN_POP'])
         c['character']=environ['CHARACTER'].lower()
         c['mode']=environ['MODE'].lower()
@@ -65,6 +68,8 @@ def load_config():
             c['bedtime']=int(config.BEDTIME)
             c['timezone']=(config.TIMEZONE).lower()
             c['q_pct']=int(config.QUOTES_PERCENT)
+            c['n_pct']=int(config.NEWS_PERCENT)
+            c['topic']=config.NEWS_TOPIC.lower()
             c['min_pop']=int(config.MIN_POP)
             c['character']=config.CHARACTER.lower()
             c['mode']=config.MODE.lower()
@@ -105,8 +110,15 @@ def main():
                 if(r < c['q_pct']):
                     print("Tweeting quote")
                     if(prod): tw.tweet(qw.get_update())
+                elif(r < c['q_pct']+c['n_pct']):
+                # elif(True):
+                    print("Tweeting news")
+                    news = newswidget.get_update(c['topic'])
+                    resp = re.get_intro(news)
+                    print("Response: ",resp)
+                    if(prod): tw.tweet(resp)
                 else:
-                    print("Tweeting top tweet")
+                    print("Responding to top tweet")
                     tt = tw.get_top_tweet()
                     resp = re.get_intro(tt.text)
                     print("Tweet Response: ",resp)
@@ -129,3 +141,6 @@ if __name__ == "__main__":
         else:
             prod=True
     main()
+    # print(dir(newswidget))
+    # news = newswidget.get_update('cybersecurity')
+    # print(news)
