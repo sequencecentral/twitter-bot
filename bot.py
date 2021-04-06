@@ -128,9 +128,7 @@ if __name__ == "__main__":
     if(len(sys.argv)>1):
         if('t' in sys.argv[1].lower()):
             prod=False
-            print('Running in TEST mode')
         else:
             prod=True
-            print('Running in PROD mode')
     print('Error chasing #3')
     main()
