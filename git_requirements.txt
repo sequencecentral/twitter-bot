@@ -1,0 +1,5 @@
+#git sources:
+git+https://github.com/sequencecentral/BasicBot.git@main#egg=basicbot
+git+https://github.com/sequencecentral/Joe-Sixpack.git@main#egg=joesixpack
+git+https://github.com/sequencecentral/QuoteWidget.git@main#egg=quotewidget
+git+https://github.com/sequencecentral/Twitter-Widget.git@main#egg=twitterwidget
