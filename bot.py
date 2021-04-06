@@ -124,7 +124,7 @@ if __name__ == "__main__":
     #basic check for test parameter in commandline args
     global prod
     prod = True
-    if(len(sys.argv>1)):
+    if(len(sys.argv)>1):
         if('t' in sys.argv[1].lower()):
             prod=False
             print('Running in TEST mode')
