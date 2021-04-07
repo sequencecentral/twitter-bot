@@ -106,12 +106,17 @@ def main():
                 print("Responding to DMs")
                 if(prod): tw.check_messages(True)
                 #randomize action between selected alternatives:
+                #calculate cumulative percentages:
+                q_beh = c['q_pct']
+                n_beh =  c['q_pct']+c['n_pct']
+                if( c['q_pct']+c['n_pct'] > 100): 
+                    print("[error] Invalid behavior config! Exiting...")
+                    exit(1)
                 r = random.randrange(100)
-                if(r < c['q_pct']):
+                if(r < q_beh):
                     print("Tweeting quote")
                     if(prod): tw.tweet(qw.get_update())
-                elif(r < c['q_pct']+c['n_pct']):
-                # elif(True):
+                elif(r < n_beh):
                     print("Tweeting news")
                     news = newswidget.get_update(c['topic'])
                     resp = re.get_intro(news)
