@@ -98,7 +98,22 @@ def main():
     re = seqbot.responder.Responder()
     #first message check -- get all current messages
     if(prod): tw.check_messages(False)
-    if('interval' in c['mode']):
+    #----------------------------- Chat Mode (chat only) ----------------------------------
+    if('chat' in c['mode']):
+        if(joe.is_awake()):
+            print("Responding to DMs")
+            if(prod): tw.check_messages(True)
+            next_intvl=joe.get_next_interval()
+            print("""Time is: {}. Sleeping for {} minutes""".format(getHour(c['timezone']),next_intvl))
+            #convert interval to seconds for sleep
+            sleep(minToSec(next_intvl))
+    #----------------------------- Stream Mode --------------------------------------------
+    elif('stream' in c['mode']):
+        pass #not implemented yet
+    #----------------------------- Interval Mode (default) --------------------------------
+    # if('interval' in c['mode']):
+    else: #default behavior
+        print("Starting default behavior: Interval Mode")
         #start timer
         joe = jsp.Joe(c['timezone'],c['waketime'],c['bedtime'],c['min_interval'],c['randmzn'])
         while True:
@@ -132,9 +147,6 @@ def main():
             print("""Time is: {}. Sleeping for {} minutes""".format(getHour(c['timezone']),next_intvl))
             #convert interval to seconds for sleep
             sleep(minToSec(next_intvl))
-    #alternative is stream mode--respond instantly
-    else:
-        pass
 
 if __name__ == "__main__":
     #basic check for test parameter in commandline args
