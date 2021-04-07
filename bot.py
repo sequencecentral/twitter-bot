@@ -49,8 +49,8 @@ def load_config():
         c['bedtime']=int(environ['BEDTIME'])
         c['timezone']=environ['TIMEZONE'].lower()
         c['q_pct']=int(environ['QUOTES_PERCENT'])
-        c['n_pct']=20
-        c['topic']='cybersecurity'
+        c['n_pct']=10
+        c['topic']='cybersecurity OR security OR infosec OR ransomware OR tech'
         c['min_pop']=int(environ['MIN_POP'])
         c['character']=environ['CHARACTER'].lower()
         c['mode']=environ['MODE'].lower()
