@@ -91,7 +91,7 @@ def getHour(timezone):
 
 ################################# ACTIONS #################################
 def tweet_news(tw,re,topic,hashtags):
-    news = newswidget.get_update,topic)
+    news = newswidget.get_update(topic)
     new_tweet = """{} {}""".format(re.get_intro(news), hashtags)
     print("Response: ",new_tweet)
     tw.tweet(new_tweet)
