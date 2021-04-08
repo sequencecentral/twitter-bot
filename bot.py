@@ -115,7 +115,6 @@ def main():
     #initialize twitter widget
     tw = twitterwidget.TwitterWidget(auth['consumer_key'], auth['consumer_secret_key'], auth['access_token'], auth['access_token_secret'],c['query_string'],c['hashtags'])
     #load responder
-    # print(dir(seqbot))
     re = basbot.responder.Responder()
     #first message check -- get all current messages
     if(prod): tw.check_messages(False)
