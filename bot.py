@@ -90,17 +90,17 @@ def getHour(timezone):
     return int(datetime.now(tzwc).hour)
 
 ################################# ACTIONS #################################
-def tweet_news(tw,re):
-    news = newswidget.get_update(c['topic'])
-    resp = re.get_intro(news)
-    print("Response: ",resp)
-    tw.tweet(resp+' '+c['hashtags'])
+def tweet_news(tw,re,topic,hashtags):
+    news = newswidget.get_update,topic)
+    new_tweet = """{} {}""".format(re.get_intro(news), hashtags)
+    print("Response: ",new_tweet)
+    tw.tweet(new_tweet)
 
 def tweet_top_tweet(tw,re,hashtags):
     tt = tw.get_top_tweet()
     new_tweet = """{} {}""".format(re.get_intro(tt.text), hashtags)
     print("Tweet Response: ",new_tweet)
-    tw.tweet(resp)
+    tw.tweet(new_tweet)
 
 def reply_top_tweet(tw,re):
     tt = tw.get_top_tweet()
@@ -154,7 +154,7 @@ def main():
                     if(prod): tw.tweet(qw.get_update())
                 elif(r < n_beh):
                     print("Tweeting news")
-                    if(prod): tweet_news(tw,re)
+                    if(prod): tweet_news(tw,re,c['topic'],c['hashtags'])
                 else:
                     dbeh = random.randrange(100) # the ole 50 / 50
                     if(dbeh < 20): #comment 20% of the time. Else just retweet
