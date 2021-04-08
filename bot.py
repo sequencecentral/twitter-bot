@@ -124,7 +124,6 @@ def main():
                 #calculate cumulative percentages:
                 q_beh = c['q_pct']
                 n_beh =  c['q_pct']+c['n_pct']
-                c_beh = n-beh+(100 - n_beh)/2
                 if( c['q_pct']+c['n_pct'] > 100): 
                     print("[error] Invalid behavior config! Exiting...")
                     exit(1)
@@ -138,12 +137,6 @@ def main():
                     resp = re.get_intro(news)
                     print("Response: ",resp)
                     if(prod): tw.tweet(resp+' '+c['hashtags'])
-                # elif(r < c_beh):
-                #     print("Replying to top tweet")
-                #     tt = tw.get_top_tweet()
-                #     resp = re.get_intro(tt.text)
-                #     print("Tweet Response: ",resp)
-                #     if(prod): tw.tweet(resp+' '+c['hashtags'])
                 else:
                     print("Commenting on top tweet")
                     tt = tw.get_top_tweet()
