@@ -12,7 +12,8 @@ import numpy as np
 import nltk
 
 from BotStreamListener import BotStreamListener
-import seqbot
+# import seqbot
+import basbot
 import quotewidget as qw
 import joesixpack as jsp
 import twitterwidget
@@ -89,21 +90,21 @@ def getHour(timezone):
     return int(datetime.now(tzwc).hour)
 
 ################################# ACTIONS #################################
-def tweet_news():
+def tweet_news(tw,re):
     news = newswidget.get_update(c['topic'])
     resp = re.get_intro(news)
     print("Response: ",resp)
     tw.tweet(resp+' '+c['hashtags'])
 
-def tweet_top_tweet():
+def tweet_top_tweet(tw,re,hashtags):
     tt = tw.get_top_tweet()
-    resp = """{} {}""".format(re.get_intro(tt.text), c['hashtags'])
+    resp = """{} {}""".format(re.get_intro(tt.text), hashtags)
     print("Tweet Response: ",resp)
     tw.tweet(resp)
 
-def reply_top_tweet():
+def reply_top_tweet(tw,re):
     tt = tw.get_top_tweet()
-    resp = re.get_intro(tt.text)#+' '+c['hashtags']
+    resp = re.get_reply(tt.text)#+' '+c['hashtags']
     print("Tweet Response: ",resp)
     tw.tweet_reply(tt, resp)
     # tw.tweet(resp)
@@ -114,7 +115,8 @@ def main():
     #initialize twitter widget
     tw = twitterwidget.TwitterWidget(auth['consumer_key'], auth['consumer_secret_key'], auth['access_token'], auth['access_token_secret'],c['query_string'],c['hashtags'])
     #load responder
-    re = seqbot.responder.Responder()
+    # print(dir(seqbot))
+    re = basbot.responder.Responder()
     #first message check -- get all current messages
     if(prod): tw.check_messages(False)
     #----------------------------- Chat Mode (chat only) ----------------------------------
@@ -153,15 +155,15 @@ def main():
                         if(prod): tw.tweet(qw.get_update())
                     elif(r < n_beh):
                         print("Tweeting news")
-                        if(prod): tweet_news()
+                        if(prod): tweet_news(tw,re)
                     else:
-                        beh = random.choice(1,2) # the ole 50 / 50
+                        beh = random.choice([1,2]) # the ole 50 / 50
                         if(beh == 1):
                             print("Commenting on top tweet")
-                            if(prod): tweet_top_tweet()
+                            if(prod): tweet_top_tweet(tw,re,c['hashtags'])
                         else:
                             print("Replying to top tweet")
-                            if(prod): reply_top_tweet()
+                            if(prod): reply_top_tweet(tw,re)
                 next_intvl=joe.get_next_interval()
                 print("""Time is: {}. Sleeping for {} minutes""".format(getHour(c['timezone']),next_intvl))
                 #convert interval to seconds for sleep

@@ -25,7 +25,8 @@ virtualenv==20.2.1
 
 #git sources:
 # basicbot @ git+https://github.com/sequencecentral/BasicBot.git@main#egg=basicbot
-seqbot @ git+https://github.com/sequencecentral/SeqBot.git@main#egg=seqbot
+# seqbot @ git+https://github.com/sequencecentral/SeqBot.git@main#egg=seqbot
+basbot @ git+https://github.com/sequencecentral/basbot.git@main#egg=basbot
 joesixpack @ git+https://github.com/sequencecentral/Joe-Sixpack.git@main#egg=joesixpack
 quotewidget @ git+https://github.com/sequencecentral/QuoteWidget.git@main#egg=quotewidget
 twitterwidget @ git+https://github.com/sequencecentral/Twitter-Widget.git@main#egg=twitterwidget
