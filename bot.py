@@ -158,10 +158,10 @@ def main():
                     else:
                         dbeh = random.randrange(100) # the ole 50 / 50
                         if(dbeh < 20): #comment 20% of the time. Else just retweet
-                            print("Replying to top tweet")
+                            print("Replying to tweet")
                             if(prod): reply_top_tweet(tw,re)
                         else:
-                            print("Commenting on top tweet")
+                            print("Commenting on tweet")
                             if(prod): tweet_top_tweet(tw,re,c['hashtags'])
                 next_intvl=joe.get_next_interval()
                 print("""Time is: {}. Sleeping for {} minutes""".format(getHour(c['timezone']),next_intvl))
