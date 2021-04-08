@@ -104,7 +104,7 @@ def tweet_top_tweet(tw,re,hashtags):
 
 def reply_top_tweet(tw,re):
     tt = tw.get_top_tweet()
-    resp = re.get_reply(tt.text)#+' '+c['hashtags']
+    resp = re.get_reply(tt.text)
     print("Tweet %s Response: %s "%(tw.text,resp))
     tw.tweet_reply(tt, resp)
     # tw.tweet(resp)
