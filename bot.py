@@ -157,13 +157,13 @@ def main():
                         print("Tweeting news")
                         if(prod): tweet_news(tw,re)
                     else:
-                        beh = random.choice([1,2]) # the ole 50 / 50
-                        if(beh == 1):
-                            print("Commenting on top tweet")
-                            if(prod): tweet_top_tweet(tw,re,c['hashtags'])
-                        else:
+                        dbeh = random.randrange(100) # the ole 50 / 50
+                        if(dbeh < 20): #comment 20% of the time. Else just retweet
                             print("Replying to top tweet")
                             if(prod): reply_top_tweet(tw,re)
+                        else:
+                            print("Commenting on top tweet")
+                            if(prod): tweet_top_tweet(tw,re,c['hashtags'])
                 next_intvl=joe.get_next_interval()
                 print("""Time is: {}. Sleeping for {} minutes""".format(getHour(c['timezone']),next_intvl))
                 #convert interval to seconds for sleep
