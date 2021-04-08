@@ -98,8 +98,8 @@ def tweet_news(tw,re):
 
 def tweet_top_tweet(tw,re,hashtags):
     tt = tw.get_top_tweet()
-    resp = """{} {}""".format(re.get_intro(tt.text), hashtags)
-    print("Tweet Response: ",resp)
+    new_tweet = """{} {}""".format(re.get_intro(tt.text), hashtags)
+    print("Tweet Response: ",new_tweet)
     tw.tweet(resp)
 
 def reply_top_tweet(tw,re):
