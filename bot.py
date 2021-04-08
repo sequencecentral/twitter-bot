@@ -87,7 +87,26 @@ def minToSec(mins=1):
 def getHour(timezone):
     tzwc=pytz.timezone(timezone)
     return int(datetime.now(tzwc).hour)
- 
+
+################################# ACTIONS #################################
+def tweet_news():
+    news = newswidget.get_update(c['topic'])
+    resp = re.get_intro(news)
+    print("Response: ",resp)
+    tw.tweet(resp+' '+c['hashtags'])
+
+def tweet_top_tweet():
+    tt = tw.get_top_tweet()
+    resp = """{} {}""".format(re.get_intro(tt.text), c['hashtags'])
+    print("Tweet Response: ",resp)
+    tw.tweet(resp)
+
+def reply_top_tweet():
+    tt = tw.get_top_tweet()
+    resp = re.get_intro(tt.text)#+' '+c['hashtags']
+    print("Tweet Response: ",resp)
+    tw.tweet_reply(tt, resp)
+    # tw.tweet(resp)
 ########################################## MAIN ##########################################
 def main():
     c=load_config()
@@ -117,36 +136,39 @@ def main():
         #start timer
         joe = jsp.Joe(c['timezone'],c['waketime'],c['bedtime'],c['min_interval'],c['randmzn'])
         while True:
-            if(joe.is_awake()):
-                print("Responding to DMs")
-                if(prod): tw.check_messages(True)
-                #randomize action between selected alternatives:
-                #calculate cumulative percentages:
-                q_beh = c['q_pct']
-                n_beh =  c['q_pct']+c['n_pct']
-                if( c['q_pct']+c['n_pct'] > 100): 
-                    print("[error] Invalid behavior config! Exiting...")
-                    exit(1)
-                r = random.randrange(100)
-                if(r < q_beh):
-                    print("Tweeting quote")
-                    if(prod): tw.tweet(qw.get_update())
-                elif(r < n_beh):
-                    print("Tweeting news")
-                    news = newswidget.get_update(c['topic'])
-                    resp = re.get_intro(news)
-                    print("Response: ",resp)
-                    if(prod): tw.tweet(resp+' '+c['hashtags'])
-                else:
-                    print("Commenting on top tweet")
-                    tt = tw.get_top_tweet()
-                    resp = re.get_intro(tt.text)
-                    print("Tweet Response: ",resp)
-                    if(prod): tw.tweet(resp+' '+c['hashtags'])
-            next_intvl=joe.get_next_interval()
-            print("""Time is: {}. Sleeping for {} minutes""".format(getHour(c['timezone']),next_intvl))
-            #convert interval to seconds for sleep
-            sleep(minToSec(next_intvl))
+            try:
+                if(joe.is_awake()):
+                    print("Responding to DMs")
+                    if(prod): tw.check_messages(True)
+                    #randomize action between selected alternatives:
+                    #calculate cumulative percentages:
+                    q_beh = c['q_pct']
+                    n_beh =  c['q_pct']+c['n_pct']
+                    if( c['q_pct']+c['n_pct'] > 100): 
+                        print("[error] Invalid behavior config! Exiting...")
+                        exit(1)
+                    r = random.randrange(100)
+                    if(r < q_beh):
+                        print("Tweeting quote")
+                        if(prod): tw.tweet(qw.get_update())
+                    elif(r < n_beh):
+                        print("Tweeting news")
+                        if(prod): tweet_news()
+                    else:
+                        beh = random.choice(1,2) # the ole 50 / 50
+                        if(beh == 1):
+                            print("Commenting on top tweet")
+                            if(prod): tweet_top_tweet()
+                        else:
+                            print("Replying to top tweet")
+                            if(prod): reply_top_tweet()
+                next_intvl=joe.get_next_interval()
+                print("""Time is: {}. Sleeping for {} minutes""".format(getHour(c['timezone']),next_intvl))
+                #convert interval to seconds for sleep
+                sleep(minToSec(next_intvl))
+            except:
+                print("[Error] Failed to complete action. Sleeping for 30 minutes")
+                sleep(minToSec(30))
 
 if __name__ == "__main__":
     #basic check for test parameter in commandline args
