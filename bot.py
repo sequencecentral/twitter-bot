@@ -153,12 +153,15 @@ def main():
         while True:
             try:
                 if(joe.is_awake()):
-                    print("Responding to DMs")
+                    print("Checking for DMs")
                     if(prod): 
                         msgs = tw.check_messages(True)
                         if(msgs):
+                            print("Responding ot DMs")
                             for msg in msgs:
                               respond(tw,dm)
+                        else:
+                            print("No messages")
                     #randomize action between selected alternatives, calculate cumulative percentages:
                     q_beh = c['q_pct']
                     n_beh =  c['q_pct']+c['n_pct']
