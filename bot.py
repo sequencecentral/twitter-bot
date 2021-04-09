@@ -118,6 +118,7 @@ def reply_top_tweet(tw,re):
 
 def respond(tw, dm):
     resp = basbot.get_response('default',dm.text)
+    print("Responding to message:")
     print("DM %s Response: %s "%(dm.text,resp))
     tw.respond(dm,resp)
 
