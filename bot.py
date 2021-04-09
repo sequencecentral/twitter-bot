@@ -188,6 +188,3 @@ if __name__ == "__main__":
         else:
             prod=True
     main()
-    # print(dir(newswidget))
-    # news = newswidget.get_update('cybersecurity')
-    # print(news)
