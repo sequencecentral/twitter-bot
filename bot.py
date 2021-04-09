@@ -90,6 +90,9 @@ def getHour(timezone):
     return int(datetime.now(tzwc).hour)
 
 ################################# ACTIONS #################################
+def tweet_quote(tw):
+    tw.tweet(qw.get_update())
+
 def tweet_news(tw,re,topic,hashtags):
     news = newswidget.get_update(topic)
     new_tweet = """{} {}""".format(re.get_intro(news), hashtags)
@@ -151,7 +154,7 @@ def main():
                     r = random.randrange(100)
                     if(r < q_beh):
                         print("Tweeting quote")
-                        if(prod): tw.tweet(qw.get_update())
+                        if(prod): tweet_quote(tw)
                     elif(r < n_beh):
                         print("Tweeting news")
                         if(prod): tweet_news(tw,re,c['topic'],c['hashtags'])
