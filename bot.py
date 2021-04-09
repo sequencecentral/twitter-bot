@@ -41,6 +41,7 @@ def load_twitter_creds():
 
 def load_config():
     c={}
+    global hashtags
     try:
         c['query_string']=environ['QUERY_STRING']
         c['hashtags']=environ['HASHTAGS'].lower()
@@ -79,6 +80,7 @@ def load_config():
         except:
             print("Failed to load config")
             exit(1)
+        hashtags = c['hashtags']
     return c
 
 ################################# TIME #################################
@@ -93,13 +95,13 @@ def getHour(timezone):
 def tweet_quote(tw):
     tw.tweet(qw.get_update())
 
-def tweet_news(tw,re,topic,hashtags):
+def tweet_news(tw,re,topic):
     news = newswidget.get_update(topic)
     new_tweet = """{} {}""".format(re.get_intro(news), hashtags)
     print("Response: ",new_tweet)
     tw.tweet(new_tweet)
 
-def tweet_top_tweet(tw,re,hashtags):
+def tweet_top_tweet(tw,re):
     tt = tw.get_top_tweet()
     intro = """{} """.format(re.get_intro(tt.text))
     print("Tweet Intro: ",intro)
@@ -157,15 +159,16 @@ def main():
                         if(prod): tweet_quote(tw)
                     elif(r < n_beh):
                         print("Tweeting news")
-                        if(prod): tweet_news(tw,re,c['topic'],c['hashtags'])
+                        if(prod): tweet_news(tw,re,c['topic'])
                     else:
+                    # if(True):
                         dbeh = random.randrange(100) # the ole 50 / 50
-                        if(dbeh < 20): #comment 20% of the time. Else just retweet
+                        if(dbeh < 1): #comment 20% of the time. Else just retweet
                             print("Replying to tweet")
                             if(prod): reply_top_tweet(tw,re)
                         else:
                             print("Commenting on tweet")
-                            if(prod): tweet_top_tweet(tw,re,c['hashtags'])
+                            if(prod): tweet_top_tweet(tw,re)
                 next_intvl=joe.get_next_interval()
                 print("""Time is: {}. Sleeping for {} minutes""".format(getHour(c['timezone']),next_intvl))
                 #convert interval to seconds for sleep
