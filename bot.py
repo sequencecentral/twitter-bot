@@ -97,9 +97,12 @@ def tweet_quote(tw):
 
 def tweet_news(tw,re,topic):
     news = newswidget.get_update(topic)
-    new_tweet = """{} {}""".format(re.get_intro(news), hashtags)
-    print("Response: ",new_tweet)
-    tw.tweet(new_tweet)
+    if(len(news>0)):
+        new_tweet = """{} {}""".format(re.get_intro(news), hashtags)
+        print("Response: ",new_tweet)
+        tw.tweet(new_tweet)
+    else:
+        print('No news')
 
 def tweet_top_tweet(tw,re):
     tt = tw.get_top_tweet()
@@ -112,6 +115,11 @@ def reply_top_tweet(tw,re):
     resp = re.get_reply(tt.text)
     print("Tweet %s Response: %s "%(tt.text,resp))
     tw.tweet_reply(tt, resp)
+
+def respond(tw, dm):
+    resp = basbot.get_response('default',dm.text)
+    print("DM %s Response: %s "%(dm.text,resp))
+    tw.respond(dm,resp)
 
 ########################################## MAIN ##########################################
 def main():
@@ -145,7 +153,10 @@ def main():
             try:
                 if(joe.is_awake()):
                     print("Responding to DMs")
-                    if(prod): tw.check_messages(True)
+                    if(prod): 
+                        msgs = tw.check_messages(True)
+                        for msg in msgs:
+                            respond(tw,dm)
                     #randomize action between selected alternatives, calculate cumulative percentages:
                     q_beh = c['q_pct']
                     n_beh =  c['q_pct']+c['n_pct']
