@@ -166,7 +166,8 @@ def main():
                 print("""Time is: {}. Sleeping for {} minutes""".format(getHour(c['timezone']),next_intvl))
                 #convert interval to seconds for sleep
                 sleep(minToSec(next_intvl))
-            except:
+            except Exception as e:
+                print(e)
                 print("[Error] Failed to complete action. Sleeping for 30 minutes")
                 sleep(minToSec(30))
 
