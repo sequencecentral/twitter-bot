@@ -137,39 +137,39 @@ def main():
         #start timer
         joe = jsp.Joe(c['timezone'],c['waketime'],c['bedtime'],c['min_interval'],c['randmzn'])
         while True:
-            # try:
-            if(joe.is_awake()):
-                print("Responding to DMs")
-                if(prod): tw.check_messages(True)
-                #randomize action between selected alternatives:
-                #calculate cumulative percentages:
-                q_beh = c['q_pct']
-                n_beh =  c['q_pct']+c['n_pct']
-                if( c['q_pct']+c['n_pct'] > 100): 
-                    print("[error] Invalid behavior config! Exiting...")
-                    exit(1)
-                r = random.randrange(100)
-                if(r < q_beh):
-                    print("Tweeting quote")
-                    if(prod): tw.tweet(qw.get_update())
-                elif(r < n_beh):
-                    print("Tweeting news")
-                    if(prod): tweet_news(tw,re,c['topic'],c['hashtags'])
-                else:
-                    dbeh = random.randrange(100) # the ole 50 / 50
-                    if(dbeh < 20): #comment 20% of the time. Else just retweet
-                        print("Replying to tweet")
-                        if(prod): reply_top_tweet(tw,re)
+            try:
+                if(joe.is_awake()):
+                    print("Responding to DMs")
+                    if(prod): tw.check_messages(True)
+                    #randomize action between selected alternatives:
+                    #calculate cumulative percentages:
+                    q_beh = c['q_pct']
+                    n_beh =  c['q_pct']+c['n_pct']
+                    if( c['q_pct']+c['n_pct'] > 100): 
+                        print("[error] Invalid behavior config! Exiting...")
+                        exit(1)
+                    r = random.randrange(100)
+                    if(r < q_beh):
+                        print("Tweeting quote")
+                        if(prod): tw.tweet(qw.get_update())
+                    elif(r < n_beh):
+                        print("Tweeting news")
+                        if(prod): tweet_news(tw,re,c['topic'],c['hashtags'])
                     else:
-                        print("Commenting on tweet")
-                        if(prod): tweet_top_tweet(tw,re,c['hashtags'])
-            next_intvl=joe.get_next_interval()
-            print("""Time is: {}. Sleeping for {} minutes""".format(getHour(c['timezone']),next_intvl))
-            #convert interval to seconds for sleep
-            sleep(minToSec(next_intvl))
-            # except:
-            #     print("[Error] Failed to complete action. Sleeping for 30 minutes")
-            #     sleep(minToSec(30))
+                        dbeh = random.randrange(100) # the ole 50 / 50
+                        if(dbeh < 20): #comment 20% of the time. Else just retweet
+                            print("Replying to tweet")
+                            if(prod): reply_top_tweet(tw,re)
+                        else:
+                            print("Commenting on tweet")
+                            if(prod): tweet_top_tweet(tw,re,c['hashtags'])
+                next_intvl=joe.get_next_interval()
+                print("""Time is: {}. Sleeping for {} minutes""".format(getHour(c['timezone']),next_intvl))
+                #convert interval to seconds for sleep
+                sleep(minToSec(next_intvl))
+            except:
+                print("[Error] Failed to complete action. Sleeping for 30 minutes")
+                sleep(minToSec(30))
 
 if __name__ == "__main__":
     #basic check for test parameter in commandline args
