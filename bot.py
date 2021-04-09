@@ -103,9 +103,8 @@ def tweet_news(tw,re,topic):
 
 def tweet_top_tweet(tw,re):
     tt = tw.get_top_tweet()
-    intro = """{} """.format(re.get_intro(tt.text))
+    intro = """{} """.format(re.get_intro(tt.text))[:278]
     print("Tweet Intro: ",intro)
-    # tw.tweet(new_tweet)
     tw.tweet_comment(tt,intro)
 
 def reply_top_tweet(tw,re):
