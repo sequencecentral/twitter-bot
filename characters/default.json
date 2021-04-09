@@ -12,14 +12,12 @@
             {"content":"Interesting perspective..."},
             {"content":"What to say..."},
             {"content":"This is pretty interesting:"},
-            {"content":"I would not have thought of this:"},
             {"content":"Very unusual!"},
             {"content":"This is worth discussing:"}, 
             {"content":"This viewpoint:"},
             {"content":"Everyone needs to see this!"},
             {"content":"Unusual!"},
             {"content":"Worth mentioning..."},
-            {"content":"Unique perspective!"},
             {"content":"AWESOME!!!"},
             {"content":"THIS IS SO COOL!"},
             {"content":"I love this!"},
@@ -38,7 +36,6 @@
             {"content":"The world is changing"},
             {"content":"This is so bad!"},
             {"content":"Ugghh!"},
-            {"content":"What kind of world are we living in?"},
             {"content":"How bad is this?"},
             {"content":"We need this to stop"},
             {"content":"AWFUL!"},
@@ -48,6 +45,11 @@
             {"content":"This makes no sense!"},
             {"content":"NOPE!"},
             {"content":"Who even thinks like this???"},
+            {"content":"Odd"},
+            {"content":"Baffling"},
+            {"content":"Puzzling"},
+            {"content":"Weird"},
+            {"content":"Strange"},
             {"content":"WRONG!"},
             {"content":"This is SO sad!"}
         ]},
@@ -60,13 +62,21 @@
             {"content":"OH YEAH!"},
             {"content":"SO CRAZY!"},
             {"content":"Totally!"},
-            {"content":"Beautiful!"}
+            {"content":"This is interesting"},
+            {"content":"Beautiful!"},
+            {"content":"Makes sense!"}
         ],
         "negative":[
             {"content":"Terrible!!!"},
             {"content":"SAD!"},
             {"content":"This needs to stop!"},
             {"content":"Who even does this?"},
+            {"content":"Weird"},
+            {"content":"Strange"},
+            {"content":"Odd"},
+            {"content":"What?"},
+            {"content":"This is weird"},
+            {"content":"OK..."},
             {"content":"Messed Up!"}
 
         ]
