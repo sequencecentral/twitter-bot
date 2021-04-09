@@ -162,8 +162,9 @@ def main():
                         if(prod): tweet_news(tw,re,c['topic'])
                     else:
                     # if(True):
+                        #split comments and replies
                         dbeh = random.randrange(100) # the ole 50 / 50
-                        if(dbeh < 1): #comment 20% of the time. Else just retweet
+                        if(dbeh < 20): #comment 20% of the time. Else just retweet
                             print("Replying to tweet")
                             if(prod): reply_top_tweet(tw,re)
                         else:
