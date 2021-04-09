@@ -97,12 +97,12 @@ def tweet_quote(tw):
 
 def tweet_news(tw,re,topic):
     news = newswidget.get_update(topic)
-    if(len(news>0)):
+    if(news):
         new_tweet = """{} {}""".format(re.get_intro(news), hashtags)
         print("Response: ",new_tweet)
         tw.tweet(new_tweet)
     else:
-        print('No news')
+        print('No news is good news')
 
 def tweet_top_tweet(tw,re):
     tt = tw.get_top_tweet()
