@@ -111,7 +111,7 @@ def reply_top_tweet(tw,re):
     resp = re.get_reply(tt.text)
     print("Tweet %s Response: %s "%(tt.text,resp))
     tw.tweet_reply(tt, resp)
-    # tw.tweet(resp)
+
 ########################################## MAIN ##########################################
 def main():
     c=load_config()
@@ -172,8 +172,8 @@ def main():
                 sleep(minToSec(next_intvl))
             except Exception as e:
                 print(e)
-                print("[Error] Failed to complete action. Sleeping for 30 minutes")
-                sleep(minToSec(30))
+                print("[Error] Failed to complete action. Sleeping for 15 minutes")
+                sleep(minToSec(15))
 
 if __name__ == "__main__":
     #basic check for test parameter in commandline args
