@@ -141,8 +141,7 @@ def main():
                 if(joe.is_awake()):
                     print("Responding to DMs")
                     if(prod): tw.check_messages(True)
-                    #randomize action between selected alternatives:
-                    #calculate cumulative percentages:
+                    #randomize action between selected alternatives, calculate cumulative percentages:
                     q_beh = c['q_pct']
                     n_beh =  c['q_pct']+c['n_pct']
                     if( c['q_pct']+c['n_pct'] > 100): 
