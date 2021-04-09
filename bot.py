@@ -188,8 +188,8 @@ def main():
                 next_intvl=joe.get_next_interval()
                 print("""Time is: {}. Sleeping for {} minutes""".format(getHour(c['timezone']),next_intvl))
                 #convert interval to seconds for sleep
-                # sleep(minToSec(next_intvl))
-                sleep(minToSec(1))
+                sleep(minToSec(next_intvl))
+                # sleep(minToSec(1))
             except Exception as e:
                 print(e)
                 print("[Error] Failed to complete action. Sleeping for 15 minutes")
