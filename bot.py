@@ -156,8 +156,9 @@ def main():
                     print("Responding to DMs")
                     if(prod): 
                         msgs = tw.check_messages(True)
-                        for msg in msgs:
-                            respond(tw,dm)
+                        if(msgs):
+                            for msg in msgs:
+                              respond(tw,dm)
                     #randomize action between selected alternatives, calculate cumulative percentages:
                     q_beh = c['q_pct']
                     n_beh =  c['q_pct']+c['n_pct']
