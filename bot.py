@@ -16,7 +16,7 @@ from BotStreamListener import BotStreamListener
 import basbot
 import quotewidget as qw
 import joesixpack as jsp
-import twitterwidget
+import twitwidget
 import newswidget
 
 def load_twitter_creds():
@@ -118,7 +118,7 @@ def main():
     c=load_config()
     auth = load_twitter_creds()
     #initialize twitter widget
-    tw = twitterwidget.TwitterWidget(auth['consumer_key'], auth['consumer_secret_key'], auth['access_token'], auth['access_token_secret'],c['query_string'],c['hashtags'])
+    tw = twitwidget.TwitterWidget(auth['consumer_key'], auth['consumer_secret_key'], auth['access_token'], auth['access_token_secret'],c['query_string'],c['hashtags'])
     #load responder
     re = basbot.responder.Responder()
     #first message check -- get all current messages
