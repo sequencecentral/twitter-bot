@@ -130,7 +130,7 @@ def tweet_reddit(tw,subreddit):
     creds = load_reddit_creds()
     rt = redditwidget.get_update(creds['client_id'],creds['client_secret'],"Python",subreddit)
     # print("Reddit retrieved:")
-    # print(rt)
+    print(rt)
     tw.tweet(rt['tweet'])
 
 def tweet_top_tweet(tw,re):
