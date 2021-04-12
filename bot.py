@@ -125,13 +125,14 @@ def tweet_news(tw,re,topic):
     else:
         print('No news is good news')
 
-def tweet_reddit(tw,subreddit):
+def tweet_reddit(tw,subreddit,hashtags="#news"):
     # print(env)
     creds = load_reddit_creds()
     rt = redditwidget2.get_update(creds['client_id'],creds['client_secret'],"Python",subreddit)
     print("Reddit retrieved:")
     print(rt)
-    tw.tweet(rt['tweet'][0:260]+hashtags)
+    tweet_post = """{} {}""".format(rt['tweet'][0:260],hashtags)
+    tw.tweet(tweet_post)
 
 def tweet_top_tweet(tw,re):
     tt = tw.get_top_tweet()
@@ -209,7 +210,7 @@ def main():
                         if(prod): tweet_news(tw,re,c['topic'])
                     elif(r < r_beh):
                         print("Tweeting from reddit")
-                        if(prod): tweet_reddit(tw,c['subreddit'])
+                        if(prod): tweet_reddit(tw,c['subreddit'],c['hashtags'])
                     else:
                     # if(True):
                         #split comments and replies
