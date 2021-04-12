@@ -18,7 +18,7 @@ import quotewidget as qw
 import joesixpack as jsp
 import twitwidget
 import newswidget
-import redditwidget
+import redditwidget2
 
 def load_twitter_creds():
     creds = {}
@@ -128,8 +128,8 @@ def tweet_news(tw,re,topic):
 def tweet_reddit(tw,subreddit):
     # print(env)
     creds = load_reddit_creds()
-    rt = redditwidget.get_update(creds['client_id'],creds['client_secret'],"Python",subreddit)
-    # print("Reddit retrieved:")
+    rt = redditwidget2.get_update(creds['client_id'],creds['client_secret'],"Python",subreddit)
+    print("Reddit retrieved:")
     print(rt)
     tw.tweet(rt['tweet'])
 
@@ -194,10 +194,10 @@ def main():
                     q_beh = int(c['q_pct'])
                     n_beh = q_beh + int(c['n_pct'])
                     r_beh = n_beh + int(c['r_pct'])
-                    if(True):
-                        print("Tweeting from reddit")
-                        tweet_reddit(tw,c['subreddit'])
-                    elif( c['q_pct']+c['n_pct'] > 100): 
+                    # if(True):
+                    #     print("Tweeting from reddit")
+                    #     tweet_reddit(tw,c['subreddit'])
+                    if( c['q_pct']+c['n_pct'] > 100): 
                         print("[error] Invalid behavior config! Exiting...")
                         exit(1)
                     r = random.randrange(100)

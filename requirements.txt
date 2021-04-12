@@ -35,4 +35,4 @@ quotewidget @ git+https://github.com/sequencecentral/QuoteWidget.git@main#egg=qu
 twitwidget @ git+https://github.com/sequencecentral/twitwidget.git@main#egg=TwitWidget
 # https://github.com/sequencecentral/twitwidget.git
 newswidget @ git+https://github.com/sequencecentral/NewsWidget.git@main#egg=newswidget
-redditwidget @ git+https://github.com/sequencecentral/redditwidget.git@main#egg=redditwidget
+redditwidget2 @ git+https://github.com/sequencecentral/RedditWidget2.git@main#egg=redditwidget2
