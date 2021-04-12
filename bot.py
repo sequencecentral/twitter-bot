@@ -18,6 +18,8 @@ import quotewidget as qw
 import joesixpack as jsp
 import twitwidget
 import newswidget
+import redditwidget
+import env as e
 
 def load_twitter_creds():
     creds = {}
@@ -39,6 +41,22 @@ def load_twitter_creds():
             exit(1)
     return creds
 
+def load_reddit_creds():
+    creds = {}
+    try:
+        creds['client_id'] = environ['REDDIT_CLIENT_ID']
+        creds['client_secret'] = environ['REDDIT_CLIENT_SECRET']
+    except:
+        print("Env not found. Attempting to load Reddit AUTH from local file.")
+        try:
+            import env
+            creds['client_id'] = env.REDDIT_CLIENT_ID
+            creds['client_secret'] = env.REDDIT_CLIENT_SECRET
+        except:
+            print("Unable to authenticate to Reddit")
+            exit(1)
+    return creds
+
 def load_config():
     c={}
     global hashtags
@@ -52,6 +70,8 @@ def load_config():
         c['timezone']=environ['TIMEZONE'].lower()
         c['q_pct']=int(environ['QUOTES_PERCENT'])
         c['n_pct']=int(environ['NEWS_PERCENT'])
+        c['r_pct']=int(environ['REDDIT_PERCENT'])
+        c['subreddit']=environ['SUBREDDIT'].lower()
         c['topic']=environ['NEWS_TOPIC'].lower()
         c['min_pop']=int(environ['MIN_POP'])
         c['character']=environ['CHARACTER'].lower()
@@ -71,6 +91,8 @@ def load_config():
             c['timezone']=(config.TIMEZONE).lower()
             c['q_pct']=int(config.QUOTES_PERCENT)
             c['n_pct']=int(config.NEWS_PERCENT)
+            c['r_pct']=int(config.REDDIT_PERCENT)
+            c['subreddit']=config.SUBREDDIT.lower()
             c['topic']=config.NEWS_TOPIC.lower()
             c['min_pop']=int(config.MIN_POP)
             c['character']=config.CHARACTER.lower()
@@ -103,6 +125,14 @@ def tweet_news(tw,re,topic):
         tw.tweet(new_tweet)
     else:
         print('No news is good news')
+
+def tweet_reddit(tw,subreddit):
+    # print(env)
+    creds = load_reddit_creds()
+    rt = redditwidget.get_update(creds['client_id'],creds['client_secret'],"Python",subreddit)
+    # print("Reddit retrieved:")
+    # print(rt)
+    tw.tweet(rt['tweet'])
 
 def tweet_top_tweet(tw,re):
     tt = tw.get_top_tweet()
@@ -162,10 +192,13 @@ def main():
                               respond(tw,dm)
                         else:
                             print("No messages")
-                    #randomize action between selected alternatives, calculate cumulative percentages:
-                    q_beh = c['q_pct']
-                    n_beh =  c['q_pct']+c['n_pct']
-                    if( c['q_pct']+c['n_pct'] > 100): 
+                    q_beh = int(c['q_pct'])
+                    n_beh = q_beh + int(c['n_pct'])
+                    r_beh = n_beh + int(c['r_pct'])
+                    if(True):
+                        print("Tweeting from reddit")
+                        tweet_reddit(tw,c['subreddit'])
+                    elif( c['q_pct']+c['n_pct'] > 100): 
                         print("[error] Invalid behavior config! Exiting...")
                         exit(1)
                     r = random.randrange(100)
@@ -175,6 +208,9 @@ def main():
                     elif(r < n_beh):
                         print("Tweeting news")
                         if(prod): tweet_news(tw,re,c['topic'])
+                    elif(r < r_beh):
+                        print("Tweeting from reddit")
+                        if(prod): tweet_reddit(tw,c['subreddit'])
                     else:
                     # if(True):
                         #split comments and replies
@@ -205,3 +241,4 @@ if __name__ == "__main__":
         else:
             prod=True
     main()
+    # tweet_reddit()
