@@ -58,7 +58,6 @@ def load_reddit_creds():
 
 def load_config():
     c={}
-    global hashtags
     try:
         c['query_string']=environ['QUERY_STRING']
         c['hashtags']=environ['HASHTAGS'].lower()
@@ -101,6 +100,7 @@ def load_config():
         except:
             print("Failed to load config")
             exit(1)
+        global hashtags
         hashtags = c['hashtags']
     return c
 
