@@ -19,7 +19,6 @@ import joesixpack as jsp
 import twitwidget
 import newswidget
 import redditwidget
-import env as e
 
 def load_twitter_creds():
     creds = {}
