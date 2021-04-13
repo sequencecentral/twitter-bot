@@ -104,6 +104,14 @@ def load_config():
         hashtags = c['hashtags']
     return c
 
+#split list on spaces
+def get_item(lis):
+    items = lis.split(' ')
+    if(len(items)>1):
+        return random.choice(items)
+    else:
+        return lis
+
 ################################# TIME #################################
 def minToSec(mins=1):
     return mins*60
@@ -125,14 +133,41 @@ def tweet_news(tw,re,topic):
     else:
         print('No news is good news')
 
-def tweet_reddit(tw,subreddit,hashtags="#news"):
+
+def tweet_reddit(tw,re,subreddit,hashtags="#news"):
     # print(env)
+    rejects = ['reddit.com','redd.it','reddit','nsfw']
     creds = load_reddit_creds()
-    rt = redditwidget2.get_update(creds['client_id'],creds['client_secret'],"Python",subreddit)
-    print("Reddit retrieved:")
-    print(rt)
-    tweet_post = """{} {}""".format(rt['tweet'][0:260],hashtags)
-    tw.tweet(tweet_post)
+    max_attempts=5
+    attempts = 0
+    post = False
+    while(not post and attempts < max_attempts):
+        attempts += 1
+        sr = get_item(subreddit)
+        try:
+            print("Getting post from subreddit %s. Attempt %d"%(sr, attempts))
+            post = redditwidget2.get_update(creds['client_id'],creds['client_secret'],"Python",sr)
+            print("Retrieved post: %s"%(post['title']))
+            if(not post): raise Exception("Blank Post")
+            if any(term in post['url'] for term in rejects):
+                raise Exception("Invalid Post")
+            else:
+                print("Going with reddit post: %s"%(post['title']))
+                break
+        except Exception as e:
+            print(e)
+            print("Post is invalid. Trying again.")
+            post = False
+    if(post):
+        tweet_post = """{} {}""".format(post['tweet'][0:260],hashtags)
+        print("Tweeting post:  %s"%(tweet_post))
+        if(prod): 
+            tw.tweet(tweet_post)
+        else:
+            print(tweet_post)
+    else:
+        print("Tweeting top tweet instead.")
+        tweet_top_tweet(tw,re)
 
 def tweet_top_tweet(tw,re):
     tt = tw.get_top_tweet()
@@ -195,11 +230,8 @@ def main():
                     q_beh = int(c['q_pct'])
                     n_beh = q_beh + int(c['n_pct'])
                     r_beh = n_beh + int(c['r_pct'])
-                    # if(True):
-                    #     print("Tweeting from reddit")
-                    #     tweet_reddit(tw,c['subreddit'])
                     if( c['q_pct']+c['n_pct'] > 100): 
-                        print("[error] Invalid behavior config! Exiting...")
+                        print("Error] Invalid behavior config! Exiting...")
                         exit(1)
                     r = random.randrange(100)
                     if(r < q_beh):
@@ -210,7 +242,7 @@ def main():
                         if(prod): tweet_news(tw,re,c['topic'])
                     elif(r < r_beh):
                         print("Tweeting from reddit")
-                        if(prod): tweet_reddit(tw,c['subreddit'],c['hashtags'])
+                        if(prod): tweet_reddit(tw,re,c['subreddit'],c['hashtags'])
                     else:
                     # if(True):
                         #split comments and replies
@@ -231,6 +263,17 @@ def main():
                 print("[Error] Failed to complete action. Sleeping for 15 minutes")
                 sleep(minToSec(15))
 
+def test():
+    c=load_config()
+    auth = load_twitter_creds()
+    #initialize twitter widget
+    tw = twitwidget.TwitterWidget(auth['consumer_key'], auth['consumer_secret_key'], auth['access_token'], auth['access_token_secret'],c['query_string'],c['hashtags'])
+    #load responder
+    re = basbot.responder.Responder()
+    #first message check -- get all current messages
+    print("Tweeting from reddit")
+    tweet_reddit(tw,re,c['subreddit'],c['hashtags'])
+
 if __name__ == "__main__":
     #basic check for test parameter in commandline args
     global prod
@@ -240,5 +283,7 @@ if __name__ == "__main__":
             prod=False
         else:
             prod=True
-    main()
-    # tweet_reddit()
+    if(prod):
+        main()
+    else:
+        test()
