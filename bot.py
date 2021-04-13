@@ -106,10 +106,10 @@ def load_config():
 
 #split list on spaces
 def get_item(lis):
-    if(type(lis) == str):
-        return lis
+    items = lis.split(' ')
+    if(len(items)==1):
+        return items
     else:
-        items = lis.split(' ')
         return random.choice(items)
 
 ################################# TIME #################################
