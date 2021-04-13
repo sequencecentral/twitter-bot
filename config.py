@@ -7,7 +7,8 @@ QUOTES_PERCENT=10
 NEWS_PERCENT=10
 REDDIT_PERCENT=10
 NEWS_TOPIC='cybersecurity OR security OR infosec OR ransomware OR tech'
-SUBREDDIT='science technology cybersecurity nottheonion'
+SUBREDDIT= 'nottheonion' 
+#'science technology cybersecurity nottheonion'
 WAKETIME=5
 BEDTIME=20
 TIMEZONE='America/Los_Angeles'

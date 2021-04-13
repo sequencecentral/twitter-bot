@@ -106,11 +106,11 @@ def load_config():
 
 #split list on spaces
 def get_item(lis):
-    items = lis.split(' ')
-    if(len(items)>1):
-        return random.choice(items)
-    else:
+    if(type(lis) == str):
         return lis
+    else:
+        items = lis.split(' ')
+        return random.choice(items)
 
 ################################# TIME #################################
 def minToSec(mins=1):
@@ -146,8 +146,9 @@ def tweet_reddit(tw,re,subreddit,hashtags="#news"):
         sr = get_item(subreddit)
         try:
             print("Getting post from subreddit %s. Attempt %d"%(sr, attempts))
-            post = redditwidget2.get_update(creds['client_id'],creds['client_secret'],"Python",sr)
-            print("Retrieved post: %s"%(post['title']))
+            post = redditwidget2.get_update(creds['client_id'],creds['client_secret'],"Mozilla Firefox Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:53.0) Gecko/20100101 Firefox/53.0",sr)
+            print("Retrieved post:")
+            print(post)
             if(not post): raise Exception("Blank Post")
             if any(term in post['url'] for term in rejects):
                 raise Exception("Invalid Post")
