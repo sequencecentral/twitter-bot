@@ -1,14 +1,13 @@
 QUERY_STRING="#genomics OR #genetics OR #science OR #python OR cybersecurity OR infosec OR bitcoin OR crypto OR cryptocurrency OR monero OR  #retweet OR #like OR #follow OR #love  OR #twitter OR #repost OR #instagram OR #followme OR #share OR #tweet OR #likeforlikes OR #followback OR #k OR #likes OR #viral OR #tweets OR #likeforfollow"
-HASHTAGS="#cybersecurity #infosec #science #crypto"
+HASHTAGS="#news"
 
 INTERVAL=30
 RANDOMIZATION=50
 QUOTES_PERCENT=1
 NEWS_PERCENT=1
-REDDIT_PERCENT=80
+REDDIT_PERCENT=10
 NEWS_TOPIC='cybersecurity OR security OR infosec OR ransomware OR tech'
-SUBREDDIT= 'nottheonion' 
-#'science technology cybersecurity nottheonion'
+SUBREDDIT= 'science technology cybersecurity'
 WAKETIME=5
 BEDTIME=20
 TIMEZONE='America/Los_Angeles'

@@ -133,7 +133,8 @@ def tweet_quote(tw):
 def tweet_news(tw,re,topic):
     news = newswidget.get_update(topic)
     if(news):
-        new_tweet = """{} {}""".format(re.get_intro(news), hashtags)
+        htags = basbot.tag_it(news,hashtags)
+        new_tweet = """{} {}""".format(re.get_intro(news), htags)
         print("Response: ",new_tweet)
         try:
             tw.tweet(new_tweet)
@@ -169,7 +170,8 @@ def tweet_reddit(tw,re,subreddit,hashtags="#news"):
             print("Post is invalid. Trying again.")
             post = False
     if(post):
-        tweet_post = """{} {}""".format(post['tweet'][0:260],hashtags)
+        htags = basbot.tag_it(post['title'],hashtags)
+        tweet_post = """{} {}""".format(post['tweet'][0:260],htags)
         print("Tweeting post:  %s"%(tweet_post))
         if(prod): 
             try:
@@ -185,10 +187,11 @@ def tweet_reddit(tw,re,subreddit,hashtags="#news"):
 
 def tweet_top_tweet(tw,re):
     tt = tw.get_top_tweet()
-    intro = """{} """.format(re.get_intro(tt.text))[:278]
+    htags = basbot.tag_it(tt.text,hashtags)
+    intro = """{}""".format(re.get_intro(tt.text))[:278]
     print("Tweet Intro: ",intro)
     try:
-        tw.tweet_comment(tt,intro)
+        tw.tweet_comment(tt,intro,htags)
     except Exception as e:
         print(e)
         print("Unable to tweet.")
