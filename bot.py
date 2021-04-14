@@ -183,11 +183,11 @@ def tweet_reddit(tw,re,subreddit,hashtags="#news"):
             print(tweet_post)
     else:
         print("Tweeting top tweet instead.")
-        tweet_top_tweet(tw,re)
+        tweet_top_tweet(tw,re,hashtags)
 
-def tweet_top_tweet(tw,re):
+def tweet_top_tweet(tw,re,hashtags="#news"):
     tt = tw.get_top_tweet()
-    htags = basbot.tag_it(tt.text,c['hashtags'])
+    htags = basbot.tag_it(tt.text,hashtags)
     intro = """{}""".format(re.get_intro(tt.text))[:278]
     print("Tweet Intro: ",intro)
     try:
@@ -280,7 +280,7 @@ def main():
                             if(prod): reply_top_tweet(tw,re)
                         else:
                             print("Commenting on tweet")
-                            if(prod): tweet_top_tweet(tw,re)
+                            if(prod): tweet_top_tweet(tw,re,c['hashtags'])
                 next_intvl=joe.get_next_interval()
                 print("""Time is: {}. Sleeping for {} minutes""".format(getHour(c['timezone']),next_intvl))
                 #convert interval to seconds for sleep
