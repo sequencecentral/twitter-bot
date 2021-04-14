@@ -286,7 +286,7 @@ if __name__ == "__main__":
             prod=False
             print("Running in test mode")
             test()
-        else:
-            prod=True
-            print("Running in prod mode")
-            main()
+            exit(0)
+    print("Running in prod mode")
+    main()
+    exit(0)
