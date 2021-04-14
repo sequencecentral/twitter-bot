@@ -3,9 +3,9 @@ HASHTAGS="#cybersecurity #infosec #science #crypto"
 
 INTERVAL=30
 RANDOMIZATION=50
-QUOTES_PERCENT=10
-NEWS_PERCENT=10
-REDDIT_PERCENT=10
+QUOTES_PERCENT=1
+NEWS_PERCENT=1
+REDDIT_PERCENT=80
 NEWS_TOPIC='cybersecurity OR security OR infosec OR ransomware OR tech'
 SUBREDDIT= 'nottheonion' 
 #'science technology cybersecurity nottheonion'

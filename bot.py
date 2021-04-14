@@ -13,9 +13,10 @@ import nltk
 
 from BotStreamListener import BotStreamListener
 # import seqbot
-import basbot
+import basicbot as basbot
 import quotewidget as qw
-import joesixpack as jsp
+# import joesixpack as jsp
+import averagejoe as jsp
 import twitterwidget
 import newswidget
 import redditwidget
@@ -109,7 +110,7 @@ def load_config():
 def get_item(lis):
     items = lis.split(' ')
     if(len(items)==1):
-        return items
+        return items[0]
     else:
         return random.choice(items)
 
