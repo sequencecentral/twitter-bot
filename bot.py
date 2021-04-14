@@ -187,7 +187,7 @@ def tweet_reddit(tw,re,subreddit,hashtags="#news"):
 
 def tweet_top_tweet(tw,re):
     tt = tw.get_top_tweet()
-    htags = basbot.tag_it(tt.text,hashtags)
+    htags = basbot.tag_it(tt.text,c['hashtags'])
     intro = """{}""".format(re.get_intro(tt.text))[:278]
     print("Tweet Intro: ",intro)
     try:
