@@ -35,4 +35,5 @@ twitterwidget @ git+https://github.com/sequencecentral/Twitter-Widget.git@main#e
 # twitwidget @ git+https://github.com/sequencecentral/twitwidget.git@main#egg=TwitWidget@v1.0
 # https://github.com/sequencecentral/twitwidget.git
 newswidget @ git+https://github.com/sequencecentral/NewsWidget.git@main#egg=newswidget
-redditwidget2 @ git+https://github.com/sequencecentral/RedditWidget2.git@main#egg=redditwidget2
+# redditwidget2 @ git+https://github.com/sequencecentral/RedditWidget2.git@main#egg=redditwidget2
+redditwidget @ git+https://github.com/sequencecentral/RedditWidget.git@main#egg=redditwidget@v1.0

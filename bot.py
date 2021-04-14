@@ -18,7 +18,7 @@ import quotewidget as qw
 import joesixpack as jsp
 import twitterwidget
 import newswidget
-import redditwidget2
+import redditwidget
 version = "1.0"
 
 def load_twitter_creds():
@@ -155,7 +155,7 @@ def tweet_reddit(tw,re,subreddit,hashtags="#news"):
         sr = get_item(subreddit)
         try:
             print("Getting post from subreddit %s. Attempt %d"%(sr, attempts))
-            post = redditwidget2.get_update(creds['client_id'],creds['client_secret'],"Mozilla Firefox Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:53.0) Gecko/20100101 Firefox/53.0",sr)
+            post = redditwidget.get_update(creds['client_id'],creds['client_secret'],"Mozilla Firefox Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:53.0) Gecko/20100101 Firefox/53.0",sr)
             print("Retrieved post:")
             print(post)
             if(not post): raise Exception("Blank Post")
