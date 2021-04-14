@@ -144,7 +144,6 @@ def tweet_news(tw,re,topic):
 
 
 def tweet_reddit(tw,re,subreddit,hashtags="#news"):
-    # print(env)
     rejects = ['reddit.com','redd.it','reddit','nsfw']
     creds = load_reddit_creds()
     max_attempts=5
