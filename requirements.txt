@@ -30,7 +30,7 @@ virtualenv==20.2.1
 basbot @ git+https://github.com/sequencecentral/basbot.git@main#egg=basbot
 joesixpack @ git+https://github.com/sequencecentral/Joe-Sixpack.git@main#egg=joesixpack
 quotewidget @ git+https://github.com/sequencecentral/QuoteWidget.git@main#egg=quotewidget
-twitterwidget @ git+https://github.com/sequencecentral/Twitter-Widget.git@main#egg=twitterwidget@v1.2
+twitterwidget @ git+https://github.com/sequencecentral/Twitter-Widget.git@main#egg=twitterwidget@v1.3
 # twwidget @ git+https://github.com/sequencecentral/TwWidget.git@main#egg=TwWidget
 # twitwidget @ git+https://github.com/sequencecentral/twitwidget.git@main#egg=TwitWidget@v1.0
 # https://github.com/sequencecentral/twitwidget.git

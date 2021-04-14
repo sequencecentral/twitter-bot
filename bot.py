@@ -271,8 +271,6 @@ def main():
                         print("Tweeting from reddit")
                         if(prod): tweet_reddit(tw,re,c['subreddit'],c['hashtags'])
                     else:
-                    # if(True):
-                        #split comments and replies
                         dbeh = random.randrange(100) # the ole 50 / 50
                         if(dbeh < 20): #comment 20% of the time. Else just retweet
                             print("Replying to tweet")
