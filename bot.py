@@ -19,6 +19,7 @@ import joesixpack as jsp
 import twitwidget
 import newswidget
 import redditwidget2
+global version = "1.0"
 
 def load_twitter_creds():
     creds = {}
@@ -276,17 +277,15 @@ def test():
     tweet_reddit(tw,re,c['subreddit'],c['hashtags'])
 
 if __name__ == "__main__":
-    #basic check for test parameter in commandline args
+    print("Running Twitter Bot Version %s"%(version))
     global prod
     prod = True
     if(len(sys.argv)>1):
         if('t' in sys.argv[1].lower()):
             prod=False
             print("Running in test mode")
+            test()
         else:
             prod=True
             print("Running in prod mode")
-    if(prod):
-        main()
-    else:
-        test()
+            main()
