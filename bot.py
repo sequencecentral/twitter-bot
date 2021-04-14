@@ -179,9 +179,12 @@ def tweet_reddit(tw,re,subreddit,hashtags="#news"):
             except Exception as e:
                 print(e)
                 print("Unable to tweet post")
+                print("Tweeting top tweet instead.")
+                tweet_top_tweet(tw,re,hashtags)
         else:
             print(tweet_post)
     else:
+        print("No post identified.")
         print("Tweeting top tweet instead.")
         tweet_top_tweet(tw,re,hashtags)
 
