@@ -16,7 +16,7 @@ from BotStreamListener import BotStreamListener
 import basbot
 import quotewidget as qw
 import joesixpack as jsp
-import twitwidget
+import twitterwidget
 import newswidget
 import redditwidget2
 version = "1.0"
@@ -123,14 +123,22 @@ def getHour(timezone):
 
 ################################# ACTIONS #################################
 def tweet_quote(tw):
-    tw.tweet(qw.get_update())
+    try:
+        tw.tweet(qw.get_update())
+    except Exception as e:
+        print(e)
+        print("Unable to tweet")
 
 def tweet_news(tw,re,topic):
     news = newswidget.get_update(topic)
     if(news):
         new_tweet = """{} {}""".format(re.get_intro(news), hashtags)
         print("Response: ",new_tweet)
-        tw.tweet(new_tweet)
+        try:
+            tw.tweet(new_tweet)
+        except Exception as e:
+            print(e)
+            print("Unable to tweet news.")
     else:
         print('No news is good news')
 
@@ -164,7 +172,11 @@ def tweet_reddit(tw,re,subreddit,hashtags="#news"):
         tweet_post = """{} {}""".format(post['tweet'][0:260],hashtags)
         print("Tweeting post:  %s"%(tweet_post))
         if(prod): 
-            tw.tweet(tweet_post)
+            try:
+                tw.tweet(tweet_post)
+            except Exception as e:
+                print(e)
+                print("Unable to tweet post")
         else:
             print(tweet_post)
     else:
@@ -175,19 +187,31 @@ def tweet_top_tweet(tw,re):
     tt = tw.get_top_tweet()
     intro = """{} """.format(re.get_intro(tt.text))[:278]
     print("Tweet Intro: ",intro)
-    tw.tweet_comment(tt,intro)
+    try:
+        tw.tweet_comment(tt,intro)
+    except Exception as e:
+        print(e)
+        print("Unable to tweet.")
 
 def reply_top_tweet(tw,re):
     tt = tw.get_top_tweet()
     resp = re.get_reply(tt.text)
     print("Tweet %s Response: %s "%(tt.text,resp))
-    tw.tweet_reply(tt, resp)
+    try:
+        tw.tweet_reply(tt, resp)
+    except Exception as e:
+        print(e)
+        print("Unable to tweet.")
 
 def respond(tw, dm):
     resp = basbot.get_response('default',dm.text)
     print("Responding to message:")
     print("DM %s Response: %s "%(dm.text,resp))
-    tw.respond(dm,resp)
+    try:
+        tw.respond(dm,resp)
+    except Exception as e:
+        print(e)
+        print("Unable to send response")
 
 ########################################## MAIN ##########################################
 def main():
@@ -195,7 +219,7 @@ def main():
     auth = load_twitter_creds()
     #initialize twitter widget
     print("Initializing Twitter Widget.")
-    tw = twitwidget.TwitterWidget(auth['consumer_key'], auth['consumer_secret_key'], auth['access_token'], auth['access_token_secret'],c['query_string'],c['hashtags'])
+    tw = twitterwidget.TwitterWidget(auth['consumer_key'], auth['consumer_secret_key'], auth['access_token'], auth['access_token_secret'],c['query_string'],c['hashtags'])
     #load responder
     re = basbot.responder.Responder()
     #first message check -- get all current messages
