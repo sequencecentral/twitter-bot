@@ -194,7 +194,7 @@ def main():
     c=load_config()
     auth = load_twitter_creds()
     #initialize twitter widget
-    print("Initializing Twitter Widget")
+    print("Initializing Twitter Widget.")
     tw = twitwidget.TwitterWidget(auth['consumer_key'], auth['consumer_secret_key'], auth['access_token'], auth['access_token_secret'],c['query_string'],c['hashtags'])
     #load responder
     re = basbot.responder.Responder()
