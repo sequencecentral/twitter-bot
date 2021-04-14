@@ -19,7 +19,7 @@ import joesixpack as jsp
 import twitwidget
 import newswidget
 import redditwidget2
-global version = "1.0"
+version = "1.0"
 
 def load_twitter_creds():
     creds = {}
@@ -194,6 +194,7 @@ def main():
     c=load_config()
     auth = load_twitter_creds()
     #initialize twitter widget
+    print("Initializing Twitter Widget")
     tw = twitwidget.TwitterWidget(auth['consumer_key'], auth['consumer_secret_key'], auth['access_token'], auth['access_token_secret'],c['query_string'],c['hashtags'])
     #load responder
     re = basbot.responder.Responder()
