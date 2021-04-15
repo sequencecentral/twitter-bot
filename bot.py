@@ -73,7 +73,7 @@ def load_config():
         c['n_pct']=int(environ['NEWS_PERCENT'])
         c['r_pct']=int(environ['REDDIT_PERCENT'])
         c['genomics_pct']=int(environ['GENOMICS_PERCENT'])
-        c['covid_pct']=int(environ['COVID19_PERCENT'])
+        c['covid19_pct']=int(environ['COVID19_PERCENT'])
         c['subreddit']=environ['SUBREDDIT'].lower()
         c['topic']=environ['NEWS_TOPIC'].lower()
         c['min_pop']=int(environ['MIN_POP'])
@@ -152,8 +152,7 @@ def tweet_news(tw,re,topic):
 def tweet_pubmed(tw,re,feed):
     try:
         ref = pubmedwidget.get_update(feed)
-        print("Retrieved:")
-        print(ref)
+        print("Retrieved tweet from pubmed %s"%(ref['tweet']))
         tw.tweet(ref['tweet'])
     except Exception as e:
         print(e)
