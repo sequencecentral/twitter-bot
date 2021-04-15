@@ -169,7 +169,7 @@ def tweet_covid19(tw,re):
     tweet_pubmed(tw,re,pubmedwidget.feeds['covid19'])
 
 def tweet_reddit(tw,re,subreddit,hashtags="#news"):
-    rejects = ['reddit.com','redd.it','reddit','nsfw']
+    rejects = ['reddit.com','redd.it','reddit','nsfw','redd']
     creds = load_reddit_creds()
     max_attempts=5
     attempts = 0
@@ -184,6 +184,8 @@ def tweet_reddit(tw,re,subreddit,hashtags="#news"):
             print(post)
             if(not post): raise Exception("Blank Post")
             if any(term in post['url'] for term in rejects):
+                raise Exception("Invalid Post")
+            elif any(term in post['title'].lower() for term in rejects):
                 raise Exception("Invalid Post")
             else:
                 print("Going with reddit post: %s"%(post['title']))
