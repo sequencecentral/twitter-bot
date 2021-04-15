@@ -21,6 +21,7 @@ import twitterwidget
 import newswidget
 import redditwidget
 import pubmedwidget
+import rsswidget
 version = "1.0"
 
 def load_twitter_creds():
@@ -72,6 +73,8 @@ def load_config():
         c['q_pct']=int(environ['QUOTES_PERCENT'])
         c['n_pct']=int(environ['NEWS_PERCENT'])
         c['r_pct']=int(environ['REDDIT_PERCENT'])
+        c['tc_pct']=int(environ['TECHCRUNCH_PERCENT'])
+        c['ts_pct']=int(environ['TECHSTARTUP_PERCENT'])
         c['genomics_pct']=int(environ['GENOMICS_PERCENT'])
         c['covid19_pct']=int(environ['COVID19_PERCENT'])
         c['subreddit']=environ['SUBREDDIT'].lower()
@@ -95,6 +98,8 @@ def load_config():
             c['q_pct']=int(config.QUOTES_PERCENT)
             c['n_pct']=int(config.NEWS_PERCENT)
             c['r_pct']=int(config.REDDIT_PERCENT)
+            c['tc_pct']=int(config.TECHCRUNCH_PERCENT)
+            c['ts_pct']=int(config.TECHSTARTUP_PERCENT)
             c['genomics_pct']=int(config.GENOMICS_PERCENT)
             c['covid19_pct']=int(config.COVID19_PERCENT)
             c['subreddit']=config.SUBREDDIT.lower()
@@ -155,7 +160,7 @@ def tweet_pubmed(tw,re,feed):
     try:
         ref = pubmedwidget.get_update(feed)
         print("Retrieved tweet from pubmed %s"%(ref['tweet']))
-        htags = basbot.tag_it(ref['title'],"science")
+        htags = basbot.tag_it(ref['title'],"#science")
         tweet_post = """{} {}""".format(ref['tweet'],htags)
         print("Tweeting post:  %s"%(tweet_post))
         tw.tweet(tweet_post)
@@ -169,6 +174,25 @@ def tweet_genomics(tw,re):
 
 def tweet_covid19(tw,re):
     tweet_pubmed(tw,re,pubmedwidget.feeds['covid19'])
+
+def tweet_rss(tw,re,feed_name):
+    try:
+        ref = rsswidget.get_update(feed_name)
+        print("Retrieved tweet from RSS %s"%(ref['tweet']))
+        htags = basbot.tag_it(ref['title'],"#news")
+        tweet_post = """{} {}""".format(ref['tweet'],htags)
+        print("Tweeting post:  %s"%(tweet_post))
+        tw.tweet(tweet_post)
+    except Exception as e:
+        print(e)
+        print("Unable to get genomics update")
+        tweet_top_tweet(tw,re)
+
+def tweet_techcrunch(tw,re):
+    tweet_rss("techcrunch")
+
+def tweet_techstartup(tw,re):
+    tweet_rss("startups")
 
 def tweet_reddit(tw,re,subreddit,hashtags="#news"):
     rejects = ['reddit.com','redd.it','reddit','nsfw','redd']
@@ -292,6 +316,8 @@ def main():
                     r_beh = n_beh + int(c['r_pct'])
                     genomics_beh = r_beh + int(c['genomics_pct'])
                     covid19_beh = genomics_beh + int(c['covid19_pct'])
+                    tc_beh = covid19_beh + int(c['tc_pct'])
+                    ts_beh = tc_beh + int(c['ts_pct'])
                     if( c['q_pct']+c['n_pct'] > 100): 
                         print("Error] Invalid behavior config! Exiting...")
                         exit(1)
@@ -311,6 +337,12 @@ def main():
                     elif(r < covid19_beh):
                         print("Tweeting COVID19")
                         if(prod): tweet_covid19(tw,re)
+                    elif(r < tc_beh):
+                        print("TechCrunch")
+                        if(prod): tweet_techcrunch(tw,re)
+                    elif(r < ts_beh):
+                        print("TechStartups")
+                        if(prod):tweet_techstartups(tw,re)
                     else:
                         dbeh = random.randrange(100) # the ole 50 / 50
                         if(dbeh < 20): #comment 20% of the time. Else just retweet
