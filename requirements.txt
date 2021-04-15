@@ -13,6 +13,7 @@ numpy
 oauthlib==3.1.0
 praw==7.2.0
 PySocks==1.7.1
+pyshorteners==1.0.1
 python-dotenv==0.15.0
 pytz==2021.1
 regex==2021.3.17
@@ -30,7 +31,7 @@ averagejoe @ git+https://github.com/sequencecentral/Average-Joe.git@main#egg=ave
 quotewidget @ git+https://github.com/sequencecentral/QuoteWidget.git@main#egg=quotewidget
 twitterwidget @ git+https://github.com/sequencecentral/Twitter-Widget.git@main#egg=twitterwidget@v1.4
 newswidget @ git+https://github.com/sequencecentral/NewsWidget.git@main#egg=newswidget
-redditwidget @ git+https://github.com/sequencecentral/RedditWidget.git@main#egg=redditwidget@v1.0
+redditwidget @ git+https://github.com/sequencecentral/RedditWidget.git@main#egg=redditwidget@v1.1
 
 # basbot @ git+https://github.com/sequencecentral/basbot.git@main#egg=basbot
 # joesixpack @ git+https://github.com/sequencecentral/Joe-Sixpack.git@main#egg=joesixpack
