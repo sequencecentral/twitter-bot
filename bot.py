@@ -20,6 +20,7 @@ import averagejoe as jsp
 import twitterwidget
 import newswidget
 import redditwidget
+import pubmedwidget
 version = "1.0"
 
 def load_twitter_creds():
@@ -71,6 +72,8 @@ def load_config():
         c['q_pct']=int(environ['QUOTES_PERCENT'])
         c['n_pct']=int(environ['NEWS_PERCENT'])
         c['r_pct']=int(environ['REDDIT_PERCENT'])
+        c['genomics_pct']=int(environ['GENOMICS_PERCENT'])
+        c['covid_pct']=int(environ['COVID19_PERCENT'])
         c['subreddit']=environ['SUBREDDIT'].lower()
         c['topic']=environ['NEWS_TOPIC'].lower()
         c['min_pop']=int(environ['MIN_POP'])
@@ -92,6 +95,8 @@ def load_config():
             c['q_pct']=int(config.QUOTES_PERCENT)
             c['n_pct']=int(config.NEWS_PERCENT)
             c['r_pct']=int(config.REDDIT_PERCENT)
+            c['genomics_pct']=int(config.GENOMICS_PERCENT)
+            c['covid19_pct']=int(config.COVID19_PERCENT)
             c['subreddit']=config.SUBREDDIT.lower()
             c['topic']=config.NEWS_TOPIC.lower()
             c['min_pop']=int(config.MIN_POP)
@@ -144,6 +149,21 @@ def tweet_news(tw,re,topic):
     else:
         print('No news is good news')
 
+def tweet_pubmed(tw,re,feed):
+    try:
+        ref = pubmedwidget.get_update(feed)
+        print("Retrieved:")
+        print(ref)
+        tw.tweet(ref['tweet'])
+    except Exception as e:
+        print(e)
+        print("Unable to get genomics update")
+
+def tweet_genomics(tw,re):
+    tweet_pubmed(tw,re,pubmedwidget.feeds['genomics'])
+
+def tweet_covid19(tw,re):
+    tweet_pubmed(tw,re,pubmedwidget.feeds['covid19'])
 
 def tweet_reddit(tw,re,subreddit,hashtags="#news"):
     rejects = ['reddit.com','redd.it','reddit','nsfw']
@@ -263,6 +283,8 @@ def main():
                     q_beh = int(c['q_pct'])
                     n_beh = q_beh + int(c['n_pct'])
                     r_beh = n_beh + int(c['r_pct'])
+                    genomics_beh = r_beh + int(c['genomics_pct'])
+                    covid19_beh = genomics_beh + int(c['covid19_pct'])
                     if( c['q_pct']+c['n_pct'] > 100): 
                         print("Error] Invalid behavior config! Exiting...")
                         exit(1)
@@ -276,6 +298,12 @@ def main():
                     elif(r < r_beh):
                         print("Tweeting from reddit")
                         if(prod): tweet_reddit(tw,re,c['subreddit'],c['hashtags'])
+                    elif(r < genomics_beh):
+                        print("Tweeting Genomics")
+                        if(prod): tweet_genomics(tw,re)
+                    elif(r < covid19_beh):
+                        print("Tweeting COVID19")
+                        if(prod): tweet_covid19(tw,re)
                     else:
                         dbeh = random.randrange(100) # the ole 50 / 50
                         if(dbeh < 20): #comment 20% of the time. Else just retweet
@@ -298,12 +326,12 @@ def test():
     c=load_config()
     auth = load_twitter_creds()
     #initialize twitter widget
-    tw = twitwidget.TwitterWidget(auth['consumer_key'], auth['consumer_secret_key'], auth['access_token'], auth['access_token_secret'],c['query_string'],c['hashtags'])
+    tw = twitterwidget.TwitterWidget(auth['consumer_key'], auth['consumer_secret_key'], auth['access_token'], auth['access_token_secret'],c['query_string'],c['hashtags'])
     #load responder
     re = basbot.responder.Responder()
-    #first message check -- get all current messages
-    print("Tweeting from reddit")
-    tweet_reddit(tw,re,c['subreddit'],c['hashtags'])
+    #Test specific functions here:
+    # tweet_genomics(tw,re)
+    tweet_covid19(tw,re)
 
 if __name__ == "__main__":
     print("Running Twitter Bot Version %s"%(version))
