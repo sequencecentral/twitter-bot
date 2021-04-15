@@ -156,7 +156,9 @@ def tweet_pubmed(tw,re,feed):
         ref = pubmedwidget.get_update(feed)
         print("Retrieved tweet from pubmed %s"%(ref['tweet']))
         htags = basbot.tag_it(ref['title'],"science")
-        tw.tweet(ref['tweet'])
+        tweet_post = """{} {}""".format(ref['tweet'],htags)
+        print("Tweeting post:  %s"%(tweet_post))
+        tw.tweet(tweet_post)
     except Exception as e:
         print(e)
         print("Unable to get genomics update")
@@ -196,7 +198,7 @@ def tweet_reddit(tw,re,subreddit,hashtags="#news"):
             post = False
     if(post):
         htags = basbot.tag_it(post['title'],hashtags)
-        tweet_post = """{} {}""".format(post['tweet'][0:260],htags)
+        tweet_post = """{} {}""".format(post['tweet'],htags)
         print("Tweeting post:  %s"%(tweet_post))
         if(prod): 
             try:
