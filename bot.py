@@ -143,11 +143,13 @@ def tweet_news(tw,re,topic):
         print("Response: ",new_tweet)
         try:
             tw.tweet(new_tweet)
+            return
         except Exception as e:
             print(e)
             print("Unable to tweet news.")
     else:
         print('No news is good news')
+    tweet_top_tweet(tw,re)
 
 def tweet_pubmed(tw,re,feed):
     try:
@@ -157,6 +159,7 @@ def tweet_pubmed(tw,re,feed):
     except Exception as e:
         print(e)
         print("Unable to get genomics update")
+        tweet_top_tweet(tw,re)
 
 def tweet_genomics(tw,re):
     tweet_pubmed(tw,re,pubmedwidget.feeds['genomics'])
