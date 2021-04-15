@@ -189,10 +189,10 @@ def tweet_rss(tw,re,feed_name):
         tweet_top_tweet(tw,re)
 
 def tweet_techcrunch(tw,re):
-    tweet_rss("techcrunch")
+    tweet_rss(tw,re,"techcrunch")
 
 def tweet_techstartup(tw,re):
-    tweet_rss("startups")
+    tweet_rss(tw,re,"startups")
 
 def tweet_reddit(tw,re,subreddit,hashtags="#news"):
     rejects = ['reddit.com','redd.it','reddit','nsfw','redd']
