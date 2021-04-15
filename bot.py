@@ -155,6 +155,7 @@ def tweet_pubmed(tw,re,feed):
     try:
         ref = pubmedwidget.get_update(feed)
         print("Retrieved tweet from pubmed %s"%(ref['tweet']))
+        htags = basbot.tag_it(ref['title'],"science")
         tw.tweet(ref['tweet'])
     except Exception as e:
         print(e)
