@@ -159,9 +159,9 @@ def tweet_news(tw,re,topic):
         print('No news is good news')
     tweet_top_tweet(tw,re)
 
-def tweet_pubmed(tw,re,feed):
+def tweet_pubmed(tw,re,feed_name):
     try:
-        ref = pubmedwidget.get_update(feed)
+        ref = rsswidget.get_update(feed_name)
         print("Retrieved tweet from pubmed %s"%(ref['tweet']))
         htags = basbot.tag_it(ref['title'],"#science")
         tweet_post = """{} {}""".format(ref['tweet'],htags)
@@ -173,10 +173,10 @@ def tweet_pubmed(tw,re,feed):
         tweet_top_tweet(tw,re)
 
 def tweet_genomics(tw,re):
-    tweet_pubmed(tw,re,pubmedwidget.feeds['genomics'])
+    tweet_pubmed(tw,re,'genomics')
 
 def tweet_covid19(tw,re):
-    tweet_pubmed(tw,re,pubmedwidget.feeds['covid19'])
+    tweet_pubmed(tw,re,'covid19')
 
 def tweet_rss(tw,re,feed_name):
     try:
@@ -198,7 +198,7 @@ def tweet_techstartups(tw,re):
     tweet_rss(tw,re,"startups")
 
 def tweet_reddit(tw,re,subreddit,hashtags="#news"):
-    rejects = ['reddit.com','redd.it','reddit','nsfw','redd']
+    rejects = ['reddit.com','redd.it','reddit','nsfw','redd','red']
     creds = load_reddit_creds()
     max_attempts=5
     attempts = 0
