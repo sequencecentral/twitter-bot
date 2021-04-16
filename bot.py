@@ -194,7 +194,7 @@ def tweet_rss(tw,re,feed_name):
 def tweet_techcrunch(tw,re):
     tweet_rss(tw,re,"techcrunch")
 
-def tweet_techstartup(tw,re):
+def tweet_techstartups(tw,re):
     tweet_rss(tw,re,"startups")
 
 def tweet_reddit(tw,re,subreddit,hashtags="#news"):
