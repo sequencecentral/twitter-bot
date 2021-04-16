@@ -22,6 +22,7 @@ import newswidget
 import redditwidget
 import pubmedwidget
 import rsswidget
+import udemywidget
 version = "1.0"
 
 def load_twitter_creds():
@@ -75,6 +76,7 @@ def load_config():
         c['r_pct']=int(environ['REDDIT_PERCENT'])
         c['tc_pct']=int(environ['TECHCRUNCH_PERCENT'])
         c['ts_pct']=int(environ['TECHSTARTUP_PERCENT'])
+        c['udemy_pct']=int(environ['UDEMY_PERCENT'])
         c['genomics_pct']=int(environ['GENOMICS_PERCENT'])
         c['covid19_pct']=int(environ['COVID19_PERCENT'])
         c['subreddit']=environ['SUBREDDIT'].lower()
@@ -100,6 +102,7 @@ def load_config():
             c['r_pct']=int(config.REDDIT_PERCENT)
             c['tc_pct']=int(config.TECHCRUNCH_PERCENT)
             c['ts_pct']=int(config.TECHSTARTUP_PERCENT)
+            c['udemy_pct']=int(config.UDEMY_PERCENT)
             c['genomics_pct']=int(config.GENOMICS_PERCENT)
             c['covid19_pct']=int(config.COVID19_PERCENT)
             c['subreddit']=config.SUBREDDIT.lower()
@@ -239,6 +242,16 @@ def tweet_reddit(tw,re,subreddit,hashtags="#news"):
         print("Tweeting top tweet instead.")
         tweet_top_tweet(tw,re,hashtags)
 
+def tweet_udemy(tw,re):
+    creds = load_reddit_creds()
+    try:
+        udemy = udemywidget.get_update(creds['client_id'],creds['client_secret'],"Mozilla Firefox Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:53.0) Gecko/20100101 Firefox/53.0","udemyfreebies")
+        print("Tweeting Udemy: %s"%(udemy['tweet']))
+        tw.tweet(udemy['tweet'])
+    except Exception as e:
+        print(e)
+        print("Unable to tweet.")
+
 def tweet_top_tweet(tw,re,hashtags="#news"):
     tt = tw.get_top_tweet()
     htags = basbot.tag_it(tt.text,hashtags)
@@ -318,6 +331,7 @@ def main():
                     covid19_beh = genomics_beh + int(c['covid19_pct'])
                     tc_beh = covid19_beh + int(c['tc_pct'])
                     ts_beh = tc_beh + int(c['ts_pct'])
+                    udemy_beh = ts_beh + int(c['udemy_pct'])
                     if( c['q_pct']+c['n_pct'] > 100): 
                         print("Error] Invalid behavior config! Exiting...")
                         exit(1)
@@ -343,6 +357,9 @@ def main():
                     elif(r < ts_beh):
                         print("TechStartups")
                         if(prod):tweet_techstartups(tw,re)
+                    elif(r < udemy_beh):
+                        print("Tweeting Udemy")
+                        if(prod):tweet_udemy(tw,re)
                     else:
                         dbeh = random.randrange(100) # the ole 50 / 50
                         if(dbeh < 20): #comment 20% of the time. Else just retweet
@@ -370,7 +387,8 @@ def test():
     re = basbot.responder.Responder()
     #Test specific functions here:
     # tweet_genomics(tw,re)
-    tweet_covid19(tw,re)
+    # tweet_covid19(tw,re)
+    tweet_udemy(tw,re)
 
 if __name__ == "__main__":
     print("Running Twitter Bot Version %s"%(version))

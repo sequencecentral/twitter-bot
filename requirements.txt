@@ -34,6 +34,7 @@ newswidget @ git+https://github.com/sequencecentral/NewsWidget.git@main#egg=news
 redditwidget @ git+https://github.com/sequencecentral/RedditWidget.git@main#egg=redditwidget@v1.5
 pubmedwidget @ git+https://github.com/sequencecentral/pubmed-widget.git@main#egg=pubmedwidget@v1.2
 rsswidget @ git+https://github.com/sequencecentral/rss-widget@main#egg=rsswidget@v1.2
+udemywidget @ git+https://github.com/sequencecentral/udemy-widget.git@main#egg=udemywidget@v1.5
 
 # basbot @ git+https://github.com/sequencecentral/basbot.git@main#egg=basbot
 # joesixpack @ git+https://github.com/sequencecentral/Joe-Sixpack.git@main#egg=joesixpack
