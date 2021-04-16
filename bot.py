@@ -200,47 +200,20 @@ def tweet_techstartups(tw,re):
 def tweet_reddit(tw,re,subreddit,hashtags="#news"):
     rejects = ['reddit.com','redd.it','reddit','nsfw','redd','red']
     creds = load_reddit_creds()
-    max_attempts=5
-    attempts = 0
-    post = False
-    while(not post and attempts < max_attempts):
-        attempts += 1
-        sr = get_item(subreddit)
-        try:
-            print("Getting post from subreddit %s. Attempt %d"%(sr, attempts))
-            post = redditwidget.get_update(creds['client_id'],creds['client_secret'],"Mozilla Firefox Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:53.0) Gecko/20100101 Firefox/53.0",sr)
-            print("Retrieved post:")
-            print(post)
-            if(not post): raise Exception("Blank Post")
-            if any(term in post['url'] for term in rejects):
-                raise Exception("Invalid Post")
-            elif any(term in post['title'].lower() for term in rejects):
-                raise Exception("Invalid Post")
-            else:
-                print("Going with reddit post: %s"%(post['title']))
-                break
-        except Exception as e:
-            print(e)
-            print("Post is invalid. Trying again.")
-            post = False
-    if(post):
-        htags = basbot.tag_it(post['title'],hashtags)
-        tweet_post = """{} {}""".format(post['tweet'],htags)
+    ua = "Mozilla Firefox Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:53.0) Gecko/20100101 Firefox/53.0"
+    try:
+        #             print(get_update(env.client_id,env.client_secret,env.user_agent,"science"))
+        post = redditwidget.get_update(creds['client_id'],creds['client_secret'],ua,subreddit)
+        print("Tagging post")
+        add_tags = basbot.tag_it(post['title'],hashtags)
+        tweet_post = """{} {}""".format(post['tweet'],add_tags)
         print("Tweeting post:  %s"%(tweet_post))
-        if(prod): 
-            try:
-                tw.tweet(tweet_post)
-            except Exception as e:
-                print(e)
-                print("Unable to tweet post")
-                print("Tweeting top tweet instead.")
-                tweet_top_tweet(tw,re,hashtags)
-        else:
-            print(tweet_post)
-    else:
-        print("No post identified.")
+        if(prod): tw.tweet(tweet_post)
+    except Exception as e:
+        print(e)
+        print("Unable to tweet post")
         print("Tweeting top tweet instead.")
-        tweet_top_tweet(tw,re,hashtags)
+        if(prod): tweet_top_tweet(tw,re,hashtags)
 
 def tweet_udemy(tw,re):
     creds = load_reddit_creds()
@@ -386,9 +359,11 @@ def test():
     #load responder
     re = basbot.responder.Responder()
     #Test specific functions here:
+    # tweet_reddit(tw,re,c['subreddit'],c['hashtags'])
+    tweet_reddit(tw,re,"technology")
     # tweet_genomics(tw,re)
     # tweet_covid19(tw,re)
-    tweet_udemy(tw,re)
+    # tweet_udemy(tw,re)
 
 if __name__ == "__main__":
     print("Running Twitter Bot Version %s"%(version))
