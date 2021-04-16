@@ -188,7 +188,7 @@ def tweet_rss(tw,re,feed_name):
         tw.tweet(tweet_post)
     except Exception as e:
         print(e)
-        print("Unable to get genomics update")
+        print("Unable to tweet RSS %s"%(feed_name))
         tweet_top_tweet(tw,re)
 
 def tweet_techcrunch(tw,re):
