@@ -220,6 +220,7 @@ def tweet_udemy(tw,re):
     try:
         udemy = udemywidget.get_update(creds['client_id'],creds['client_secret'],"Mozilla Firefox Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:53.0) Gecko/20100101 Firefox/53.0","udemyfreebies")
         print("Tweeting Udemy: %s"%(udemy['tweet']))
+        #tweets come pre-tagged
         tw.tweet(udemy['tweet'])
     except Exception as e:
         print(e)
