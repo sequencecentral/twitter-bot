@@ -277,6 +277,7 @@ def main():
     print("Loading responder")
     re = basbot.responder.Responder()
     #first message check -- get all current messages
+    print("Checking direct messages")
     if(prod): tw.check_messages(False)
     #----------------------------- Chat Mode (chat only) ----------------------------------
     if('chat' in c['mode']):
