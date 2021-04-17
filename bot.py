@@ -263,7 +263,14 @@ def main():
     auth = load_twitter_creds()
     #initialize twitter widget
     print("Initializing Twitter Widget.")
-    tw = twitterwidget.TwitterWidget(auth['consumer_key'], auth['consumer_secret_key'], auth['access_token'], auth['access_token_secret'],c['query_string'],c['hashtags'])
+    try:
+        tw = twitterwidget.TwitterWidget(auth['consumer_key'], auth['consumer_secret_key'], auth['access_token'], auth['access_token_secret'],c['query_string'],c['hashtags'])
+    except Exception as e:
+        print(e)
+        print("Failed to initialize Twitter.")
+        print("Will wait 15 mins and try again...")
+        sleep(minToSec(15))
+        tw = twitterwidget.TwitterWidget(auth['consumer_key'], auth['consumer_secret_key'], auth['access_token'], auth['access_token_secret'],c['query_string'],c['hashtags'])
     #load responder
     re = basbot.responder.Responder()
     #first message check -- get all current messages
