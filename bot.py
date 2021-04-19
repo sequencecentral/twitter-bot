@@ -264,13 +264,15 @@ def main():
     #initialize twitter widget
     print("Initializing Twitter Widget.")
     twitter_loaded = False
+    init_count = 0
     while(not twitter_loaded):
+        init_count+=1
         try:
             tw = twitterwidget.TwitterWidget(auth['consumer_key'], auth['consumer_secret_key'], auth['access_token'], auth['access_token_secret'],c['query_string'],c['hashtags'])
             twitter_loaded = True
         except Exception as e:
             print(e)
-            print("Failed to initialize Twitter.")
+            print("Failed to initialize Twitter on attempt: "+init_count)
             print("Will wait 15 mins and try again...")
             sleep(minToSec(15))
     #load responder
