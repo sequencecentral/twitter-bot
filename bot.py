@@ -301,7 +301,7 @@ class Bot():
         elif(action == "techcrunch"): self.tweet_techcrunch(self.tw,self.re,self.sources["techcrunch"]["terms"],self.sources["techcrunch"]["addtags"])
         elif(action == "techstartups"): self.tweet_techstartups(self.tw,self.re,self.sources["techstartups"]["terms"],self.sources["techstartups"]["addtags"])
         elif(action == "udemy"): self.tweet_udemy(self.tw,self.re,self.sources["udemy"]["terms"],self.sources["udemy"]["addtags"])
-        elif(action == "twitter"): self.tweet_top_tweet(tw,re)
+        elif(action == "twitter"): self.tweet_top_tweet(self.tw,self.re)
         else: print("Action not found.")
 
     ############################ Test: ############################

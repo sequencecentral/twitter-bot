@@ -30,8 +30,8 @@ CONFIG = """
 {
 "name": "news",
 "type": "news",
-"frequency":"5",
-"terms":"tech or technology",
+"frequency":"15",
+"terms":"covid19 or technology",
 "addtags":"#news"
 },
 {
@@ -51,14 +51,14 @@ CONFIG = """
 {
 "name": "covid19",
 "type": "rss",
-"frequency":"10",
+"frequency":"20",
 "terms":"covid19",
 "addtags":"#covid19"
 },
 {
 "name": "techcrunch",
 "type": "rss",
-"frequency":"10",
+"frequency":"5",
 "terms":"techcrunch",
 "addtags":"#tech"
 },

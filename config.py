@@ -18,7 +18,7 @@ CONFIG = """
 "type": "twitter",
 "frequency": "10",
 "terms": "@nytimestech OR @WIRED OR @isc2 OR @MalwareJake OR #science OR #cybersecurity OR #infosec OR #security OR #ransomware OR #hack OR #appsec OR #devsecops OR #devops OR  #ccsp OR #cissp OR #MSExchange OR #encryption OR OWASP OR #udemy OR udemy OR #udemyfreebies OR #udemycoupon OR #udemyfreebie OR #udemyfree OR #udemysale OR #udemyflashsale",
-"addtags": "#genomics OR #genetics OR #science OR #python OR cybersecurity OR infosec OR bitcoin OR crypto OR cryptocurrency OR monero OR  #retweet OR #like OR #follow OR #love  OR #twitter OR #repost OR #instagram OR #followme OR #share OR #tweet OR #likeforlikes OR #followback OR #k OR #likes OR #viral OR #tweets OR #likeforfollow"
+"addtags": "#tech"
 },
 {
 "name": "quote",
