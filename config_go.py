@@ -1,13 +1,13 @@
 CONFIG = """
 {
 "settings": {
-"hashtags": "#news",
+"hashtags": "#science #news",
 "interval": "30",
 "randomization": "50",
 "waketime": "5",
 "bedtime": "20",
 "timezone": "America/Los_Angeles",
-"min_pop": "100",
+"min_pop": "1000",
 "character": "default",
 "mode": "interval",
 "username": "@GenomeOrganizer",
@@ -17,8 +17,8 @@ CONFIG = """
 "name": "twitter",
 "type": "twitter",
 "frequency": "10",
-"terms": "@nytimestech OR @WIRED OR @isc2 OR @MalwareJake OR #science OR #cybersecurity OR #infosec OR #security OR #ransomware OR #hack OR #appsec OR #devsecops OR #devops OR  #ccsp OR #cissp OR #MSExchange OR #encryption OR OWASP OR #udemy OR udemy OR #udemyfreebies OR #udemycoupon OR #udemyfreebie OR #udemyfree OR #udemysale OR #udemyflashsale",
-"addtags": "#genomics OR #genetics OR #science OR #python OR cybersecurity OR infosec OR bitcoin OR crypto OR cryptocurrency OR monero OR  #retweet OR #like OR #follow OR #love  OR #twitter OR #repost OR #instagram OR #followme OR #share OR #tweet OR #likeforlikes OR #followback OR #k OR #likes OR #viral OR #tweets OR #likeforfollow"
+"terms": "#science OR #tech OR #googlecloud OR #genomics OR #genetics OR bioinformatics OR #dinosaurs OR #sequencing OR RNA OR ngs OR Illumina OR personalis OR natera OR pacbio OR wgs OR @genomeweb OR #medicine OR @sequencecentral",
+"addtags": "#science #news"
 },
 {
 "name": "quote",
@@ -38,27 +38,27 @@ CONFIG = """
 "name": "reddit",
 "type": "reddit",
 "frequency":"45",
-"terms":"science technology cybersecurity",
+"terms":"science memes datascience computerscience health UpliftingNews fascinating covid19",
 "addtags":"#tech"
 },
 {
 "name": "genomics",
 "type": "rss",
-"frequency":"0",
+"frequency":"10",
 "terms":"genomics",
 "addtags":"#science #genomics"
 },
 {
 "name": "covid19",
 "type": "rss",
-"frequency":"0",
+"frequency":"10",
 "terms":"covid19",
 "addtags":"#covid19"
 },
 {
 "name": "techcrunch",
 "type": "rss",
-"frequency":"20",
+"frequency":"10",
 "terms":"techcrunch",
 "addtags":"#tech"
 },
@@ -72,7 +72,7 @@ CONFIG = """
 {
 "name": "udemy",
 "type": "udemy",
-"frequency":"16",
+"frequency":"0",
 "terms":"udemy",
 "addtags":"#udemy #udemyfreebies"
 }
