@@ -12,7 +12,7 @@ setup(
     author='Steve Ayers',
     author_email='steve@sequenccecentral.com',
     # install_requires=[],
-    version='0.1',
+    version='1.3.5',
     license='',
     long_description=open('README.md').read(),
 )

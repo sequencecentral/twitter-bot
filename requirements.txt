@@ -31,10 +31,10 @@ basicbot @ git+https://github.com/sequencecentral/Basic-Bot@main#egg=basicbot@v1
 averagejoe @ git+https://github.com/sequencecentral/Average-Joe.git@main#egg=averagejoe@v1.0
 quotewidget @ git+https://github.com/sequencecentral/QuoteWidget.git@main#egg=quotewidget
 twitterwidget @ git+https://github.com/sequencecentral/Twitter-Widget.git@main#egg=twitterwidget@v1.4
-newswidget @ git+https://github.com/sequencecentral/NewsWidget.git@main#egg=newswidget@v1.3.1
+newswidget @ git+https://github.com/sequencecentral/NewsWidget.git@main#egg=newswidget@v1.3.9
 redditwidget @ git+https://github.com/sequencecentral/RedditWidget.git@main#egg=redditwidget@v1.5.7
 pubmedwidget @ git+https://github.com/sequencecentral/pubmed-widget.git@main#egg=pubmedwidget@v1.2
-rsswidget @ git+https://github.com/sequencecentral/rss-widget@main#egg=rsswidget@v1.2.5
+rsswidget @ git+https://github.com/sequencecentral/rss-widget@main#egg=rsswidget@v1.2.6
 udemywidget @ git+https://github.com/sequencecentral/udemy-widget.git@main#egg=udemywidget@v1.5.3
 
 # basbot @ git+https://github.com/sequencecentral/basbot.git@main#egg=basbot
@@ -44,4 +44,5 @@ udemywidget @ git+https://github.com/sequencecentral/udemy-widget.git@main#egg=u
 # https://github.com/sequencecentral/twitwidget.git
 # basicbot @ git+https://github.com/sequencecentral/BasicBot.git@main#egg=basicbot
 # seqbot @ git+https://github.com/sequencecentral/SeqBot.git@main#egg=seqbot
-# redditwidget2 @ git+https://github.com/sequencecentral/RedditWidget2.git@main#egg=redditwidget2
+# redditwidget2 @ git+https://github.com/sequencecentral/RedditWidget2.git@main#egg=redditwidget
+# git@github.com:sequencecentral/NewsWidget.git
