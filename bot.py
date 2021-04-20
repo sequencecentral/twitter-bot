@@ -26,7 +26,7 @@ import udemywidget
 version = "1.0"
 
 class Bot():
-    def __init__(self,auth=None,cfg=None):
+    def __init__(self,cfg=None,auth=None):
         #first load defaults
         try:
             self.load_default_config()
@@ -90,6 +90,7 @@ class Bot():
 
     ############################ Config: ############################
     def load_config(self,cfg):
+        #only need to load sources from this
         # try:
         #     self.load_settings(cfg['settings'])
         # except Exception as e:
@@ -263,6 +264,7 @@ class Bot():
         htags = basbot.tag_it(tt.text,hashtags)
         intro = """{}""".format(re.get_intro(tt.text))[:278]
         print("Tweet Intro: ",intro)
+        print("Tweet Text: ",tt.text)
         try:
             tw.tweet_comment(tt,intro,htags)
         except Exception as e:
