@@ -26,17 +26,15 @@ import udemywidget
 version = "1.0"
 
 class Bot():
-    def __init__(self,cfg=None,auth=None):
-        #first load defaults
-        try:
-            self.load_default_config()
-        except:
-            print("Unable to load default config file")
+    def __init__(self,src=None,auth=None):
         #if specified, load config
-        if(cfg): 
-            self.load_config(cfg)
+        if(src): 
+            self.load_sources(src)
         else:
-            self.load_env_config
+            try:
+                self.load_env_sources()
+            except:
+                self.load_default_sources()
         self.init_actions()
         #Load auth and login to twitter
         if(auth): #if auth provided in call
@@ -89,23 +87,20 @@ class Bot():
         return creds
 
     ############################ Config: ############################
-    def load_config(self,cfg):
-        #only need to load sources from this
-        # try:
-        #     self.load_settings(cfg['settings'])
-        # except Exception as e:
-        #     print(e)
-        #     print("Encountered issue initializing settings")
-        self.load_sources(cfg['sources'])
+    # def load_sources(self,sources):
+    #     self.load_sources(sources)
 
-    def load_default_config(self):
+    def load_default_sources(self):
         import config
         cfg = json.loads(config.CONFIG)
-        self.load_config(cfg)
+        sources = cfg['sources']
+        # print(sources)
+        self.load_sources(sources)
 
-    def load_env_config(self):
+    def load_env_sources(self):
         cfg = environ['CONFIG']
-        self.load_config(cfg)
+        sources = cfg['sources']
+        self.load_sources(sources)
 
     ############################ Settings: ############################
     def load_settings(self,settings):
@@ -124,10 +119,11 @@ class Bot():
 
     ############################ Sources: ############################
     def load_sources(self,sources):
+        # print("sources:   "+sources.)
         self.sources = {}
         for source in sources:
+            # print(source)
             self.load_source(source)
-            print(source)
         self.normalize_source_frequencies()
 
     def load_source(self,source):
@@ -249,7 +245,7 @@ class Bot():
             self.tweet_top_tweet(tw,re,hashtags)
 
     def tweet_udemy(self,tw,re,terms,addtags):
-        creds = load_reddit_creds()
+        creds = self.load_reddit_creds()
         try:
             udemy = udemywidget.get_update(creds['client_id'],creds['client_secret'],"Mozilla Firefox Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:53.0) Gecko/20100101 Firefox/53.0","udemyfreebies")
             print("Tweeting Udemy: %s"%(udemy['tweet']))
