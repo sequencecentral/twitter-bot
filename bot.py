@@ -258,7 +258,7 @@ class Bot():
             print(e)
             print("Unable to tweet.")
 
-    def tweet_top_tweet(self,tw,re,hashtags="#news"):
+    def tweet_top_tweet(self,tw,re,terms="",hashtags="#news"):
         tt = tw.get_top_tweet()
         htags = basbot.tag_it(tt.text,hashtags)
         intro = """{}""".format(re.get_intro(tt.text))[:278]
@@ -301,6 +301,7 @@ class Bot():
         elif(action == "techcrunch"): self.tweet_techcrunch(self.tw,self.re,self.sources["techcrunch"]["terms"],self.sources["techcrunch"]["addtags"])
         elif(action == "techstartups"): self.tweet_techstartups(self.tw,self.re,self.sources["techstartups"]["terms"],self.sources["techstartups"]["addtags"])
         elif(action == "udemy"): self.tweet_udemy(self.tw,self.re,self.sources["udemy"]["terms"],self.sources["udemy"]["addtags"])
+        elif(action == "twitter"): self.tweet_top_tweet(tw,re)
         else: print("Action not found.")
 
     ############################ Test: ############################
