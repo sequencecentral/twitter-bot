@@ -16,63 +16,63 @@ CONFIG = """
 	"sources": [{
             "name": "twitter",
             "type": "twitter",
-            "frequency": "",
-            "terms": "#genomics OR #genetics OR #science OR #python OR cybersecurity OR infosec OR bitcoin OR crypto OR cryptocurrency OR monero OR  #retweet OR #like OR #follow OR #love  OR #twitter OR #repost OR #instagram OR #followme OR #share OR #tweet OR #likeforlikes OR #followback OR #k OR #likes OR #viral OR #tweets OR #likeforfollow",
+            "frequency": "10",
+            "terms": "@nytimestech OR @WIRED OR @isc2 OR @MalwareJake OR #science OR #cybersecurity OR #infosec OR #security OR #ransomware OR #hack OR #appsec OR #devsecops OR #devops OR  #ccsp OR #cissp OR #MSExchange OR #encryption OR OWASP OR #udemy OR udemy OR #udemyfreebies OR #udemycoupon OR #udemyfreebie OR #udemyfree OR #udemysale OR #udemyflashsale",
             "addtags": "#genomics OR #genetics OR #science OR #python OR cybersecurity OR infosec OR bitcoin OR crypto OR cryptocurrency OR monero OR  #retweet OR #like OR #follow OR #love  OR #twitter OR #repost OR #instagram OR #followme OR #share OR #tweet OR #likeforlikes OR #followback OR #k OR #likes OR #viral OR #tweets OR #likeforfollow"
         },
 		{
 			"name": "quote",
 			"type": "quote",
-            "frequency":"",
+            "frequency":"1",
             "terms":" ",
             "addtags":"#quotes"
 		},
 		{
 			"name": "news",
 			"type": "news",
-            "frequency":"",
+            "frequency":"5",
             "terms":"tech or technology",
             "addtags":"#news"
 		},
 		{
 			"name": "reddit",
 			"type": "reddit",
-            "frequency":"100",
+            "frequency":"45",
             "terms":"science technology cybersecurity",
             "addtags":"#tech"
 		},
 		{
 			"name": "genomics",
 			"type": "rss",
-            "frequency":"",
+            "frequency":"0",
             "terms":"genomics",
             "addtags":"#science #genomics"
 		},
 		{
 			"name": "covid19",
 			"type": "rss",
-            "frequency":"",
+            "frequency":"0",
             "terms":"covid19",
             "addtags":"#covid19"
 		},
 		{
 			"name": "techcrunch",
 			"type": "rss",
-            "frequency":"",
+            "frequency":"20",
             "terms":"techcrunch",
             "addtags":"#tech"
 		},
 		{
 			"name": "techstartups",
 			"type": "rss",
-            "frequency":"",
+            "frequency":"10",
             "terms":"techstartups",
             "addtags":"#tech"
 		},
 		{
 			"name": "udemy",
 			"type": "udemy",
-            "frequency":"",
+            "frequency":"16",
             "terms":"udemy",
             "addtags":"#udemy #udemyfreebies"
 		}

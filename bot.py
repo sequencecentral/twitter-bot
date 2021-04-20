@@ -90,7 +90,11 @@ class Bot():
 
     ############################ Config: ############################
     def load_config(self,cfg):
-        self.load_settings(cfg['settings'])
+        # try:
+        #     self.load_settings(cfg['settings'])
+        # except Exception as e:
+        #     print(e)
+        #     print("Encountered issue initializing settings")
         self.load_sources(cfg['sources'])
 
     def load_default_config(self):
@@ -198,13 +202,13 @@ class Bot():
         except Exception as e:
             print(e)
             print("Unable to get genomics update")
-            tweet_top_tweet(tw,re)
+            self.tweet_top_tweet(tw,re)
 
     def tweet_genomics(self,tw,re,topic,addtags):
-        tweet_pubmed(tw,re,'genomics',addtags)
+        self.tweet_pubmed(tw,re,'genomics',addtags)
 
     def tweet_covid19(self,tw,re,topic,addtags):
-        tweet_pubmed(tw,re,'covid19',addtags)
+        self.tweet_pubmed(tw,re,'covid19',addtags)
 
     def tweet_rss(self,tw,re,feed_name,addtags):
         try:
@@ -217,13 +221,13 @@ class Bot():
         except Exception as e:
             print(e)
             print("Unable to tweet RSS %s"%(feed_name))
-            tweet_top_tweet(tw,re)
+            self.tweet_top_tweet(tw,re)
 
-    def tweet_techcrunch(self,tw,re,addtags):
-        tweet_rss(tw,re,"techcrunch",addtags)
+    def tweet_techcrunch(self,tw,re,topic,addtags):
+        self.tweet_rss(tw,re,"techcrunch",addtags)
 
-    def tweet_techstartups(self,tw,re,addtags):
-        tweet_rss(tw,re,"startups",addtags)
+    def tweet_techstartups(self,tw,re,topic,addtags):
+        self.tweet_rss(tw,re,"startups",addtags)
 
     def tweet_reddit(self,tw,re,subreddit,hashtags="#news"):
         rejects = ['reddit.com','redd.it','reddit','nsfw','redd','red']
@@ -241,9 +245,9 @@ class Bot():
             print(e)
             print("Unable to tweet post")
             print("Tweeting top tweet instead.")
-            tweet_top_tweet(tw,re,hashtags)
+            self.tweet_top_tweet(tw,re,hashtags)
 
-    def tweet_udemy(self,tw,re,addtags):
+    def tweet_udemy(self,tw,re,terms,addtags):
         creds = load_reddit_creds()
         try:
             udemy = udemywidget.get_update(creds['client_id'],creds['client_secret'],"Mozilla Firefox Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:53.0) Gecko/20100101 Firefox/53.0","udemyfreebies")
@@ -289,7 +293,6 @@ class Bot():
         #note that self.actions is populated with actions proportional to specified frequencies
         action = random.choice(self.actions)
         print("Selected: "+action)
-        
         if(action == "quote"): self.tweet_quote(self.tw,self.re,self.sources["quote"]["terms"],self.sources["quote"]["addtags"])
         elif(action == "news"): self.tweet_news(self.tw,self.re,self.sources["news"]["terms"],self.sources["news"]["addtags"])
         elif(action == "reddit"): self.tweet_reddit(self.tw,self.re,self.sources["reddit"]["terms"],self.sources["reddit"]["addtags"])
