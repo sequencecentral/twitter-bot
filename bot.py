@@ -250,7 +250,7 @@ class Bot():
     def tweet_top_tweet(self,terms="",hashtags="#news"):
         tt = self.tw.get_top_tweet()
         htags = basbot.tag_it(tt.text,hashtags)
-        intro = """{}""".format(re.get_intro(tt.text))[:278]
+        intro = """{}""".format(self.re.get_intro(tt.text))[:278]
         print("Tweet Intro: ",intro)
         print("Tweet Text: ",tt.text)
         try:
