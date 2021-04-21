@@ -29,11 +29,14 @@ class Bot():
     def __init__(self,src=None,auth=None):
         #if specified, load config
         if(src): 
+            print("Sources provided as initialization variable")
             self.load_sources(src)
         else:
             try:
+                print("Loading sources from environment variable")
                 self.load_env_sources()
             except:
+                print("Loading default sources")
                 self.load_default_sources()
         self.init_actions()
         print(self.actions)

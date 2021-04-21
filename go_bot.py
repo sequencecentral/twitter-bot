@@ -20,25 +20,29 @@ class Go_Bot():
     def __init__(self,auth=None,cfg=None):
         #first load defaults
         try:
+            print("Loading default config values")
             self.load_default_config()
         except:
             print("Unable to load default config file")
         #if specified, load config and overwrite defaullt values
         if(cfg): 
+            print("Loading config from parameter")
             self.load_config(cfg)
         else: #else try loading from environment variables
             try:
+                print("Loading config from environment variables")
                 self.load_env_config()
             except Exception as e:
                 print(e)
                 print("Unable to load config from env variables.")
         #Load auth and login to twitter
-        self.bot = bot.Bot()
+        self.bot = bot.Bot(self.sources)
         self.joe = aj.Joe(self.timezone,self.waketime,self.bedtime,self.interval,self.randomization)
 
     ############################ Config: ############################
     def load_config(self,cfg):
         self.load_settings(cfg['settings'])
+        self.sources = cfg['sources']
 
     def load_default_config(self):
         import config
