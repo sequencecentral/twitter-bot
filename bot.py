@@ -88,10 +88,10 @@ class Bot():
         self.load_sources(sources)
 
     ############################ Sources: ############################
-    def load_sources(self,sources):
+    def load_sources(self,src):
         # print("sources:   "+sources.)
         self.sources = {}
-        for source in sources:
+        for source in src:
             # print(source)
             self.load_source(source)
         self.normalize_source_frequencies()
