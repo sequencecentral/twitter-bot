@@ -1,63 +1,63 @@
 [{
-"name": "twitter",
-"type": "twitter",
-"frequency": "100",
-"terms": "@nytimestech OR @WIRED OR @isc2 OR @MalwareJake OR #science OR #cybersecurity OR #infosec OR #security OR #ransomware OR #hack OR #appsec OR #devsecops OR #devops OR  #ccsp OR #cissp OR #MSExchange OR #encryption OR OWASP OR #udemy OR udemy OR #udemyfreebies OR #udemycoupon OR #udemyfreebie OR #udemyfree OR #udemysale OR #udemyflashsale",
-"addtags": "#tech"
-},
-{
-"name": "quote",
-"type": "quote",
-"frequency":"1",
-"terms":" ",
-"addtags":"#quotes"
-},
-{
-"name": "news",
-"type": "news",
-"frequency":"5",
-"terms":"tech or technology",
-"addtags":"#news"
-},
-{
-"name": "reddit",
-"type": "reddit",
-"frequency":"450",
-"terms":"science technology cybersecurity",
-"addtags":"#tech"
-},
-{
-"name": "genomics",
-"type": "rss",
-"frequency":"0",
-"terms":"genomics",
-"addtags":"#science #genomics"
-},
-{
-"name": "covid19",
-"type": "rss",
-"frequency":"0",
-"terms":"covid19",
-"addtags":"#covid19"
-},
-{
-"name": "techcrunch",
-"type": "rss",
-"frequency":"200",
-"terms":"techcrunch",
-"addtags":"#tech"
-},
-{
-"name": "techstartups",
-"type": "rss",
-"frequency":"100",
-"terms":"techstartups",
-"addtags":"#tech"
-},
-{
-"name": "udemy",
-"type": "udemy",
-"frequency":"160",
-"terms":"udemy",
-"addtags":"#udemy #udemyfreebies"
-}]
+    "name": "twitter",
+    "type": "twitter",
+    "frequency": "10",
+    "terms": "@nytimestech OR @WIRED OR @isc2 OR @MalwareJake OR #science OR #cybersecurity OR #infosec OR #security OR #ransomware OR #hack OR #appsec OR #devsecops OR #devops OR  #ccsp OR #cissp OR #MSExchange OR #encryption OR OWASP OR #udemy OR udemy OR #udemyfreebies OR #udemycoupon OR #udemyfreebie OR #udemyfree OR #udemysale OR #udemyflashsale",
+    "addtags": "#tech"
+    },
+    {
+    "name": "quote",
+    "type": "quote",
+    "frequency":"1",
+    "terms":" ",
+    "addtags":"#quotes"
+    },
+    {
+    "name": "news",
+    "type": "news",
+    "frequency":"5",
+    "terms":"tech or technology",
+    "addtags":"#news"
+    },
+    {
+    "name": "reddit",
+    "type": "reddit",
+    "frequency":"450",
+    "terms":"science technology cybersecurity",
+    "addtags":"#tech"
+    },
+    {
+    "name": "genomics",
+    "type": "rss",
+    "frequency":"0",
+    "terms":"genomics",
+    "addtags":"#science #genomics"
+    },
+    {
+    "name": "covid19",
+    "type": "rss",
+    "frequency":"0",
+    "terms":"covid19",
+    "addtags":"#covid19"
+    },
+    {
+    "name": "techcrunch",
+    "type": "rss",
+    "frequency":"100",
+    "terms":"techcrunch",
+    "addtags":"#tech"
+    },
+    {
+    "name": "techstartups",
+    "type": "rss",
+    "frequency":"100",
+    "terms":"techstartups",
+    "addtags":"#tech"
+    },
+    {
+    "name": "udemy",
+    "type": "udemy",
+    "frequency":"300",
+    "terms":"udemy",
+    "addtags":"#udemy #udemyfreebies"
+    }]
