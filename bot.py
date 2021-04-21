@@ -223,6 +223,7 @@ class Bot():
         try:
             creds = self.load_reddit_creds()
             #print(get_update(env.client_id,env.client_secret,env.user_agent,"science"))
+            print("Getting post")
             post = redditwidget.get_update(creds['REDDIT_CLIENT_ID'],creds['REDDIT_CLIENT_SECRET'],ua,subreddit)
             print("Tagging post")
             add_tags = basbot.tag_it(post['title'],hashtags)
@@ -236,9 +237,12 @@ class Bot():
             self.tweet_top_tweet(hashtags)
 
     def tweet_udemy(self,terms,addtags):
+        subreddit = "udemyfreebies"
         try:
             creds = self.load_reddit_creds()
-            udemy = udemywidget.get_update(creds['REDDIT_CLIENT_ID'],creds['REDDIT_CLIENT_SECRET'],ua,"#udemyfreebies")
+            print("Getting udemy post")
+            print(creds['REDDIT_CLIENT_ID'],creds['REDDIT_CLIENT_SECRET'])
+            udemy = udemywidget.get_update(creds['REDDIT_CLIENT_ID'],creds['REDDIT_CLIENT_SECRET'],ua,subreddit)
             print("Tweeting Udemy: %s"%(udemy['tweet']))
             #tweets come pre-tagged
             self.tw.tweet(udemy['tweet'])

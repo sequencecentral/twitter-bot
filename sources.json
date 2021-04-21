@@ -1,7 +1,7 @@
 [{
     "name": "twitter",
     "type": "twitter",
-    "frequency": "10",
+    "frequency": "1",
     "terms": "@nytimestech OR @WIRED OR @isc2 OR @MalwareJake OR #science OR #cybersecurity OR #infosec OR #security OR #ransomware OR #hack OR #appsec OR #devsecops OR #devops OR  #ccsp OR #cissp OR #MSExchange OR #encryption OR OWASP OR #udemy OR udemy OR #udemyfreebies OR #udemycoupon OR #udemyfreebie OR #udemyfree OR #udemysale OR #udemyflashsale",
     "addtags": "#tech"
     },
@@ -22,7 +22,7 @@
     {
     "name": "reddit",
     "type": "reddit",
-    "frequency":"450",
+    "frequency":"1",
     "terms":"science technology cybersecurity",
     "addtags":"#tech"
     },
@@ -57,7 +57,7 @@
     {
     "name": "udemy",
     "type": "udemy",
-    "frequency":"300",
+    "frequency":"30000",
     "terms":"udemy",
     "addtags":"#udemy #udemyfreebies"
     }]
