@@ -36,7 +36,8 @@ class Bot():
             try:
                 print("Loading sources from environment variable")
                 self.load_env_sources()
-            except:
+            except Exception as e:
+                print(e)
                 print("Loading default sources")
                 self.load_default_sources()
         self.init_actions()
@@ -97,7 +98,7 @@ class Bot():
         self.normalize_source_frequencies()
 
     def load_source(self,source):
-        # print(source)
+        print("Loading source: "+source["name"])
         parsed={}
         parsed["name"] = source["name"]
         parsed["type"] = source["type"]
