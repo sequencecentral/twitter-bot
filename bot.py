@@ -36,6 +36,7 @@ class Bot():
             except:
                 self.load_default_sources()
         self.init_actions()
+        print(self.actions)
         #Load auth and login to twitter
         if(auth): #if auth provided in call
             auth = self.load_auth(auth)
