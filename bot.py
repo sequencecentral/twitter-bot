@@ -85,7 +85,7 @@ class Bot():
             self.load_sources(sources)
 
     def load_env_sources(self):
-        sources = environ['SOURCES']
+        sources = json.loads(environ['SOURCES'])
         self.load_sources(sources)
 
     ############################ Sources: ############################
