@@ -168,8 +168,8 @@ class Bot():
         print("topic "+topic)
         news = newswidget.get_update(topic)
         if(news):
-            htags = basbot.tag_it(' '.join(news['keywords']),addtags)
-            new_tweet = """{} {} {}""".format(news['title'],news['url'], htags)
+            hashtags = basbot.tag_it(' '.join(news['keywords']),addtags)
+            new_tweet = """{} {} {}""".format(news['title'],news['url'], hashtags)
             print("Response: ",new_tweet)
             try:
                 self.tw.tweet(new_tweet)
@@ -185,8 +185,8 @@ class Bot():
         try:
             ref = rsswidget.get_update(feed_name)
             print("Retrieved tweet from pubmed %s"%(ref['tweet']))
-            htags = basbot.tag_it(ref['title'],addtags)
-            tweet_post = """{} {}""".format(ref['tweet'],htags)
+            hashtags = basbot.tag_it(ref['title'],addtags)
+            tweet_post = """{} {}""".format(ref['tweet'],hashtags)
             print("Tweeting post:  %s"%(tweet_post))
             self.tw.tweet(tweet_post)
         except Exception as e:
@@ -204,8 +204,8 @@ class Bot():
         try:
             ref = rsswidget.get_update(feed_name)
             print("Retrieved tweet from RSS %s"%(ref['tweet']))
-            htags = basbot.tag_it(ref['title'],addtags)
-            tweet_post = """{} {}""".format(ref['tweet'][0:260],htags)
+            hashtags = basbot.tag_it(ref['title'],addtags)
+            tweet_post = """{} {}""".format(ref['tweet'][0:260],hashtags)
             print("Tweeting post:  %s"%(tweet_post))
             self.tw.tweet(tweet_post)
         except Exception as e:
@@ -248,12 +248,12 @@ class Bot():
 
     def tweet_top_tweet(self,terms="",hashtags="#news"):
         tt = self.tw.get_top_tweet()
-        htags = basbot.tag_it(tt.text,hashtags)
+        hashtags = basbot.tag_it(tt.text,hashtags)
         intro = """{}""".format(self.re.get_intro(tt.text))[:278]
         print("Tweet Intro: ",intro)
         print("Tweet Text: ",tt.text)
         try:
-            self.tw.tweet_comment(tt,intro,htags)
+            self.tw.tweet_comment(tt,intro,hashtags)
         except Exception as e:
             print(e)
             print("Unable to tweet.")
