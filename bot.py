@@ -66,7 +66,6 @@ class Bot():
         return auth
 
     def load_reddit_creds(self):
-        creds = {}
         try:
             auth = self.load_env_auth()
         except:
@@ -76,7 +75,7 @@ class Bot():
             except:
                 print("Unable to authenticate to Reddit")
                 exit(1)
-        return creds
+        return auth
 
     ############################ Sources: ############################
     def load_default_sources(self):
