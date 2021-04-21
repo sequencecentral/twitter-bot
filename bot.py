@@ -213,7 +213,7 @@ class Bot():
             ref = rsswidget.get_update(feed_name)
             print("Retrieved tweet from RSS %s"%(ref['tweet']))
             htags = basbot.tag_it(ref['title'],addtags)
-            tweet_post = """{} {}""".format(ref['tweet'],htags)
+            tweet_post = """{} {}""".format(ref['tweet'][0:260],htags)
             print("Tweeting post:  %s"%(tweet_post))
             tw.tweet(tweet_post)
         except Exception as e:
