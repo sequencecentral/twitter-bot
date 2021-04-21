@@ -10,6 +10,7 @@ CONFIG = """
 "min_pop": "1000",
 "character": "default",
 "mode": "interval",
+"behaviors":"tweet chat",
 "username": "@GenomeOrganizer",
 "userid": "294438257"
 },

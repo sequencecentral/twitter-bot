@@ -7,16 +7,17 @@ CONFIG = """
 "waketime": "5",
 "bedtime": "20",
 "timezone": "America/Los_Angeles",
-"min_pop": "100",
+"min_pop": "1000",
 "character": "default",
 "mode": "interval",
+"behaviors":"tweet chat",
 "username": "@GenomeOrganizer",
 "userid": "294438257"
 },
 "sources": [{
 "name": "twitter",
 "type": "twitter",
-"frequency": "10",
+"frequency": "100",
 "terms": "@nytimestech OR @WIRED OR @isc2 OR @MalwareJake OR #science OR #cybersecurity OR #infosec OR #security OR #ransomware OR #hack OR #appsec OR #devsecops OR #devops OR  #ccsp OR #cissp OR #MSExchange OR #encryption OR OWASP OR #udemy OR udemy OR #udemyfreebies OR #udemycoupon OR #udemyfreebie OR #udemyfree OR #udemysale OR #udemyflashsale",
 "addtags": "#tech"
 },
@@ -37,7 +38,7 @@ CONFIG = """
 {
 "name": "reddit",
 "type": "reddit",
-"frequency":"45",
+"frequency":"450",
 "terms":"science technology cybersecurity",
 "addtags":"#tech"
 },
@@ -58,21 +59,21 @@ CONFIG = """
 {
 "name": "techcrunch",
 "type": "rss",
-"frequency":"20",
+"frequency":"200",
 "terms":"techcrunch",
 "addtags":"#tech"
 },
 {
 "name": "techstartups",
 "type": "rss",
-"frequency":"10",
+"frequency":"100",
 "terms":"techstartups",
 "addtags":"#tech"
 },
 {
 "name": "udemy",
 "type": "udemy",
-"frequency":"16",
+"frequency":"160",
 "terms":"udemy",
 "addtags":"#udemy #udemyfreebies"
 }

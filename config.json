@@ -1,0 +1,14 @@
+{
+"hashtags": "#news",
+"interval": "30",
+"randomization": "50",
+"waketime": "5",
+"bedtime": "20",
+"timezone": "America/Los_Angeles",
+"min_pop": "1000",
+"character": "default",
+"mode": "interval",
+"behaviors":"tweet chat",
+"username": "@GenomeOrganizer",
+"userid": "294438257"
+}

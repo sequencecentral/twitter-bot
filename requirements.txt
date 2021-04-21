@@ -30,7 +30,7 @@ virtualenv==20.2.1
 basicbot @ git+https://github.com/sequencecentral/Basic-Bot@main#egg=basicbot@v1.4
 averagejoe @ git+https://github.com/sequencecentral/Average-Joe.git@main#egg=averagejoe@v1.0
 quotewidget @ git+https://github.com/sequencecentral/QuoteWidget.git@main#egg=quotewidget
-twitterwidget @ git+https://github.com/sequencecentral/Twitter-Widget.git@main#egg=twitterwidget@v1.4
+twitterwidget @ git+https://github.com/sequencecentral/Twitter-Widget.git@main#egg=twitterwidget@v1.1.1
 newswidget @ git+https://github.com/sequencecentral/NewsWidget.git@main#egg=newswidget@v1.3.9
 redditwidget @ git+https://github.com/sequencecentral/RedditWidget.git@main#egg=redditwidget@v1.5.7
 pubmedwidget @ git+https://github.com/sequencecentral/pubmed-widget.git@main#egg=pubmedwidget@v1.2

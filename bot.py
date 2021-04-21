@@ -24,12 +24,13 @@ import pubmedwidget
 import rsswidget
 import udemywidget
 version = "1.0"
+ua = "Mozilla Firefox Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:53.0) Gecko/20100101 Firefox/53.0"
 
 class Bot():
     def __init__(self,src=None,auth=None):
         #if specified, load config
         if(src): 
-            print("Sources provided as initialization variable")
+            print("Sources provided as initialization parameter")
             self.load_sources(src)
         else:
             try:
@@ -39,7 +40,8 @@ class Bot():
                 print("Loading default sources")
                 self.load_default_sources()
         self.init_actions()
-        print(self.actions)
+        # print(self.actions)
+        #
         #Load auth and login to twitter
         if(auth): #if auth provided in call
             auth = self.load_auth(auth)
@@ -50,76 +52,41 @@ class Bot():
                 auth = self.load_env_auth()
         self.tw = self.init_twitter(auth)
         self.re = basbot.responder.Responder()
+        self.tw.check_messages(False) #initialize current messages
 
     ############################ Auth: ############################
-    def load_auth(self,env):
-        creds = {}
-        creds['consumer_key'] = env['API_KEY']
-        creds['consumer_secret_key'] = env['API_SECRET_KEY']
-        creds['access_token'] = env['ACCESS_TOKEN']
-        creds['access_token_secret'] = env['ACCESS_TOKEN_SECRET']
-        return creds
-
     def load_default_auth(self):
-        import env
-        e = json.loads(env.AUTH)
-        auth = self.load_auth(e)
-        return auth
+        with open("./env.json") as auth_file:
+            auth = json.load(auth_file)
+            return auth
 
     def load_env_auth(self):
         creds = {}
-        e = json.loads(environ['AUTH'])
-        auth = self.load_auth(e)
+        auth = json.loads(environ['AUTH'])
         return auth
 
     def load_reddit_creds(self):
         creds = {}
         try:
-            a = json.loads(environ['AUTH'])
-            creds['client_id'] = a['REDDIT_CLIENT_ID']
-            creds['client_secret'] = a['REDDIT_CLIENT_SECRET']
+            auth = self.load_env_auth()
         except:
             print("Env not found. Attempting to load Reddit AUTH from local file.")
             try:
-                import env
-                a = json.loads(env.AUTH)
-                creds['client_id'] = a['REDDIT_CLIENT_ID']
-                creds['client_secret'] = a['REDDIT_CLIENT_SECRET']
+                auth = self.load_default_auth()
             except:
                 print("Unable to authenticate to Reddit")
                 exit(1)
         return creds
 
-    ############################ Config: ############################
-    # def load_sources(self,sources):
-    #     self.load_sources(sources)
-
+    ############################ Sources: ############################
     def load_default_sources(self):
-        import config
-        cfg = json.loads(config.CONFIG)
-        sources = cfg['sources']
-        # print(sources)
-        self.load_sources(sources)
+        with open("./sources.json") as source_file:
+            sources = json.load(source_file)
+            self.load_sources(sources)
 
     def load_env_sources(self):
-        cfg = environ['CONFIG']
-        sources = cfg['sources']
+        sources = environ['SOURCES']
         self.load_sources(sources)
-
-    ############################ Settings: ############################
-    def load_settings(self,settings):
-        #overwrite default settings if values found in config
-        if(settings['hashtags']): self.hashtags =           settings['hashtags']
-        if(settings['interval']): self.interval =           settings['interval']
-        if(settings['randomization']): self.randomization = settings['randomization']
-        if(settings['waketime']): self.waketime =           settings['waketime']
-        if(settings['bedtime']): self.bedtime =             settings['bedtime']
-        if(settings['timezone']): self.timezone =           settings['timezone']
-        if(settings['min_pop']): self.min_pop =             settings['min_pop']
-        if(settings['character']): self.character =         settings['character']
-        if(settings['mode']): self.mode =                   settings['mode']
-        if(settings['username']): self.username =           settings['username']
-        if(settings['userid']): self.userid =               settings['userid']
 
     ############################ Sources: ############################
     def load_sources(self,sources):
@@ -144,37 +111,60 @@ class Bot():
         self.sources[parsed["name"]] = parsed
 
     def normalize_source_frequencies(self):
+        tail_length = 1000000
+        #1. Normalize total to tail_length
+        #tail_length is the minimum frequency that we can capture
         denom = 0
-        #1. Normalize total to 100
         for source in self.sources.values():
-            denom += int(source['frequency'])
-        factor = 100/denom
+            source['frequency'] = int(source['frequency'])
+            denom += source['frequency']
+        scaling_factor = tail_length/denom
         #2. Apply values to each source
         for source in self.sources.values():
-            source['frequency'] = int(int(source['frequency'])*factor)
+            source['frequency'] = int(source['frequency']*scaling_factor) #bc scaling_factor can be non-integer
 
     ############################ Twitter: ############################
     def init_twitter(self,auth,query="",htags=""):
-        tw = twitterwidget.TwitterWidget(auth['consumer_key'], auth['consumer_secret_key'], auth['access_token'], auth['access_token_secret'],query,htags)
+        tw = twitterwidget.TwitterWidget(auth['API_KEY'], auth['API_SECRET_KEY'], auth['ACCESS_TOKEN'], auth['ACCESS_TOKEN_SECRET'],query,htags)
         return tw
+
+    ############################ Direct Messages: ###########################
+    def check_messages(self,re=False,character='default'):
+        print("Checking for DMs")
+        msgs = self.tw.check_messages(True)
+        if(msgs):
+            print("Responding ot DMs")
+            for msg in msgs:
+                self.respond(tw,dm,character)
+        else:
+            print("No messages")        
+
+    def respond(self, dm,character='default'):
+        resp = basbot.get_response(character,dm.text)
+        print("Responding to message:")
+        print("DM %s Response: %s "%(dm.text,resp))
+        try:
+            self.tw.respond(dm,resp)
+        except Exception as e:
+            print(e)
+            print("Unable to send response")
 
     ################################# ACTIONS #################################
     def init_actions(self):
         self.actions = []
         for source in self.sources.values():
             if(source['frequency']):
-                for i in range(int(source['frequency'])):
-                    self.actions.append(source['name'])
+                self.actions.extend([source['name']]*(int(source['frequency'])))
 
-    def tweet_quote(self,tw,re,topic,addtags):
+    def tweet_quote(self,topic,addtags):
         print("Tweeting quote")
         try:
-            tw.tweet(qw.get_update())
+            self.tw.tweet(qw.get_update())
         except Exception as e:
             print(e)
             print("Unable to tweet")
 
-    def tweet_news(self,tw,re,topic,addtags):
+    def tweet_news(self,topic,addtags):
         print("Tweeting news")
         print("topic "+topic)
         news = newswidget.get_update(topic)
@@ -183,127 +173,115 @@ class Bot():
             new_tweet = """{} {} {}""".format(news['title'],news['url'], htags)
             print("Response: ",new_tweet)
             try:
-                tw.tweet(new_tweet)
+                self.tw.tweet(new_tweet)
                 return
             except Exception as e:
                 print(e)
                 print("Unable to tweet news.")
         else:
             print('No news is good news')
-            self.tweet_top_tweet(tw,re)
+            self.tweet_top_tweet()
 
-    def tweet_pubmed(self,tw,re,feed_name,addtags):
+    def tweet_pubmed(self,feed_name,addtags):
         try:
             ref = rsswidget.get_update(feed_name)
             print("Retrieved tweet from pubmed %s"%(ref['tweet']))
             htags = basbot.tag_it(ref['title'],addtags)
             tweet_post = """{} {}""".format(ref['tweet'],htags)
             print("Tweeting post:  %s"%(tweet_post))
-            tw.tweet(tweet_post)
+            self.tw.tweet(tweet_post)
         except Exception as e:
             print(e)
             print("Unable to get genomics update")
-            self.tweet_top_tweet(tw,re)
+            self.tweet_top_tweet()
 
-    def tweet_genomics(self,tw,re,topic,addtags):
-        self.tweet_pubmed(tw,re,'genomics',addtags)
+    def tweet_genomics(self,topic,addtags):
+        self.tweet_pubmed('genomics',addtags)
 
-    def tweet_covid19(self,tw,re,topic,addtags):
-        self.tweet_pubmed(tw,re,'covid19',addtags)
+    def tweet_covid19(self,topic,addtags):
+        self.tweet_pubmed('covid19',addtags)
 
-    def tweet_rss(self,tw,re,feed_name,addtags):
+    def tweet_rss(self,feed_name,addtags):
         try:
             ref = rsswidget.get_update(feed_name)
             print("Retrieved tweet from RSS %s"%(ref['tweet']))
             htags = basbot.tag_it(ref['title'],addtags)
             tweet_post = """{} {}""".format(ref['tweet'][0:260],htags)
             print("Tweeting post:  %s"%(tweet_post))
-            tw.tweet(tweet_post)
+            self.tw.tweet(tweet_post)
         except Exception as e:
             print(e)
             print("Unable to tweet RSS %s"%(feed_name))
-            self.tweet_top_tweet(tw,re)
+            self.tweet_top_tweet()
 
-    def tweet_techcrunch(self,tw,re,topic,addtags):
-        self.tweet_rss(tw,re,"techcrunch",addtags)
+    def tweet_techcrunch(self,topic,addtags):
+        self.tweet_rss("techcrunch",addtags)
 
-    def tweet_techstartups(self,tw,re,topic,addtags):
-        self.tweet_rss(tw,re,"startups",addtags)
+    def tweet_techstartups(self,topic,addtags):
+        self.tweet_rss("startups",addtags)
 
-    def tweet_reddit(self,tw,re,subreddit,hashtags="#news"):
-        rejects = ['reddit.com','redd.it','reddit','nsfw','redd','red']
-        creds = self.load_reddit_creds()
-        ua = "Mozilla Firefox Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:53.0) Gecko/20100101 Firefox/53.0"
+    def tweet_reddit(self,subreddit,hashtags="#news"):
         try:
-            #             print(get_update(env.client_id,env.client_secret,env.user_agent,"science"))
-            post = redditwidget.get_update(creds['client_id'],creds['client_secret'],ua,subreddit)
+            creds = self.load_reddit_creds()
+            #print(get_update(env.client_id,env.client_secret,env.user_agent,"science"))
+            post = redditwidget.get_update(creds['REDDIT_CLIENT_ID'],creds['REDDIT_CLIENT_SECRET'],ua,subreddit)
             print("Tagging post")
             add_tags = basbot.tag_it(post['title'],hashtags)
             tweet_post = """{} {}""".format(post['tweet'],add_tags)
             print("Tweeting post:  %s"%(tweet_post))
-            tw.tweet(tweet_post)
+            self.tw.tweet(tweet_post)
         except Exception as e:
             print(e)
             print("Unable to tweet post")
             print("Tweeting top tweet instead.")
-            self.tweet_top_tweet(tw,re,hashtags)
+            self.tweet_top_tweet(hashtags)
 
-    def tweet_udemy(self,tw,re,terms,addtags):
-        creds = self.load_reddit_creds()
+    def tweet_udemy(self,terms,addtags):
         try:
-            udemy = udemywidget.get_update(creds['client_id'],creds['client_secret'],"Mozilla Firefox Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:53.0) Gecko/20100101 Firefox/53.0","udemyfreebies")
+            creds = self.load_reddit_creds()
+            udemy = udemywidget.get_update(creds['client_id'],creds['client_secret'],ua,"udemyfreebies")
             print("Tweeting Udemy: %s"%(udemy['tweet']))
             #tweets come pre-tagged
-            tw.tweet(udemy['tweet'])
+            self.tw.tweet(udemy['tweet'])
         except Exception as e:
             print(e)
             print("Unable to tweet.")
 
-    def tweet_top_tweet(self,tw,re,terms="",hashtags="#news"):
-        tt = tw.get_top_tweet()
+    def tweet_top_tweet(self,terms="",hashtags="#news"):
+        tt = self.tw.get_top_tweet()
         htags = basbot.tag_it(tt.text,hashtags)
         intro = """{}""".format(re.get_intro(tt.text))[:278]
         print("Tweet Intro: ",intro)
         print("Tweet Text: ",tt.text)
         try:
-            tw.tweet_comment(tt,intro,htags)
+            self.tw.tweet_comment(tt,intro,htags)
         except Exception as e:
             print(e)
             print("Unable to tweet.")
 
-    def reply_top_tweet(self,tw,re):
-        tt = tw.get_top_tweet()
-        resp = re.get_reply(tt.text)
+    def reply_top_tweet(self):
+        tt = self.tw.get_top_tweet()
+        resp = self.re.get_reply(tt.text)
         print("Tweet %s Response: %s "%(tt.text,resp))
         try:
-            tw.tweet_reply(tt, resp)
+            self.tw.tweet_reply(tt, resp)
         except Exception as e:
             print(e)
             print("Unable to tweet.")
-
-    def respond(self,tw, dm):
-        resp = basbot.get_response('default',dm.text)
-        print("Responding to message:")
-        print("DM %s Response: %s "%(dm.text,resp))
-        try:
-            tw.respond(dm,resp)
-        except Exception as e:
-            print(e)
-            print("Unable to send response")
 
     def do_action(self):
         #note that self.actions is populated with actions proportional to specified frequencies
         action = random.choice(self.actions)
         print("Selected: "+action)
-        if(action == "quote"): self.tweet_quote(self.tw,self.re,self.sources["quote"]["terms"],self.sources["quote"]["addtags"])
-        elif(action == "news"): self.tweet_news(self.tw,self.re,self.sources["news"]["terms"],self.sources["news"]["addtags"])
-        elif(action == "reddit"): self.tweet_reddit(self.tw,self.re,self.sources["reddit"]["terms"],self.sources["reddit"]["addtags"])
-        elif(action == "genomics"): self.tweet_genomics(self.tw,self.re,self.sources["genomics"]["terms"],self.sources["genomics"]["addtags"])
-        elif(action == "covid19"): self.tweet_covid19(self.tw,self.re,self.sources["covid19"]["terms"],self.sources["covid19"]["addtags"])
-        elif(action == "techcrunch"): self.tweet_techcrunch(self.tw,self.re,self.sources["techcrunch"]["terms"],self.sources["techcrunch"]["addtags"])
-        elif(action == "techstartups"): self.tweet_techstartups(self.tw,self.re,self.sources["techstartups"]["terms"],self.sources["techstartups"]["addtags"])
-        elif(action == "udemy"): self.tweet_udemy(self.tw,self.re,self.sources["udemy"]["terms"],self.sources["udemy"]["addtags"])
-        elif(action == "twitter"): self.tweet_top_tweet(self.tw,self.re)
+        if(action == "quote"): self.tweet_quote(self.sources["quote"]["terms"],self.sources["quote"]["addtags"])
+        elif(action == "news"): self.tweet_news(self.sources["news"]["terms"],self.sources["news"]["addtags"])
+        elif(action == "reddit"): self.tweet_reddit(self.sources["reddit"]["terms"],self.sources["reddit"]["addtags"])
+        elif(action == "genomics"): self.tweet_genomics(self.sources["genomics"]["terms"],self.sources["genomics"]["addtags"])
+        elif(action == "covid19"): self.tweet_covid19(self.sources["covid19"]["terms"],self.sources["covid19"]["addtags"])
+        elif(action == "techcrunch"): self.tweet_techcrunch(self.sources["techcrunch"]["terms"],self.sources["techcrunch"]["addtags"])
+        elif(action == "techstartups"): self.tweet_techstartups(self.sources["techstartups"]["terms"],self.sources["techstartups"]["addtags"])
+        elif(action == "udemy"): self.tweet_udemy(self.sources["udemy"]["terms"],self.sources["udemy"]["addtags"])
+        elif(action == "twitter"): self.tweet_top_tweet()
         else: print("Action not found.")
 
     ############################ Test: ############################
