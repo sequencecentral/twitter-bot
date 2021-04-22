@@ -11,18 +11,14 @@ import pytz
 import numpy as np
 import nltk
 
-from BotStreamListener import BotStreamListener
-# import seqbot
-import basicbot as basbot
-import quotewidget as qw
-# import joesixpack as jsp
-import averagejoe as jsp
-import twitterwidget
-import newswidget
-import redditwidget
-import pubmedwidget
-import rsswidget
-import udemywidget
+import basicbot
+#widgets
+from synchronicity import quotewidget
+from synchronicity import twitterwidget
+from synchronicity import newswidget
+from synchronicity import redditwidget
+from synchronicity import rsswidget
+from synchronicity import udemywidget
 version = "1.0"
 ua = "Mozilla Firefox Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:53.0) Gecko/20100101 Firefox/53.0"
 
@@ -52,7 +48,7 @@ class Bot():
             except:
                 auth = self.load_env_auth()
         self.tw = self.init_twitter(auth)
-        self.re = basbot.responder.Responder()
+        self.re = basicbot.responder.Responder()
         self.tw.check_messages(False) #initialize current messages
 
     ############################ Auth: ############################
@@ -140,7 +136,7 @@ class Bot():
             print("No messages")        
 
     def respond(self, dm,character='default'):
-        resp = basbot.get_response(character,dm.text)
+        resp = basicbot.get_response(character,dm.text)
         print("Responding to message:")
         print("DM %s Response: %s "%(dm.text,resp))
         try:
@@ -159,7 +155,7 @@ class Bot():
     def tweet_quote(self,topic,addtags):
         print("Tweeting quote")
         try:
-            self.tw.tweet(qw.get_update())
+            self.tw.tweet(quotewidget.get_update())
         except Exception as e:
             print(e)
             print("Unable to tweet")
@@ -169,7 +165,7 @@ class Bot():
         print("topic "+topic)
         news = newswidget.get_update(topic)
         if(news):
-            hashtags = basbot.tag_it(' '.join(news['keywords']),addtags)
+            hashtags = basicbot.tag_it(' '.join(news['keywords']),addtags)
             new_tweet = """{} {} {}""".format(news['title'],news['url'], hashtags)
             print("Response: ",new_tweet)
             try:
@@ -186,7 +182,7 @@ class Bot():
         try:
             ref = rsswidget.get_update(feed_name)
             print("Retrieved tweet from pubmed %s"%(ref['tweet']))
-            hashtags = basbot.tag_it(ref['title'],addtags)
+            hashtags = basicbot.tag_it(ref['title'],addtags)
             tweet_post = """{} {}""".format(ref['tweet'],hashtags)
             print("Tweeting post:  %s"%(tweet_post))
             self.tw.tweet(tweet_post)
@@ -220,7 +216,7 @@ class Bot():
         try:
             ref = rsswidget.get_update(feed_name)
             print("Retrieved tweet from RSS %s"%(ref['tweet']))
-            hashtags = basbot.tag_it(ref['title'],addtags)
+            hashtags = basicbot.tag_it(ref['title'],addtags)
             tweet_post = """{} {}""".format(ref['tweet'][0:260],hashtags)
             print("Tweeting post:  %s"%(tweet_post))
             self.tw.tweet(tweet_post)
@@ -236,7 +232,7 @@ class Bot():
             print("Getting post")
             post = redditwidget.get_update(creds['REDDIT_CLIENT_ID'],creds['REDDIT_CLIENT_SECRET'],ua,subreddit)
             print("Tagging post")
-            add_tags = basbot.tag_it(post['title'],hashtags)
+            add_tags = basicbot.tag_it(post['title'],hashtags)
             tweet_post = """{} {}""".format(post['tweet'],add_tags)
             print("Tweeting post:  %s"%(tweet_post))
             self.tw.tweet(tweet_post)
@@ -261,7 +257,7 @@ class Bot():
 
     def tweet_top_tweet(self,terms="",hashtags="#news"):
         tt = self.tw.get_top_tweet()
-        hashtags = basbot.tag_it(tt.text,hashtags)
+        hashtags = basicbot.tag_it(tt.text,hashtags)
         intro = """{}""".format(self.re.get_intro(tt.text))[:278]
         print("Tweet Intro: ",intro)
         print("Tweet Text: ",tt.text)
