@@ -201,6 +201,21 @@ class Bot():
     def tweet_covid19(self,topic,addtags):
         self.tweet_pubmed('covid19',addtags)
 
+    def tweet_techcrunch(self,topic,addtags):
+        self.tweet_rss("techcrunch",addtags)
+
+    def tweet_techstartups(self,topic,addtags):
+        self.tweet_rss("startups",addtags)
+
+    def tweet_nature_blog(self,topic,addtags):
+        self.tweet_rss("nature_blog",addtags)
+    
+    def tweet_genomeweb(self,topic,addtags):
+        self.tweet_rss("genomeweb",addtags)
+
+    def tweet_bioitworld(self,topic,addtags):
+        self.tweet_rss("bioitworld",addtags)
+
     def tweet_rss(self,feed_name,addtags):
         try:
             ref = rsswidget.get_update(feed_name)
@@ -213,12 +228,6 @@ class Bot():
             print(e)
             print("Unable to tweet RSS %s"%(feed_name))
             self.tweet_top_tweet()
-
-    def tweet_techcrunch(self,topic,addtags):
-        self.tweet_rss("techcrunch",addtags)
-
-    def tweet_techstartups(self,topic,addtags):
-        self.tweet_rss("startups",addtags)
 
     def tweet_reddit(self,subreddit,hashtags="#news"):
         try:
@@ -284,7 +293,10 @@ class Bot():
         elif(action == "techcrunch"): self.tweet_techcrunch(self.sources["techcrunch"]["terms"],self.sources["techcrunch"]["addtags"])
         elif(action == "techstartups"): self.tweet_techstartups(self.sources["techstartups"]["terms"],self.sources["techstartups"]["addtags"])
         elif(action == "udemy"): self.tweet_udemy(self.sources["udemy"]["terms"],self.sources["udemy"]["addtags"])
-        elif(action == "twitter"): self.tweet_top_tweet()
+        elif(action == "genomeweb"): self.tweet_genomeweb(self.sources["genomeweb"]["terms"],self.sources["genomeweb"]["addtags"])
+        elif(action == "bioitworld"): self.tweet_bioitworld(self.sources["bioitworld"]["terms"],self.sources["bioitworld"]["addtags"])
+        elif(action == "naturenews"): self.tweet_naturenews(self.sources["naturenews"]["terms"],self.sources["naturenews"]["addtags"])
+        elif(action == "twitter"): self.tweet_tweet_top_tweet()
         else: print("Action not found.")
 
     ############################ Test: ############################

@@ -57,7 +57,29 @@
     {
     "name": "udemy",
     "type": "udemy",
-    "frequency":"30000",
+    "frequency":"300",
     "terms":"udemy",
     "addtags":"#udemy #udemyfreebies"
-    }]
+    },
+    {
+    "name":"genomeweb",
+    "type":"rss",
+    "frequency":"100",
+    "terms":"genomics",
+    "addtags":"#science"
+    },
+    {
+    "name":"bioitworld",
+    "type":"rss",
+    "frequency":"100",
+    "terms":"genomics",
+    "addtags":"#science"
+    },
+    {
+    "name":"naturenews",
+    "type":"rss",
+    "frequency":"100",
+    "terms":"genomics",
+    "addtags":"#science"
+    }
+]
