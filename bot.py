@@ -296,7 +296,7 @@ class Bot():
         elif(action == "genomeweb"): self.tweet_genomeweb(self.sources["genomeweb"]["terms"],self.sources["genomeweb"]["addtags"])
         elif(action == "bioitworld"): self.tweet_bioitworld(self.sources["bioitworld"]["terms"],self.sources["bioitworld"]["addtags"])
         elif(action == "nature_blog"): self.tweet_nature_blog(self.sources["nature_blog"]["terms"],self.sources["nature_blog"]["addtags"])
-        elif(action == "twitter"): self.tweet_tweet_top_tweet()
+        elif(action == "twitter"): self.tweet_top_tweet()
         else: print("Action not found.")
 
     ############################ Test: ############################
