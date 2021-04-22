@@ -76,7 +76,7 @@
     "addtags":"#science"
     },
     {
-    "name":"naturenews",
+    "name":"nature_blog",
     "type":"rss",
     "frequency":"100",
     "terms":"genomics",
