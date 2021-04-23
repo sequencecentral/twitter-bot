@@ -155,7 +155,7 @@ class Bot():
     def tweet_quote(self,topic,addtags):
         print("Tweeting quote")
         try:
-            self.tw.tweet(quotewidget.get_update())
+            self.tw.tweet(quotewidget.get_update()['tweet'])
         except Exception as e:
             print(e)
             print("Unable to tweet")
