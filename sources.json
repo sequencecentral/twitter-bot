@@ -57,7 +57,7 @@
     {
     "name": "udemy",
     "type": "udemy",
-    "frequency":"300",
+    "frequency":"300000",
     "terms":"udemy",
     "addtags":"#udemy #udemyfreebies"
     },
