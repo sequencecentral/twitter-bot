@@ -188,7 +188,7 @@ class Bot():
             self.tw.tweet(tweet_post)
         except Exception as e:
             print(e)
-            print("Unable to get genomics update")
+            print("Unable to get pubmed update")
             self.tweet_top_tweet()
 
     def tweet_genomics(self,topic,addtags):
