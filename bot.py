@@ -104,6 +104,10 @@ class Bot():
             parsed["frequency"] = 0
         parsed["terms"] = source["terms"]
         parsed["addtags"] = source["addtags"]
+        if('url' in source): 
+            parsed["url"] = source["url"]
+        else:
+            parsed["url"] = ""
         self.sources[parsed["name"]] = parsed
 
     def normalize_source_frequencies(self):
@@ -213,34 +217,37 @@ class Bot():
         self.tweet_rss("bioitworld",addtags)
 
     def tweet_rss(self,feed_name,addtags):
-        try:
-            ref = rsswidget.get_update(feed_name)
-            print("Retrieved tweet from RSS %s"%(ref['tweet']))
-            hashtags = basicbot.tag_it(ref['title'],addtags)
-            tweet_post = """{} {}""".format(ref['tweet'][0:260],hashtags)
-            print("Tweeting post:  %s"%(tweet_post))
-            self.tw.tweet(tweet_post)
-        except Exception as e:
-            print(e)
-            print("Unable to tweet RSS %s"%(feed_name))
-            self.tweet_top_tweet()
+        # try:
+        ref = rsswidget.get_update(feed_name)
+        print("Retrieved tweet from RSS %s"%(ref['tweet']))
+        hashtags = basicbot.tag_it(ref['title'],addtags)
+        tweet_post = """{} {}""".format(ref['tweet'][0:260],hashtags)
+        print("Tweeting post:  %s"%(tweet_post))
+        self.tw.tweet(tweet_post)
+        # except Exception as e:
+        #     print(e)
+        #     print("Unable to tweet RSS %s"%(feed_name))
+        #     self.tweet_top_tweet()
 
     def tweet_reddit(self,subreddit,hashtags="#news"):
+        # try:
+        creds = self.load_reddit_creds()
+        #print(get_update(env.client_id,env.client_secret,env.user_agent,"science"))
+        print("Getting post")
+        post = redditwidget.get_update(creds['REDDIT_CLIENT_ID'],creds['REDDIT_CLIENT_SECRET'],ua,subreddit)
+        print("Tagging post")
         try:
-            creds = self.load_reddit_creds()
-            #print(get_update(env.client_id,env.client_secret,env.user_agent,"science"))
-            print("Getting post")
-            post = redditwidget.get_update(creds['REDDIT_CLIENT_ID'],creds['REDDIT_CLIENT_SECRET'],ua,subreddit)
-            print("Tagging post")
             add_tags = basicbot.tag_it(post['title'],hashtags)
-            tweet_post = """{} {}""".format(post['tweet'],add_tags)
-            print("Tweeting post:  %s"%(tweet_post))
-            self.tw.tweet(tweet_post)
-        except Exception as e:
-            print(e)
-            print("Unable to tweet post")
-            print("Tweeting top tweet instead.")
-            self.tweet_top_tweet(hashtags)
+        except:
+            add_tags = hashtags
+        tweet_post = """{} {}""".format(post['tweet'],add_tags)
+        print("Tweeting post:  %s"%(tweet_post))
+        self.tw.tweet(tweet_post)
+        # except Exception as e:
+        #     print(e)
+        #     print("Unable to tweet post")
+        #     print("Tweeting top tweet instead.")
+        #     self.tweet_top_tweet(hashtags)
 
     def tweet_udemy(self,terms,addtags):
         subreddit = "udemyfreebies"
@@ -293,7 +300,9 @@ class Bot():
         elif(action == "bioitworld"): self.tweet_bioitworld(self.sources["bioitworld"]["terms"],self.sources["bioitworld"]["addtags"])
         elif(action == "nature_blog"): self.tweet_nature_blog(self.sources["nature_blog"]["terms"],self.sources["nature_blog"]["addtags"])
         elif(action == "twitter"): self.tweet_top_tweet()
-        else: print("Action not found.")
+        else: 
+            print("Action not found.")
+            self.tweet_rss(self.sources[action]["url"],self.sources[action]["addtags"])
 
     ############################ Test: ############################
     def test_load_config_file(self):
