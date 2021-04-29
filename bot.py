@@ -10,15 +10,16 @@ import random
 import pytz
 import numpy as np
 import nltk
+from func_timeout import func_timeout, FunctionTimedOut , func_set_timeout
 
 import basicbot
 #widgets
-from synchronicity import quotewidget
-from synchronicity import twitterwidget
-from synchronicity import newswidget
-from synchronicity import redditwidget
-from synchronicity import rsswidget
-from synchronicity import udemywidget
+from synchronicity2 import quotewidget
+from synchronicity2 import twitterwidget
+from synchronicity2 import newswidget
+from synchronicity2 import redditwidget
+from synchronicity2 import rsswidget
+from synchronicity2 import udemywidget
 version = "1.0"
 ua = "Mozilla Firefox Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:53.0) Gecko/20100101 Firefox/53.0"
 
@@ -129,6 +130,7 @@ class Bot():
         return tw
 
     ############################ Direct Messages: ###########################
+    @func_set_timeout(60)
     def check_messages(self,re=False,character='default'):
         print("Checking for DMs")
         msgs = self.tw.check_messages(True)
@@ -216,6 +218,9 @@ class Bot():
     def tweet_bioitworld(self,topic,addtags):
         self.tweet_rss("bioitworld",addtags)
 
+    def tweet_job(self,topic,addtags):
+        self.tweet_rss("hot_jobs",addtags)
+
     def tweet_rss(self,feed_name,addtags):
         # try:
         ref = rsswidget.get_update(feed_name)
@@ -224,10 +229,6 @@ class Bot():
         tweet_post = """{} {}""".format(ref['tweet'][0:260],hashtags)
         print("Tweeting post:  %s"%(tweet_post))
         self.tw.tweet(tweet_post)
-        # except Exception as e:
-        #     print(e)
-        #     print("Unable to tweet RSS %s"%(feed_name))
-        #     self.tweet_top_tweet()
 
     def tweet_reddit(self,subreddit,hashtags="#news"):
         # try:
@@ -283,7 +284,8 @@ class Bot():
         except Exception as e:
             print(e)
             print("Unable to tweet.")
-
+    
+    @func_set_timeout(60)
     def do_action(self):
         #note that self.actions is populated with actions proportional to specified frequencies
         action = random.choice(self.actions)
@@ -299,6 +301,7 @@ class Bot():
         elif(action == "genomeweb"): self.tweet_genomeweb(self.sources["genomeweb"]["terms"],self.sources["genomeweb"]["addtags"])
         elif(action == "bioitworld"): self.tweet_bioitworld(self.sources["bioitworld"]["terms"],self.sources["bioitworld"]["addtags"])
         elif(action == "nature_blog"): self.tweet_nature_blog(self.sources["nature_blog"]["terms"],self.sources["nature_blog"]["addtags"])
+        elif(action == "jobs"): self.tweet_job(self.sources["jobs"]["terms"],self.sources["jobs"]["addtags"])
         elif(action == "twitter"): self.tweet_top_tweet()
         else: 
             print("Action not found.")

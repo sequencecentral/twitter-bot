@@ -1,73 +1,80 @@
 [
-    {
-    "name": "udemy",
-    "type": "udemy",
-    "frequency":"300",
-    "terms":"udemy",
-    "addtags":"#udemy #udemyfreebies"
-    },
-    {
-    "name": "reddit",
-    "type": "reddit",
-    "frequency":"400",
-    "terms":"technology",
-    "addtags":"#tech"
-    },
-    {
-    "name": "techcrunch",
-    "type": "rss",
-    "frequency":"100",
-    "terms":"techcrunch",
-    "addtags":"#tech"
-    },
-    {
-    "name": "techstartups",
-    "type": "rss",
-    "frequency":"25",
-    "terms":"techstartups",
-    "addtags":"#tech"
-    },
-    {
-    "name": "twitter",
-    "type": "twitter",
-    "frequency": "25",
-    "terms": "@nytimestech OR @WIRED OR @isc2 OR @MalwareJake OR #science OR #cybersecurity OR #infosec OR #security OR #ransomware OR #appsec OR #devsecops OR #devops OR  #ccsp OR #cissp OR #udemy OR udemy OR #udemyfreebies OR #udemycoupon OR #udemyfreebie OR #udemyfree OR #udemysale OR #udemyflashsale",
-    "addtags": "#tech"
-    },
-    {
-    "name": "quote",
-    "type": "quote",
-    "frequency":"1",
-    "terms":" ",
-    "addtags":"#quotes"
-    },
-    {
-    "name": "news",
-    "type": "news",
-    "frequency":"10",
-    "terms":"tech or technology or cybersecurity or hack",
-    "addtags":"#news"
-    },
-    {
-    "name": "genomics",
-    "type": "rss",
-    "frequency":"0",
-    "terms":"genomics",
-    "addtags":"#science #genomics"
-    },
-    {
-    "name": "covid19",
-    "type": "rss",
-    "frequency":"0",
-    "terms":"covid19",
-    "addtags":"#covid19"
-    },
-    {
-    "name":"engadget",
-    "type":"rss",
-    "frequency":"50",
-    "terms":"tech",
-    "addtags":"#tech",
-    "url":"https://www.engadget.com/rss.xml"
-    }
-    ]
+{
+"name": "udemy",
+"type": "udemy",
+"frequency":"300",
+"terms":"udemy",
+"addtags":"#udemy #udemyfreebies"
+},
+{
+"name": "reddit",
+"type": "reddit",
+"frequency":"400",
+"terms":"technology",
+"addtags":"#tech"
+},
+{
+"name": "techcrunch",
+"type": "rss",
+"frequency":"100",
+"terms":"techcrunch",
+"addtags":"#tech"
+},
+{
+"name": "techstartups",
+"type": "rss",
+"frequency":"25",
+"terms":"techstartups",
+"addtags":"#tech"
+},
+{
+"name": "twitter",
+"type": "twitter",
+"frequency": "25",
+"terms": "@nytimestech OR @WIRED OR @isc2 OR @MalwareJake OR #science OR #cybersecurity OR #infosec OR #security OR #ransomware OR #appsec OR #devsecops OR #devops OR  #ccsp OR #cissp OR #udemy OR udemy OR #udemyfreebies OR #udemycoupon OR #udemyfreebie OR #udemyfree OR #udemysale OR #udemyflashsale",
+"addtags": "#tech"
+},
+{
+"name": "quote",
+"type": "quote",
+"frequency":"1",
+"terms":" ",
+"addtags":"#quotes"
+},
+{
+"name": "news",
+"type": "news",
+"frequency":"10",
+"terms":"tech or technology or cybersecurity or hack",
+"addtags":"#news"
+},
+{
+"name": "genomics",
+"type": "rss",
+"frequency":"0",
+"terms":"genomics",
+"addtags":"#science #genomics"
+},
+{
+"name": "covid19",
+"type": "rss",
+"frequency":"0",
+"terms":"covid19",
+"addtags":"#covid19"
+},
+{
+"name":"engadget",
+"type":"rss",
+"frequency":"50",
+"terms":"tech",
+"addtags":"#tech",
+"url":"https://www.engadget.com/rss.xml"
+},
+{
+"name":"jobs",
+"type":"rss",
+"frequency":"500000",
+"terms":"jobs",
+"addtags":"#jobs"
+}
+]

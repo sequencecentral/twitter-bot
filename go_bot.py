@@ -10,6 +10,7 @@ import random
 import pytz
 import numpy as np
 import nltk
+from func_timeout import func_timeout, FunctionTimedOut , func_set_timeout
 
 import bot 
 from BotStreamListener import BotStreamListener
@@ -72,10 +73,16 @@ class Go_Bot():
             try:
                 if("chat" in self.behaviors):
                     print("Chat: Responding to messages")
-                    self.bot.check_messages(True,'default') #respond to messages
+                    try:
+                        self.bot.check_messages(True,'default') #respond to messages
+                    except FunctionTimedOut:
+                        print("Timed out responding to messages.")
                 if("tweet" in self.behaviors):
-                    print("Tweet: Sending tweet")                
-                    self.bot.do_action()
+                    print("Tweet: Sending tweet")  
+                    try:              
+                        self.bot.do_action()
+                    except FunctionTimedOut:
+                        print("Timed out sending tweet.")
                 next_intvl=self.joe.get_next_interval()
                 print("""Time is: {}. Sleeping for {} minutes""".format(bot.getHour(self.timezone),next_intvl))
                 #convert interval to seconds for sleep

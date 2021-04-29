@@ -1,18 +1,40 @@
-from setuptools import setup
+import setuptools.command.build_py
+from setuptools import setup, find_packages
+from setuptools.command.install import install as _install
 
-with open("README.md", 'r') as f:
-    long_description = f.read()
+#custom post-installation steps go here:
+class Install(_install):
+    def run(self):
+        _install.do_egg_install(self)
+        #nothing else to do
 
 setup(
+    cmdclass={
+        'install': Install,
+    },
     name='twitterbot',
-    packages=['twitterbot'],
     description='twitterbot',
     url='https://github.com/sequencecentral/twitter-bot.git',
     # git+https://github.com/sequencecentral/twitter-bot.git@main#egg=twitterbot
-    author='Steve Ayers',
+    author='Steve Ayers, Ph.D.',
     author_email='steve@sequenccecentral.com',
     # install_requires=[],
-    version='1.3.5',
-    license='',
+    version='1',
+    license='MIT',
+    # packages=['synchronicity','synchronicity.quotewidget'],
+    packages = find_packages(),
+    include_package_data = True,
+    package_data={'': ['config.json','sources.json']},
+    # Needed to actually package something
+    # Needed for dependencies
+    # install_requires=[''],
+    # *strongly* suggested for sharing
     long_description=open('README.md').read(),
+    install_requires=open('requirements.txt').read(),
+    # We will also need a readme eventually (there will be a warning)
+    # long_description=open('README.txt').read(),
 )
+
+#to make an egg:
+#python setup.py bdist_egg
+#egg-info added
