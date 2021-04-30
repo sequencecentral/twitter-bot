@@ -1,0 +1,14 @@
+[Unit]
+Description=twitterbot - Toonsinator
+After=network.target
+StartLimitIntervalSec=10
+
+[Service]
+Type=simple
+Restart=always
+RestartSec=10
+User=user1
+ExecStart=/home/user1/Projects/twitter-bot_t8r/twitter-bot_sc.sh
+
+[Install]
+WantedBy=multi-user.target

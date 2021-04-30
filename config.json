@@ -1,14 +1,14 @@
 {
     "hashtags": "#tech",
-    "interval": "15",
-    "randomization": "50",
-    "waketime": "5",
-    "bedtime": "20",
+    "interval": "5",
+    "randomization": "10",
+    "waketime": "10",
+    "bedtime": "23",
     "timezone": "America/Los_Angeles",
     "min_pop": "1000",
     "character": "default",
     "mode": "interval",
-    "behaviors":"tweet chat",
-    "username": "@SequenceCentral",
+    "behaviors":"chat",
+    "username": "@Toonsinator3",
     "userid": "294438257"
     }
