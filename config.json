@@ -8,7 +8,7 @@
     "min_pop": "1000",
     "character": "default",
     "mode": "interval",
-    "behaviors":"chat",
+    "behaviors":"chat tweet",
     "username": "@Toonsinator3",
     "userid": "294438257"
     }
