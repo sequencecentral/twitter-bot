@@ -1,14 +1,14 @@
 {
-    "hashtags": "#tech",
-    "interval": "5",
-    "randomization": "10",
-    "waketime": "10",
-    "bedtime": "23",
-    "timezone": "America/Los_Angeles",
-    "min_pop": "1000",
-    "character": "default",
-    "mode": "interval",
-    "behaviors":"chat tweet",
-    "username": "@Toonsinator3",
-    "userid": "294438257"
-    }
+"hashtags": "#tech",
+"interval": "5",
+"randomization": "10",
+"waketime": "10",
+"bedtime": "23",
+"timezone": "America/Los_Angeles",
+"min_pop": "1000",
+"character": "default",
+"mode": "interval",
+"behaviors":"chat tweet",
+"username": "@Toonsinator3",
+"userid": "294438257"
+}

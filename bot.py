@@ -11,6 +11,7 @@ import pytz
 import numpy as np
 import nltk
 from func_timeout import func_timeout, FunctionTimedOut , func_set_timeout
+import argparse
 
 import basicbot
 #widgets
@@ -24,56 +25,17 @@ version = "1.0"
 ua = "Mozilla Firefox Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:53.0) Gecko/20100101 Firefox/53.0"
 
 class Bot():
-    def __init__(self,src=None,auth=None):
-        #if specified, load config
-        if(src): 
-            print("Sources provided as initialization parameter")
-            self.load_sources(src)
-        else:
-            try:
-                print("Loading sources from environment variable")
-                self.load_env_sources()
-            except Exception as e:
-                print(e)
-                print("Loading default sources")
-                self.load_default_sources()
-        self.init_actions()
-        # print(self.actions)
-        #
-        #Load auth and login to twitter
-        if(auth): #if auth provided in call
-            auth = self.load_auth(auth)
-        else:
-            try:
-                auth = self.load_default_auth()
-            except:
-                auth = self.load_env_auth()
-        self.tw = self.init_twitter(auth)
+    def __init__(self,auth, source_list):
+        self.auth = auth
+        self.load_sources(source_list)
+        # self.init_actions() #moved to load_sources
+        #Initialize bot
         self.re = basicbot.responder.Responder()
+        self.tw = self.init_twitter(auth)
         self.tw.check_messages(False) #initialize current messages
 
-    ############################ Auth: ############################
-    def load_default_auth(self):
-        with open("./env.json") as auth_file:
-            auth = json.load(auth_file)
-            return auth
-
-    def load_env_auth(self):
-        creds = {}
-        auth = json.loads(environ['AUTH'])
-        return auth
-
     def load_reddit_creds(self):
-        try:
-            auth = self.load_env_auth()
-        except:
-            print("Env not found. Attempting to load Reddit AUTH from local file.")
-            try:
-                auth = self.load_default_auth()
-            except:
-                print("Unable to authenticate to Reddit")
-                exit(1)
-        return auth
+        return self.auth
 
     ############################ Sources: ############################
     def load_default_sources(self):
@@ -85,7 +47,6 @@ class Bot():
         sources = json.loads(environ['SOURCES'])
         self.load_sources(sources)
 
-    ############################ Sources: ############################
     def load_sources(self,src):
         # print("sources:   "+sources.)
         self.sources = {}
@@ -93,6 +54,7 @@ class Bot():
             # print(source)
             self.load_source(source)
         self.normalize_source_frequencies()
+        self.init_actions()
 
     def load_source(self,source):
         print("Loading source: "+source["name"])
@@ -232,7 +194,8 @@ class Bot():
 
     def tweet_reddit(self,subreddit,hashtags="#news"):
         # try:
-        creds = self.load_reddit_creds()
+        # creds = self.load_reddit_creds()
+        creds = self.auth
         #print(get_update(env.client_id,env.client_secret,env.user_agent,"science"))
         print("Getting post")
         post = redditwidget.get_update(creds['REDDIT_CLIENT_ID'],creds['REDDIT_CLIENT_SECRET'],ua,subreddit)
@@ -253,7 +216,8 @@ class Bot():
     def tweet_udemy(self,terms,addtags):
         subreddit = "udemyfreebies"
         try:
-            creds = self.load_reddit_creds()
+            # creds = self.load_reddit_creds()
+            creds = self.auth
             print("Getting udemy post")
             udemy = udemywidget.get_update(creds['REDDIT_CLIENT_ID'],creds['REDDIT_CLIENT_SECRET'])
             print("Tweeting Udemy: %s"%(udemy['tweet']))
