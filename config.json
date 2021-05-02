@@ -1,14 +1,14 @@
 {
-"hashtags": "#tech",
-"interval": "5",
-"randomization": "10",
-"waketime": "10",
-"bedtime": "23",
-"timezone": "America/Los_Angeles",
-"min_pop": "1000",
-"character": "default",
-"mode": "interval",
-"behaviors":"chat tweet",
-"username": "@Toonsinator3",
-"userid": "294438257"
-}
+    "hashtags": "#news",
+    "interval": "20",
+    "randomization": "50",
+    "waketime": "5",
+    "bedtime": "21",
+    "timezone": "America/Los_Angeles",
+    "min_pop": "1000",
+    "character": "default",
+    "mode": "interval",
+    "behaviors":"tweet chat",
+    "username": "@GenomeOrganizer",
+    "userid": "294438257"
+    }

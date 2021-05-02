@@ -1,37 +1,8 @@
-[
-    {
-    "name": "udemy",
-    "type": "udemy",
-    "frequency":"300",
-    "terms":"udemy",
-    "addtags":"#udemy #udemyfreebies"
-    },
-    {
-    "name": "reddit",
-    "type": "reddit",
-    "frequency":"400",
-    "terms":"technology",
-    "addtags":"#tech"
-    },
-    {
-    "name": "techcrunch",
-    "type": "rss",
-    "frequency":"100",
-    "terms":"techcrunch",
-    "addtags":"#tech"
-    },
-    {
-    "name": "techstartups",
-    "type": "rss",
-    "frequency":"25",
-    "terms":"techstartups",
-    "addtags":"#tech"
-    },
-    {
+[{
     "name": "twitter",
     "type": "twitter",
-    "frequency": "25",
-    "terms": "@nytimestech OR @WIRED OR @isc2 OR @MalwareJake OR #science OR #cybersecurity OR #infosec OR #security OR #ransomware OR #appsec OR #devsecops OR #devops OR  #ccsp OR #cissp OR #udemy OR udemy OR #udemyfreebies OR #udemycoupon OR #udemyfreebie OR #udemyfree OR #udemysale OR #udemyflashsale",
+    "frequency": "10",
+    "terms": "@nytimestech OR @WIRED OR @isc2 OR @MalwareJake OR #science OR #cybersecurity OR #infosec OR #ransomware OR #appsec OR #devsecops OR #devops OR  #ccsp OR #cissp",
     "addtags": "#tech"
     },
     {
@@ -44,22 +15,71 @@
     {
     "name": "news",
     "type": "news",
-    "frequency":"10",
-    "terms":"tech or technology or cybersecurity or hack",
+    "frequency":"20",
+    "terms":"tech or technology",
     "addtags":"#news"
+    },
+    {
+    "name": "reddit",
+    "type": "reddit",
+    "frequency":"200",
+    "terms":"science technology",
+    "addtags":"#tech"
     },
     {
     "name": "genomics",
     "type": "rss",
-    "frequency":"0",
+    "frequency":"50",
     "terms":"genomics",
     "addtags":"#science #genomics"
     },
     {
     "name": "covid19",
     "type": "rss",
-    "frequency":"0",
+    "frequency":"100",
     "terms":"covid19",
     "addtags":"#covid19"
+    },
+    {
+    "name": "techcrunch",
+    "type": "rss",
+    "frequency":"25",
+    "terms":"techcrunch",
+    "addtags":"#tech"
+    },
+    {
+    "name": "techstartups",
+    "type": "rss",
+    "frequency":"10",
+    "terms":"techstartups",
+    "addtags":"#tech"
+    },
+    {
+    "name": "udemy",
+    "type": "udemy",
+    "frequency":"1",
+    "terms":"udemy",
+    "addtags":"#udemy #udemyfreebies"
+    },
+    {
+    "name":"genomeweb",
+    "type":"rss",
+    "frequency":"10",
+    "terms":"genomics",
+    "addtags":"#science"
+    },
+    {
+    "name":"bioitworld",
+    "type":"rss",
+    "frequency":"10",
+    "terms":"genomics",
+    "addtags":"#science"
+    },
+    {
+    "name":"nature_blog",
+    "type":"rss",
+    "frequency":"100",
+    "terms":"genomics",
+    "addtags":"#science"
     }
     ]

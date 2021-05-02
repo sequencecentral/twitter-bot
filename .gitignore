@@ -3,6 +3,9 @@ env.py
 env.json
 .env
 env.*
+#non-default configuration files:
+config.*.json
+sources.*.json
 
 # Byte-compiled / optimized / DLL files
 __pycache__/

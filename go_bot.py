@@ -1,6 +1,8 @@
 #!env/bin/python3
 import os
 from os import environ
+#this line sets the egg unzip directory to one that is writeable
+os.environ['PYTHON_EGG_CACHE'] = '/tmp' # a writable directory 
 import sys
 import tweepy
 from time import sleep
@@ -112,7 +114,7 @@ class Go_Bot():
         elif('defaults' in self.sources):self.source_list = self.load_default_sources()
         else:
             try:
-                print("Loading sources from env")
+                print("Loading sources from environment variable")
                 self.sources = {"env":True}
                 self.source_list = self.load_env_sources()
             except:
@@ -176,7 +178,15 @@ class Go_Bot():
 
 ############################ Auth: ############################
 def load_default_auth():
-    return load_file_auth("env.json")
+    try:
+        return load_file_auth("env.json")
+    except:
+        try:
+            print("Trying to load auth from environment variable")
+            return load_env_auth()
+        except:
+            print("Unable to load auth. Exiting.")
+            exit(1)
 
 def load_str_auth(str):
     return json.loads(str)
