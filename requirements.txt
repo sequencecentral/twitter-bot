@@ -28,10 +28,10 @@ virtualenv==20.2.1
 
 #git sources:
 basicbot @ git+https://github.com/sequencecentral/Basic-Bot@main#egg=basicbot@v1.4.5
-averagejoe @ git+https://github.com/sequencecentral/Average-Joe.git@main#egg=averagejoe@v1.0.0
+# averagejoe @ git+https://github.com/sequencecentral/Average-Joe.git@main#egg=averagejoe@v1.0.0
 
 #widgets - now in synchronicity2 -- better version
-synchronicity2 @ git+https://github.com/sequencecentral/Synchronicity2@main#egg=synchronicity2@main#egg=synchronicity2@v1.0.1
+# synchronicity2 @ git+https://github.com/sequencecentral/Synchronicity2@main#egg=synchronicity2@main#egg=synchronicity2@v1.0.1
 # synchronicity @ git+https://github.com/sequencecentral/Synchronicity.git@main#egg=synchronicity@v1.0.28
 
 # quotewidget @ git+https://github.com/sequencecentral/QuoteWidget.git@main#egg=quotewidget

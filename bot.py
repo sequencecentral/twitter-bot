@@ -15,12 +15,12 @@ import argparse
 
 import basicbot
 #widgets
-from synchronicity2 import quotewidget
-from synchronicity2 import twitterwidget
-from synchronicity2 import newswidget
-from synchronicity2 import redditwidget
-from synchronicity2 import rsswidget
-from synchronicity2 import udemywidget
+from synchron import quotewidget
+from synchron import twitterwidget
+from synchron import newswidget
+from synchron import redditwidget
+from synchron import rsswidget
+from synchron import udemywidget
 version = "1.0"
 ua = "Mozilla Firefox Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:53.0) Gecko/20100101 Firefox/53.0"
 
