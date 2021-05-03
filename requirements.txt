@@ -28,26 +28,3 @@ virtualenv==20.2.1
 
 #git sources:
 basicbot @ git+https://github.com/sequencecentral/Basic-Bot@main#egg=basicbot@v1.4.6
-# averagejoe @ git+https://github.com/sequencecentral/Average-Joe.git@main#egg=averagejoe@v1.0.0
-
-#widgets - now in synchronicity2 -- better version
-# synchronicity2 @ git+https://github.com/sequencecentral/Synchronicity2@main#egg=synchronicity2@main#egg=synchronicity2@v1.0.1
-# synchronicity @ git+https://github.com/sequencecentral/Synchronicity.git@main#egg=synchronicity@v1.0.28
-
-# quotewidget @ git+https://github.com/sequencecentral/QuoteWidget.git@main#egg=quotewidget
-# twitterwidget @ git+https://github.com/sequencecentral/Twitter-Widget.git@main#egg=twitterwidget@v1.1.4
-# newswidget @ git+https://github.com/sequencecentral/NewsWidget.git@main#egg=newswidget@v1.3.9
-# redditwidget @ git+https://github.com/sequencecentral/RedditWidget.git@main#egg=redditwidget@v1.5.7
-# pubmedwidget @ git+https://github.com/sequencecentral/pubmed-widget.git@main#egg=pubmedwidget@v1.2
-# rsswidget @ git+https://github.com/sequencecentral/rss-widget@main#egg=rsswidget@v1.2.8
-# udemywidget @ git+https://github.com/sequencecentral/udemy-widget.git@main#egg=udemywidget@v1.5.3
-
-# basbot @ git+https://github.com/sequencecentral/basbot.git@main#egg=basbot
-# joesixpack @ git+https://github.com/sequencecentral/Joe-Sixpack.git@main#egg=joesixpack
-# twwidget @ git+https://github.com/sequencecentral/TwWidget.git@main#egg=TwWidget
-# twitwidget @ git+https://github.com/sequencecentral/twitwidget.git@main#egg=TwitWidget@v1.0
-# https://github.com/sequencecentral/twitwidget.git
-# basicbot @ git+https://github.com/sequencecentral/BasicBot.git@main#egg=basicbot
-# seqbot @ git+https://github.com/sequencecentral/SeqBot.git@main#egg=seqbot
-# redditwidget2 @ git+https://github.com/sequencecentral/RedditWidget2.git@main#egg=redditwidget
-# git@github.com:sequencecentral/NewsWidget.git
