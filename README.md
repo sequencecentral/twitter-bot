@@ -15,7 +15,6 @@ Follow these steps to install and run the bot:
 1. Clone the repository
 ```
 git clone git@github.com:sequencecentral/twitter-bot.git
-```
 cd twitter-bot
 ```
 
