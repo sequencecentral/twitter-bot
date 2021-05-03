@@ -104,7 +104,11 @@ You will need to get credentials from Twitter for this bot to be able to analyze
     - *Also note that the name you choose for your app will show up as your Twitter client on all of your tweets from this bot. So choose something fun*
 3. Once your app is setup, visit the dashboard, go to the bot and click the key symbol next to the app name. This will take you to 'Keys and tokens'.
     - Under **Consumer Keys**, click the **Regenerate** button next to 'API Key and Secret'. This will open a dialog box where you can download your keys.
+        - "API_KEY":"***",
+        - "API_SECRET_KEY":"***",
     - Under **Authentication Tokens**, click the **Regenerate** button next to the Access Token and Secret. This will open a dialog box where you can download your access token and secret.
+        - "ACCESS_TOKEN":"***-***",
+        - "ACCESS_TOKEN_SECRET":"***",
 
 ## Reddit credentials:
 Reddit credentials are a bit simpler to obtain. Follow these steps:
@@ -118,7 +122,7 @@ Reddit credentials are a bit simpler to obtain. Follow these steps:
    - description: yaddy yadda
    - about url: [any website]
    - redirect url: [any website]
-5. This will generate an app. Download the following data and store in env.json:
+5. This will generate an app. Download the following data and store in your **env.json** file:
    - "REDDIT_CLIENT_ID": the code immediately under **personal use script**
    - "REDDIT_CLIENT_SECRET": the code next to **secret**
 
