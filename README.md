@@ -93,17 +93,34 @@ python go_bot.py [parameters]
 
 # Getting credentials:
 You will need to get credentials from Twitter for this bot to be able to analyze and send posts and messages. You will additionally need to obtain Reddit credentials for use of the Reddit and Udemy widgets.
+    - Note that API keys give the same level of access as your password. Keep these keys secret. Don't share or post them, even for troubleshooting purposes. If you think that they might have been compromized, disable them or generate new keys immediately.
 
-## Twitter credentials
+## Twitter credentials:
 1. Visit this link to apply for developer credentials.
     - https://developer.twitter.com/en/apply-for-access
 2. Once you receive access, visit the Developer dashboard and create an app 
     - https://developer.twitter.com/en/portal/dashboard
-    - *Note that apps are just placeholders for apps with access to your account*
+    - *Note that apps in this screeen are just placeholders for access to your account. Creating an app will allow you to create API keys for your bot so that it can access your account.*
     - *Also note that the name you choose for your app will show up as your Twitter client on all of your tweets from this bot. So choose something fun*
 3. Once your app is setup, visit the dashboard, go to the bot and click the key symbol next to the app name. This will take you to 'Keys and tokens'.
     - Under **Consumer Keys**, click the **Regenerate** button next to 'API Key and Secret'. This will open a dialog box where you can download your keys.
-    - Under Authentication Tokens, click the 'Regenerate' button next to the Access Token and Secret. This will open a dialog box where you can download your access token and secret.
+    - Under **Authentication Tokens**, click the **Regenerate** button next to the Access Token and Secret. This will open a dialog box where you can download your access token and secret.
+
+## Reddit credentials:
+Reddit credentials are a bit simpler to obtain. Follow these steps:
+1. Login to Reddit
+2. Visit your apps preferences page:
+   - https://www.reddit.com/prefs/apps
+3. Click **Create App**
+4. Fill out the fields under **create application**
+   - name: anything
+   - script
+   - description: yaddy yadda
+   - about url: [any website]
+   - redirect url: [any website]
+5. This will generate an app. Download the following data and store in env.json:
+   - "REDDIT_CLIENT_ID": the code immediately under **personal use script**
+   - "REDDIT_CLIENT_SECRET": the code next to **secret**
 
 # dependencies
 - Synchron - this library includes widgets for interacting with social media sources
