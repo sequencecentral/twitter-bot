@@ -38,7 +38,7 @@ pip3 install -r requirements.txt
 python go_bot.py
 ```
 
-# use
+# use and configuration
 This bot runs on a continuous loop with actions occuring at randomized intervals. Run the bot with the command below. Note that parameters must be specified unless default filenames are used (*for example, if you include files with the names indicated, then parameters will be automatically loaded from these files.*)
 ```
 python go_bot.py [parameters]
@@ -47,9 +47,7 @@ python go_bot.py [parameters]
 -sf [sources file] sources.json
 ```
 
-
-
-The following are required parameters:
+## The following are required parameters:
 - **auth file (env.json)**: This file inclues the credentials for twitter and (if applicable) reddit accounts. This will load automatically if named env.json, or it can be specified with the -af pamater in the following format:
 ```
 {
@@ -92,6 +90,20 @@ The following are required parameters:
 ...
 ]
 ```
+
+# Getting credentials:
+You will need to get credentials from Twitter for this bot to be able to analyze and send posts and messages. You will additionally need to obtain Reddit credentials for use of the Reddit and Udemy widgets.
+
+## Twitter credentials
+1. Visit this link to apply for developer credentials.
+    - https://developer.twitter.com/en/apply-for-access
+2. Once you receive access, visit the Developer dashboard and create an app 
+    - https://developer.twitter.com/en/portal/dashboard
+    - *Note that apps are just placeholders for apps with access to your account*
+    - *Also note that the name you choose for your app will show up as your Twitter client on all of your tweets from this bot. So choose something fun*
+3. Once your app is setup, visit the dashboard, go to the bot and click the key symbol next to the app name. This will take you to 'Keys and tokens'.
+    - Under **Consumer Keys**, click the **Regenerate** button next to 'API Key and Secret'. This will open a dialog box where you can download your keys.
+    - Under Authentication Tokens, click the 'Regenerate' button next to the Access Token and Secret. This will open a dialog box where you can download your access token and secret.
 
 # dependencies
 - Synchron - this library includes widgets for interacting with social media sources
