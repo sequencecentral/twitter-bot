@@ -13,34 +13,36 @@ This project runs a social media bot that interacts with twitter. It is designed
 Follow these steps to install and run the bot:
 
 1. Clone the repository
-'''
+```
 git clone git@github.com:sequencecentral/twitter-bot.git
+```
 cd twitter-bot
-'''
+```
 
-2. Setup a virtual environment (recommended)
-'''
+1. Setup a virtual environment (recommended)
+```pythons
 python3 -m venv env
-'''
+```
 
 3. Activate the virtual environment
-'''
+```
 . ./env/bin/activate
-'''
+```
 
 4. Install the requirements
-'''python
+```python
 pip3 install -r requirements.txt
-'''
+```
 
 5. Run the bot
-'''
+```python
 python go_bot.py
-'''
+```
+
+# use
+
 
 # dependencies
 - Synchron
 - AverageJoe
 - BasicBot
-
-# use
