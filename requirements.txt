@@ -28,3 +28,4 @@ virtualenv==20.2.1
 
 #git sources:
 basicbot @ git+https://github.com/sequencecentral/Basic-Bot@main#egg=basicbot@v1.4.6
+#basicbot
