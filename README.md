@@ -127,6 +127,6 @@ Reddit credentials are a bit simpler to obtain. Follow these steps:
    - "REDDIT_CLIENT_SECRET": the code next to **secret**
 
 # dependencies
-- Synchron - this library includes widgets for interacting with social media sources
+- Synchron - this library includes widgets for interacting with social media sources. These are in the form of 'widgets'.
 - AverageJoe - this library includes scheduling functions. It is parameterized on load, including the waketime, bedtime, interval and randomization.
 - BasicBot - this library includes basic functions for running bots.
