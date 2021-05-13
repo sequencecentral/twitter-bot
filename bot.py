@@ -219,7 +219,7 @@ class Bot():
             # creds = self.load_reddit_creds()
             creds = self.auth
             print("Getting udemy post")
-            udemy = udemywidget.get_update(creds['REDDIT_CLIENT_ID'],creds['REDDIT_CLIENT_SECRET'],"",self.auth['BEBUKEY'])
+            udemy = udemywidget.get_update(creds['REDDIT_CLIENT_ID'],creds['REDDIT_CLIENT_SECRET'],subreddit,self.auth['BEBUKEY'])
             print("Tweeting Udemy: %s"%(udemy['tweet']))
             #tweets come pre-tagged
             self.tw.tweet(udemy['tweet'])
