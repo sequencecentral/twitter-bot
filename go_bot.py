@@ -176,9 +176,10 @@ class Go_Bot():
                 print("[Error] Failed to complete action. Sleeping for 15 minutes")
                 sleep(bot.minToSec(15))
 
-############################ Auth: ############################
+############################ Special pre-initialization loading functions: ############################
 def load_default_auth():
     try:
+        print("Trying to load auth from file")
         return load_file_auth("env.json")
     except:
         try:
@@ -198,6 +199,14 @@ def load_file_auth(file):
 def load_env_auth():
     auth = json.loads(environ['AUTH'])
     return auth
+
+def load_env_config(self):
+    print("Loading config from environment variable.")
+    return json.loads(environ['CONFIG'])
+
+def load_env_sources(self):
+    print("Loading sources from environment variable.")
+    return json.loads(environ['CONFIG'])
 
     ############################ Accessory Functions: ############################
 if __name__ == "__main__":
@@ -223,6 +232,7 @@ if __name__ == "__main__":
         print("Running in prod mode")
     elif(args.version):
         print("Running Twitter Bot Version %s"%(version))
+
     #auth:
     if(args.auth): auth = load_str_auth(args.auth)
     elif(args.auth_file): auth = load_file_auth(args.auth_file)
@@ -231,15 +241,22 @@ if __name__ == "__main__":
             auth = load_env_auth()
         except:
             auth = load_default_auth()
+
     #sources
     if(args.sources):src = {"string":args.sources}
     elif(args.sources_file):src = {"file":args.sources_file}
     # elif(args.sources_url):src = {"url":args.sources_url}
     else:src = {"defaults":True}
+
     #config
     if(args.config):cfg = {"string":args.config}
     elif(args.config_file):cfg={"file":args.config_file}
     # elif(args.config_url):cfg={"url":args.config_url}
-    else:cfg = {"defaults":True}
+    else:
+        #if nothing specified
+        try:
+            cfg = {"env":load_env_config()}
+        except:
+            cfg = {"defaults":True}
     go = Go_Bot(auth=auth,config = cfg,sources=src)
     go.go()
