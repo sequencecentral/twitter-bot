@@ -131,7 +131,7 @@ class Bot():
     def tweet_news(self,topic,addtags):
         print("Tweeting news")
         print("topic "+topic)
-        news = newswidget.get_update(topic)
+        news = newswidget.get_update(topic,self.auth['BEBUKEY'])
         if(news):
             hashtags = basicbot.tag_it(' '.join(news['keywords']),addtags)
             new_tweet = """{} {} {}""".format(news['title'],news['url'], hashtags)
@@ -148,7 +148,7 @@ class Bot():
 
     def tweet_pubmed(self,feed_name,addtags):
         try:
-            ref = rsswidget.get_update(feed_name)
+            ref = rsswidget.get_update(feed_name,bebukey=self.auth['BEBUKEY'])
             print("Retrieved tweet from pubmed %s"%(ref['tweet']))
             hashtags = basicbot.tag_it(ref['title'],addtags)
             tweet_post = """{} {}""".format(ref['tweet'],hashtags)
@@ -185,7 +185,7 @@ class Bot():
 
     def tweet_rss(self,feed_name,addtags):
         # try:
-        ref = rsswidget.get_update(feed_name)
+        ref = rsswidget.get_update(feed_name,bebukey=self.auth['BEBUKEY'])
         print("Retrieved tweet from RSS %s"%(ref['tweet']))
         hashtags = basicbot.tag_it(ref['title'],addtags)
         tweet_post = """{} {}""".format(ref['tweet'][0:260],hashtags)
@@ -198,7 +198,7 @@ class Bot():
         creds = self.auth
         #print(get_update(env.client_id,env.client_secret,env.user_agent,"science"))
         print("Getting post")
-        post = redditwidget.get_update(creds['REDDIT_CLIENT_ID'],creds['REDDIT_CLIENT_SECRET'],ua,subreddit)
+        post = redditwidget.get_update(creds['REDDIT_CLIENT_ID'],creds['REDDIT_CLIENT_SECRET'],ua,subreddit,5,self.auth['BEBUKEY'])
         print("Tagging post")
         try:
             add_tags = basicbot.tag_it(post['title'],hashtags)
@@ -219,7 +219,7 @@ class Bot():
             # creds = self.load_reddit_creds()
             creds = self.auth
             print("Getting udemy post")
-            udemy = udemywidget.get_update(creds['REDDIT_CLIENT_ID'],creds['REDDIT_CLIENT_SECRET'])
+            udemy = udemywidget.get_update(creds['REDDIT_CLIENT_ID'],creds['REDDIT_CLIENT_SECRET'],"",self.auth['BEBUKEY'])
             print("Tweeting Udemy: %s"%(udemy['tweet']))
             #tweets come pre-tagged
             self.tw.tweet(udemy['tweet'])
